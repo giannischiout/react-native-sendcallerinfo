@@ -5,7 +5,6 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 
-import {UserLogin} from './LoginForm/login';
 import {CallDetection} from './CallDetection/calldetection';
 import {UserLoginTest} from './LoginForm/loginTest';
 

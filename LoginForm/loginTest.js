@@ -4,7 +4,7 @@ import {styles} from './loginStyles';
 
 import {CallDetection} from '../CallDetection/calldetection';
 
-export const UserLoginTest = navigation => {
+export const UserLoginTest = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -30,8 +30,10 @@ export const UserLoginTest = navigation => {
               'Success!',
               `User ${username} has successfully signed in!`,
             );
+            navigation.navigate('CallDetect');
           } else {
             Alert.alert('Failure try again!');
+            navigation.navigate('Login');
           }
         });
       });
@@ -55,13 +57,6 @@ export const UserLoginTest = navigation => {
           placeholder={'Password'}
           onChangeText={text => setPassword(text)}></TextInput>
         <TouchableOpacity style={styles.button} onPress={() => doUserLogIn()}>
-          <View>
-            <Text style={styles.buttonText}>{'Sign in'}</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('Details')}>
           <View>
             <Text style={styles.buttonText}>{'Sign in'}</Text>
           </View>
