@@ -5,8 +5,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 
-import {CallDetection} from './CallDetection/calldetection';
-import {UserLoginTest} from './LoginForm/loginTest';
+import {CallDetection} from './components/CallDetection/calldetection';
+import {UserLoginTest} from './components/LoginForm/loginTest';
 
 const App = () => {
   return (

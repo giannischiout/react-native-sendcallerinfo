@@ -30,6 +30,8 @@ export class CallDetection extends React.Component {
       featureOn: false,
       incoming: false,
       number: null,
+      isEnabled: false,
+
     };
   }
   componentDidMount() {
@@ -76,6 +78,7 @@ export class CallDetection extends React.Component {
           this.logger(number, 'Log Incoming call');
         } else if (event === 'Offhook') {
           this.setState({incoming: true, number});
+          console.log(number);
           this.logger(number, 'Log Outgoin Call');
         }
       },
@@ -120,7 +123,7 @@ export class CallDetection extends React.Component {
           </View>
         </TouchableHighlight>
         {this.state.incoming && (
-          <Text style={{fontSize: 50}}>PUHELU {this.state.number}</Text>
+          <Text style={{fontSize: 50}}>phone: {this.state.number}</Text>
         )}
       </View>
     );

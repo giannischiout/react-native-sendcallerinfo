@@ -1,7 +1,7 @@
 import React, {useState, useEffect, Component} from 'react';
 import {Alert, TextInput, View, TouchableOpacity, Text} from 'react-native';
 import {styles} from './loginStyles';
-
+import { generalStyles } from '../generalStyles';
 import {CallDetection} from '../CallDetection/calldetection';
 
 export const UserLoginTest = ({navigation}) => {
@@ -24,8 +24,8 @@ export const UserLoginTest = ({navigation}) => {
         requestOptions,
       ).then(response => {
         response.json().then(data => {
-          console.log(data.result);
-          if (data.result === 'OK') {
+          console.log(data);
+          if (data.result === 'OK' && data.error === "No Errors" & data.errorcode === 200 & data.success === true) {
             Alert.alert(
               'Success!',
               `User ${username} has successfully signed in!`,
@@ -43,7 +43,7 @@ export const UserLoginTest = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={generalStyles.body}>
       <View>
         <TextInput
           style={styles.input}
@@ -55,6 +55,7 @@ export const UserLoginTest = ({navigation}) => {
           style={styles.input}
           value={password}
           placeholder={'Password'}
+          secureTextEntry
           onChangeText={text => setPassword(text)}></TextInput>
         <TouchableOpacity style={styles.button} onPress={() => doUserLogIn()}>
           <View>
