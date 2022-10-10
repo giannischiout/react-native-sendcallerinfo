@@ -12,7 +12,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Login" component={UserLoginTest} />
+        {/* <Stack.Screen name="Login" component={UserLoginTest} /> */}
         <Stack.Screen name="CallDetect" component={CallDetection} />
       </Stack.Navigator>
     </NavigationContainer>

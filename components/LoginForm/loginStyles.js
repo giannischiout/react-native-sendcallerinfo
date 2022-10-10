@@ -16,6 +16,8 @@ export const styles = StyleSheet.create({
     borderColor: '#d6d6d6',
     padding: 10,
     fontSize: 25,
+    color: 'white',
+    placeholderTextColor: 'white',
   },
 
   button: {
@@ -28,5 +30,8 @@ export const styles = StyleSheet.create({
     fontSize: 25,
     color: 'white',
     textAlign: 'center',
+  },
+  whiteText: {
+    color: 'white',
   },
 });
