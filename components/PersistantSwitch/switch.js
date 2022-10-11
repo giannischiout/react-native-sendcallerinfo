@@ -47,7 +47,37 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const SwitchButton = () => {
   const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const OnToggleActions = () => {
+    setIsEnabled(previousState => !previousState)
+    console.log("change in state: success -> " + isEnabled)
+    storeOption()
+    
+  }
+  const storeOption = () => {
+        try {
+          console.log("isEnabled isnide storeOption " + isEnabled) //check
+          let val = isEnabled.toString();
+          let value =  AsyncStorage.setItem('option', val);
+        } catch (error) {
+          console.log(error);
+        } 
+      };
+    
+      const getOption = async () => {
+        try {
+          const value = await AsyncStorage.getItem('option');
+          if (value !== null) {
+            // We have data!!
+            console.log("value inside getOption " + value);
+          }
+        } catch (error) {
+          // Error retrieving data
+        }
+      }
+  
+  useEffect(() => {
+      getOption();
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -55,8 +85,9 @@ export const SwitchButton = () => {
         trackColor={{false: '#767577', true: '#81b0ff'}}
         thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
         ios_backgroundColor="#3e3e3e"
-        onValueChange={toggleSwitch}
+        onValueChange={OnToggleActions}
         value={isEnabled}
+
       />
     </View>
   );

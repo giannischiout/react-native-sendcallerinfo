@@ -13,9 +13,9 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Login" component={UserLogin} />
-        <Stack.Screen name="CallDetect" component={CallDetection} />
-        {/* <Stack.Screen name="Switcher" component={SwitchButton} /> */}
+        {/* <Stack.Screen name="Login" component={UserLogin} />
+        <Stack.Screen name="CallDetect" component={CallDetection} /> */}
+        <Stack.Screen name="Switcher" component={SwitchButton} />
       </Stack.Navigator>
     </NavigationContainer>
   );
