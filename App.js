@@ -6,14 +6,16 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 
 import {CallDetection} from './components/CallDetection/calldetection';
-import {UserLoginTest} from './components/LoginForm/loginTest';
+import {UserLogin} from './components/LoginForm/login';
+import {SwitchButton} from './components/PersistantSwitch/switch';
 
 const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* <Stack.Screen name="Login" component={UserLoginTest} /> */}
+        <Stack.Screen name="Login" component={UserLogin} />
         <Stack.Screen name="CallDetect" component={CallDetection} />
+        {/* <Stack.Screen name="Switcher" component={SwitchButton} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

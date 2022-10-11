@@ -15,69 +15,43 @@ import CallDetectorManager from 'react-native-call-detection';
 export const CallDetection = () => {
   const [featureOn, setFeatureOn] = useState(false);
   const [incoming, setIncoming] = useState(false);
-  const [number, setNumber] = useState(null);
-  const [event, setEvent] = useState(null);
+  const [number, setNumber] = useState('');
+  const [event, setEvent] = useState('');
   const [isEnabled, setIsEnabled] = useState(false);
+
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState);
     isEnabled ? stopListenerTapped() : startListenerTapped();
+  };
+  const eventCap = event.toUpperCase();
+  let myHeaders = new Headers();
+  let fixedNum = number.replace('+30', '');
+  function randNum() {
+    return Math.floor(Math.random() * (99999 - 1000) + 1000);
+  }
+
+  myHeaders.append('Content-Type', 'text/plain');
+  let raw = `{"userName":"thanos","password":"XaMuQ","action":"ThirdPartyCallForAgent","body":["{\\"agent\\":\\"Admin\\",\\"callType\\":\\"${eventCap}\\",\\"phoneNumber\\":\\"${fixedNum}\\"}"],"messageId":"${randNum()}"}\r\n`;
+  let requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow',
+  };
+
+  logger = () => {
+    fetch('http://ipbx.cloudon.gr:8050', requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        console.log(result);
+        console.log(`raw: \n\r ${raw}`);
+      })
+      .catch(error => console.log('error', error));
   };
 
   useEffect(() => {
     askPermission();
   });
-
-  logger2 = () => {
-    fetch('http://ipbx.cloudon.gr:8050', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userName: 'thanos',
-        password: 'XaMuQ1',
-        action: 'ThirdPartyCallForAgent',
-        body: [
-          {
-            agent: 'Admin',
-            callType: 'INCOMING',
-            phoneNumber: 6946411111,
-          },
-        ],
-
-        messageId: '12344',
-      }),
-    })
-      .then(response => response.json())
-      .then(data => console.log(data));
-  };
-
-  logger = () => {
-    fetch('http://ipbx.cloudon.gr:8050', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userName: 'thanos',
-        password: 'XaMuQ1',
-        action: 'ThirdPartyCallForAgent',
-        body: [
-          {
-            agent: 'Admin',
-            callType: event,
-            phoneNumber: number,
-          },
-        ],
-
-        messageId: '12344',
-      }),
-    })
-      .then(response => response.json())
-      .then(data => console.log(data));
-  };
 
   askPermission = async () => {
     try {
@@ -147,13 +121,11 @@ export const CallDetection = () => {
       </View>
       <View style={styles.loggerInfoContainer}>
         {incoming && <Text style={styles.callerHeader}>Caller's Phone :</Text>}
-        {incoming && <Text style={{fontSize: 30}}>{number}</Text>}
+        {incoming && (
+          <Text style={{fontSize: 30, color: 'white'}}>{number}</Text>
+        )}
       </View>
-      <Button
-        title="fake call"
-        onPress={() => {
-          logger2();
-        }}></Button>
+      {/* <Button title="fake call" onPress={() => {}}></Button> */}
     </View>
   );
 };
