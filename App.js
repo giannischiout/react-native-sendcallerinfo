@@ -7,15 +7,14 @@ const Stack = createNativeStackNavigator();
 
 import {CallDetection} from './components/CallDetection/calldetection';
 import {UserLogin} from './components/LoginForm/login';
-import {SwitchButton} from './components/PersistantSwitch/switch';
-
+import { BtnSave } from './components/LoginForm/saveBtn';
 const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* <Stack.Screen name="Login" component={UserLogin} />
-        <Stack.Screen name="CallDetect" component={CallDetection} /> */}
-        <Stack.Screen name="Switcher" component={SwitchButton} />
+        {/* <Stack.Screen name="Login" component={UserLogin}/> */}
+        {/* <Stack.Screen name="CallDetect" component={CallDetection} />  */}
+        <Stack.Screen name="BtnSave" component={BtnSave} /> 
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -5,30 +5,33 @@ import {
   View,
   TouchableOpacity,
   Text,
-  Image,
-  Switch,
   Button,
 } from 'react-native';
 
-import {styles} from './loginStyles';
+import {LoginStyles} from './loginStyles';
 import {generalStyles} from '../generalStyles';
+import Icon from '../../node_modules/react-native-vector-icons/MaterialCommunityIcons'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //Import to store users credential
 import * as Keychain from 'react-native-keychain';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export const UserLogin = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [userDetails, setUserDetails] = useState({});
-  const [isEnabled, setIsEnabled] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
 
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+ 
 
+ 
   const onPressActions = () => {
     doUserLogIn();
     storeCred();
   };
+
+  
 
   //Store Credentials for future Login
   useEffect(() => {
@@ -37,7 +40,7 @@ export const UserLogin = ({navigation}) => {
         const credentials = await Keychain.getGenericPassword();
         if (credentials) {
           console.log(
-            `Credentials fully loade for user ${credentials.username}`,
+            `Credentials fully loaded for user ${credentials.username}`,
           );
           setUserDetails(credentials);
         } else {
@@ -59,8 +62,8 @@ export const UserLogin = ({navigation}) => {
     const logout = await Keychain.resetGenericPassword();
     console.log({logout});
     if (logout) {
-      setIsEnabled(false);
       setUserDetails({});
+      
     }
   };
 
@@ -87,16 +90,22 @@ export const UserLogin = ({navigation}) => {
             (data.error === 'No Errors') &
               (data.errorcode === 200) &
               (data.success === true)
-          ) {
+          )
+          
+          {
             Alert.alert(
               'Success!',
               `User ${username} has successfully signed in!`,
             );
             navigation.navigate('CallDetect');
-          } else {
-            Alert.alert('Failure try again!');
-            navigation.navigate('Login');
           }
+          else if(data.error ===  "Wrong Username/Password")  {
+            {
+              Alert.alert('Failure Wrong Username/Password');
+              
+            }
+            navigation.navigate('Login');
+          } 
         });
       });
     } catch (error) {
@@ -106,45 +115,47 @@ export const UserLogin = ({navigation}) => {
 
   return (
     <View style={generalStyles.body}>
-      <View>
-        <View>
+      <View style={LoginStyles.container} >
+        <Text style={LoginStyles.inputLabel}>Username:</Text>
+        <View style={LoginStyles.inputWrapper}>
+          <Icon name='account' style={LoginStyles.icon} />
+          <TextInput
+              placeholderTextColor="#ffffff"
+              style={LoginStyles.input}
+              value={userDetails ? userDetails.username : username}
+              placeholder={userDetails ? userDetails.username: ''}
+              onChangeText={text => setUsername(text)}
+              keyboardType={'email-address'}>
+          </TextInput>
+        </View>
+        <Text style={LoginStyles.inputLabel}>Password:</Text>
+        <View style={LoginStyles.inputWrapper}>
+          <Icon name='lock' style={LoginStyles.icon}/>
           <TextInput
             placeholderTextColor="#ffffff"
-            style={styles.input}
-            value={username}
-            placeholder={'Username'}
-            onChangeText={text => setUsername(text)}
-            keyboardType={'email-address'}></TextInput>
+            style={LoginStyles.input}
+            value={password}
+            placeholder={userDetails ? userDetails.password: ''}
+            secureTextEntry
+            onChangeText={text => setPassword(text)}>
+          </TextInput>
         </View>
-        <TextInput
-          placeholderTextColor="#ffffff"
-          style={styles.input}
-          value={password}
-          placeholder={'Password'}
-          secureTextEntry
-          onChangeText={text => setPassword(text)}></TextInput>
-        <Switch
-          trackColor={{false: '#767577', true: '#81b0ff'}}
-          thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch}
-          value={isEnabled}
-        />
-        <TouchableOpacity style={styles.button} onPress={onPressActions}>
+          <Text style={LoginStyles.clearLog} onPress={handleLogout}>Clear Login Data</Text>
+
+
+        <TouchableOpacity style={LoginStyles.button} onPress={onPressActions}>
           <View>
-            <Text style={styles.buttonText}>{'Sign in'}</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleLogout}>
-          <View>
-            <Text style={styles.buttonText}>{'Logout'}</Text>
+            <Text style={LoginStyles.buttonText}>{'Sign in'}</Text>
           </View>
         </TouchableOpacity>
 
-        <Text style={styles.whiteText}>
+
+
+
+        <Text style={LoginStyles.whiteText}>
           Persist Text: {userDetails.username}
         </Text>
-        <Text style={styles.whiteText}>
+        <Text style={LoginStyles.whiteText}>
           Persist Password: {userDetails.password}
         </Text>
       </View>
