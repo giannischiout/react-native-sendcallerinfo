@@ -70,23 +70,28 @@ export const CallDetection = () => {
     console.log(`just STARTED listening calls\n\t feature is ${featureOn}`);
     let callDetector = new CallDetectorManager(
       (event, number) => {
+        setNumber(number);
+        setEvent(event);
+        console.log(`Event: ${event}, Number: ${number}`);
         if (event === 'Disconnected') {
           setIncoming(false);
-
-          setNumber(null);
+          setNumber(number);
         } else if (event === 'Incoming') {
           setIncoming(true);
-          setNumber(number);
-          setEvent(event);
-          console.log(number);
-          logger();
-        } else if (event === 'Offhook') {
+        } else if (event === 'Connected') {
           setIncoming(true);
-          setNumber(number);
-          setEvent(event);
+          console.log('call got connected');
+        } else if (event === 'Dialing') {
+          console.log('call dialing');
+        } else if (event === 'Offhook') {
+          console.log('offhook');
+          setIncoming(true);
+
           console.log(number);
-          logger();
+        } else if (event === 'Missed') {
+          console.log('missed call');
         }
+        logger();
       },
       true, // if you want to read the phone number of the incoming call [ANDROID], otherwise false
       () => {}, // callback if your permission got denied [ANDROID] [only if you want to read incoming number] default: console.error
