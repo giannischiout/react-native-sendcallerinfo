@@ -1,28 +1,18 @@
-import React, {useState, useEffect, Component} from 'react';
-import {
-  Alert,
-  TextInput,
-  View,
-  TouchableOpacity,
-  Text,
-  Button,
-} from 'react-native';
-
-//Imports from different directories
-import {ShowPass, style} from './showPassword';
-
-//Import Styles.
+import React, {useState, useEffect} from 'react';
+import {View, Text} from 'react-native';
+//Imports from different directories:
+import {LoginInputUser, LoginInputPass} from './LoginInput';
+import {LoginButton} from './LoginButton';
+import {ClearButton} from './LoginClearButton';
+//Import Styles:
 import {LoginStyles} from './loginStyles';
 import {generalStyles} from '../generalStyles';
-import Icon from '../../node_modules/react-native-vector-icons/MaterialCommunityIcons';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+//Import Fetch Request:
 import {doUserLogIn} from './fetchUser';
-
-//Import to store users credential
+//Import to store users credential:
 import * as Keychain from 'react-native-keychain';
 
+//Build final Login Component:
 export const UserLogin = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -72,47 +62,21 @@ export const UserLogin = ({navigation}) => {
     }
   };
 
-  //Build the requestOptions for the login verification
-
-  //fetch user and then navigate to the main page
-
   return (
     <View style={generalStyles.body}>
       <View style={LoginStyles.container}>
         <Text style={LoginStyles.inputLabel}>Username:</Text>
-        <View style={LoginStyles.inputWrapper}>
-          <Icon name="account" style={LoginStyles.icon} />
-          <TextInput
-            placeholderTextColor="#ffffff"
-            style={LoginStyles.input}
-            value={username}
-            placeholder={username}
-            onChangeText={text => handleUser(text)}></TextInput>
-        </View>
+        <LoginInputUser
+          username={username}
+          handleUser={handleUser}></LoginInputUser>
         <Text style={LoginStyles.inputLabel}>Password:</Text>
-        <View style={LoginStyles.inputWrapper}>
-          <Icon name="lock" style={LoginStyles.icon} />
-          <TextInput
-            placeholderTextColor="#ffffff"
-            style={LoginStyles.input}
-            value={password}
-            placeholder={password}
-            secureTextEntry={showPass}
-            onChangeText={text => handlePass(text)}></TextInput>
-          <ShowPass bool={showPass} action={handleShowText} />
-        </View>
-        <Text style={LoginStyles.clearLog} onPress={handleLogout}>
-          Clear Login Data
-        </Text>
-
-        <TouchableOpacity style={LoginStyles.button} onPress={onPressActions}>
-          <View>
-            <Text style={LoginStyles.buttonText}>{'Sign in'}</Text>
-          </View>
-        </TouchableOpacity>
-
-        {/* <Text style={LoginStyles.whiteText}>Persist Text: {username}</Text>
-        <Text style={LoginStyles.whiteText}>Persist Password: {password}</Text> */}
+        <LoginInputPass
+          password={password}
+          handlePass={handlePass}
+          handleShowText={handleShowText}
+          showPass={showPass}></LoginInputPass>
+        <ClearButton handleLogout={handleLogout}></ClearButton>
+        <LoginButton onPressActions={onPressActions}></LoginButton>
       </View>
     </View>
   );

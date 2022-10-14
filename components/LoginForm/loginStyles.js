@@ -43,6 +43,8 @@ export const LoginStyles = StyleSheet.create({
   clearLog: {
     color: 'white',
     textDecorationLine: 'underline',
+    marginTop: 15,
+    marginBottom: 5,
   },
   buttonText: {
     fontSize: 25,
