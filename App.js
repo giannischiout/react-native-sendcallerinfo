@@ -14,7 +14,6 @@ const App = () => {
       <Stack.Navigator>
         <Stack.Screen name="Login" component={UserLogin} />
         <Stack.Screen name="CallDetect" component={CallDetection} />
-        {/* <Stack.Screen name="BtnSave" component={BtnSave} />  */}
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -8,7 +8,7 @@ export const LoginStyles = StyleSheet.create({
     width: '80%',
   },
   inputWrapper: {
-    width:'100%',
+    width: '100%',
     borderWidth: 1,
     borderRadius: 5,
     borderColor: '#646465',
@@ -42,7 +42,7 @@ export const LoginStyles = StyleSheet.create({
   },
   clearLog: {
     color: 'white',
-    textDecorationLine: 'underline'
+    textDecorationLine: 'underline',
   },
   buttonText: {
     fontSize: 25,
