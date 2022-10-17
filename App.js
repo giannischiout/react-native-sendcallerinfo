@@ -7,12 +7,13 @@ const Stack = createNativeStackNavigator();
 
 import {CallDetection} from './components/CallDetection/calldetection';
 import {UserLogin} from './components/LoginForm/login';
-import {BtnSave} from './components/LoginForm/saveBtn';
+import {CallDetection2} from './components/CallDetection/callDetection2';
+
 const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Login" component={UserLogin} />
+        {/* n */}
         <Stack.Screen name="CallDetect" component={CallDetection} />
       </Stack.Navigator>
     </NavigationContainer>

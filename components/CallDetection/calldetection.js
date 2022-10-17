@@ -1,24 +1,20 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
 import {generalStyles} from '../generalStyles';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableHighlight,
-  PermissionsAndroid,
-  Switch,
-  Button,
-} from 'react-native';
+import {StyleSheet, Text, View, PermissionsAndroid, Switch} from 'react-native';
 import CallDetectorManager from 'react-native-call-detection';
 
 export const CallDetection = () => {
   const [featureOn, setFeatureOn] = useState(false);
+  //Set States of StarListener
   const [incoming, setIncoming] = useState(false);
+  const [offhook, setOffhook] = useState(false);
+  const [disconnected, setDisconnected] = useState(false);
+  const [missed, setMissed] = useState(false);
+
   const [number, setNumber] = useState('');
   const [event, setEvent] = useState('');
   const [isEnabled, setIsEnabled] = useState(false);
-
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState);
     isEnabled ? stopListenerTapped() : startListenerTapped();
@@ -43,8 +39,8 @@ export const CallDetection = () => {
     fetch('http://ipbx.cloudon.gr:8050', requestOptions)
       .then(response => response.text())
       .then(result => {
-        console.log(result);
-        console.log(`raw: \n\r ${raw}`);
+        // console.log(result);
+        // console.log(`raw: \n\r ${raw}`);
       })
       .catch(error => console.log('error', error));
   };
@@ -65,32 +61,26 @@ export const CallDetection = () => {
     }
   };
 
+  useEffect(() => {});
+
   startListenerTapped = () => {
     setFeatureOn(true);
+
     console.log(`just STARTED listening calls\n\t feature is ${featureOn}`);
     let callDetector = new CallDetectorManager(
       (event, number) => {
         setNumber(number);
         setEvent(event);
-        console.log(`Event: ${event}, Number: ${number}`);
         if (event === 'Disconnected') {
-          setIncoming(false);
-          setNumber(number);
+          setDisconnected(true);
         } else if (event === 'Incoming') {
           setIncoming(true);
-        } else if (event === 'Connected') {
-          setIncoming(true);
-          console.log('call got connected');
-        } else if (event === 'Dialing') {
-          console.log('call dialing');
         } else if (event === 'Offhook') {
-          console.log('offhook');
-          setIncoming(true);
-
-          console.log(number);
+          setOffhook(true);
         } else if (event === 'Missed') {
-          console.log('missed call');
+          setMissed(true);
         }
+
         logger();
       },
       true, // if you want to read the phone number of the incoming call [ANDROID], otherwise false
@@ -102,6 +92,25 @@ export const CallDetection = () => {
       },
     );
   };
+
+  if (incoming && missed) {
+    console.log('------- Incoming Missed Call');
+    setIncoming(false);
+    setMissed(false);
+  }
+
+  if (incoming && offhook & disconnected) {
+    console.log('------- Incoming call Answered');
+    setIncoming(false);
+    setOffhook(false);
+    setDisconnected(false);
+  }
+
+  if (offhook && disconnected && !incoming) {
+    console.log('------- Outgoin Call');
+    setOffhook(false);
+    setDisconnected(false);
+  }
 
   stopListenerTapped = () => {
     console.log(`just STOPED listening calls\n\t feature is ${featureOn}`);

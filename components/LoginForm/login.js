@@ -4,6 +4,7 @@ import {View, Text} from 'react-native';
 import {LoginInputUser, LoginInputPass} from './LoginInput';
 import {LoginButton} from './LoginButton';
 import {ClearButton} from './LoginClearButton';
+import {TopBar} from './topBar';
 //Import Styles:
 import {LoginStyles} from './loginStyles';
 import {generalStyles} from '../generalStyles';
@@ -63,21 +64,24 @@ export const UserLogin = ({navigation}) => {
   };
 
   return (
-    <View style={generalStyles.body}>
-      <View style={LoginStyles.container}>
-        <Text style={LoginStyles.inputLabel}>Username:</Text>
-        <LoginInputUser
-          username={username}
-          handleUser={handleUser}></LoginInputUser>
-        <Text style={LoginStyles.inputLabel}>Password:</Text>
-        <LoginInputPass
-          password={password}
-          handlePass={handlePass}
-          handleShowText={handleShowText}
-          showPass={showPass}></LoginInputPass>
-        <ClearButton handleLogout={handleLogout}></ClearButton>
-        <LoginButton onPressActions={onPressActions}></LoginButton>
+    <>
+      <TopBar></TopBar>
+      <View style={generalStyles.body}>
+        <View style={LoginStyles.container}>
+          <Text style={LoginStyles.inputLabel}>Username:</Text>
+          <LoginInputUser
+            username={username}
+            handleUser={handleUser}></LoginInputUser>
+          <Text style={LoginStyles.inputLabel}>Password:</Text>
+          <LoginInputPass
+            password={password}
+            handlePass={handlePass}
+            handleShowText={handleShowText}
+            showPass={showPass}></LoginInputPass>
+          <ClearButton handleLogout={handleLogout}></ClearButton>
+          <LoginButton onPressActions={onPressActions}></LoginButton>
+        </View>
       </View>
-    </View>
+    </>
   );
 };
