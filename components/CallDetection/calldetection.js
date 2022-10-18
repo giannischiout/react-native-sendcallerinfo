@@ -19,28 +19,30 @@ export const CallDetection = () => {
     setIsEnabled(previousState => !previousState);
     isEnabled ? stopListenerTapped() : startListenerTapped();
   };
-  const eventCap = event.toUpperCase();
+
   let myHeaders = new Headers();
   let fixedNum = number.replace('+30', '');
   function randNum() {
     return Math.floor(Math.random() * (99999 - 1000) + 1000);
   }
 
-  myHeaders.append('Content-Type', 'text/plain');
-  let raw = `{"userName":"thanos","password":"XaMuQ","action":"ThirdPartyCallForAgent","body":["{\\"agent\\":\\"Admin\\",\\"callType\\":\\"${eventCap}\\",\\"phoneNumber\\":\\"${fixedNum}\\"}"],"messageId":"${randNum()}"}\r\n`;
-  let requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: raw,
-    redirect: 'follow',
-  };
+  logger = (calltype, state) => {
+    let raw = `{"userName":"thanos","password":"XaMuQ","action":"ThirdPartyCallForAgent","body":["{\\"agent\\":\\"Admin\\",\\"callType\\":\\"${calltype}\\",\\"state\\":\\"${state}\\",\\"phoneNumber\\":\\"${fixedNum}\\"}"],"messageId":"${randNum()}"}\r\n`;
+    myHeaders.append('Content-Type', 'text/plain');
+    let requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
+    console.log('requestOptions' + requestOptions.body);
+    console.log('myHeaders: ' + myHeaders);
 
-  logger = () => {
     fetch('http://ipbx.cloudon.gr:8050', requestOptions)
       .then(response => response.text())
       .then(result => {
-        // console.log(result);
-        // console.log(`raw: \n\r ${raw}`);
+        console.log(`result: \n\r ${result} `);
+        console.log(`raw: \n\r ${raw}`);
       })
       .catch(error => console.log('error', error));
   };
@@ -73,15 +75,17 @@ export const CallDetection = () => {
         setEvent(event);
         if (event === 'Disconnected') {
           setDisconnected(true);
+          // console.log('inside disconnected');
         } else if (event === 'Incoming') {
+          // console.log('inside incoming');
           setIncoming(true);
         } else if (event === 'Offhook') {
+          // console.log('inside offhook');
           setOffhook(true);
         } else if (event === 'Missed') {
+          // console.log('Inside Missed');
           setMissed(true);
         }
-
-        logger();
       },
       true, // if you want to read the phone number of the incoming call [ANDROID], otherwise false
       () => {}, // callback if your permission got denied [ANDROID] [only if you want to read incoming number] default: console.error
@@ -93,23 +97,30 @@ export const CallDetection = () => {
     );
   };
 
+  //Initialize Event and Calltype
+
+  //States:
+  //Incoming Missed Call
   if (incoming && missed) {
     console.log('------- Incoming Missed Call');
     setIncoming(false);
     setMissed(false);
+    logger('INCOMING', 'MISSED');
   }
-
+  //Incoming Missed Call
   if (incoming && offhook & disconnected) {
-    console.log('------- Incoming call Answered');
+    console.log('------- //Incoming Missed Call');
     setIncoming(false);
     setOffhook(false);
     setDisconnected(false);
+    logger('INCOMING', 'ANSWERED');
   }
-
+  //Outgoin Call
   if (offhook && disconnected && !incoming) {
     console.log('------- Outgoin Call');
     setOffhook(false);
     setDisconnected(false);
+    logger('OUTGOING', 'DISCONNECTED');
   }
 
   stopListenerTapped = () => {
