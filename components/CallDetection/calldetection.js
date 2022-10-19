@@ -28,6 +28,8 @@ export const CallDetection = () => {
   const [number, setNumber] = useState('');
   //State for the switch button
   const [isEnabled, setIsEnabled] = useState(false);
+  const [incUUID, setIncUUID] = useState(create_UUID());
+  const [outUUID, setOutUUID] = useState(create_UUID());
 
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState);
@@ -40,7 +42,8 @@ export const CallDetection = () => {
     return Math.floor(Math.random() * (99999 - 1000) + 1000);
   }
 
-  logger = (calltype, state) => {
+  logger = (calltype, state, uuid) => {
+    console.log('uuid ' + uuid);
     let raw = `{"userName":"thanos","password":"XaMuQ","action":"ThirdPartyCallForAgent","body":["{\\"agent\\":\\"Admin\\",\\"callType\\":\\"${calltype}\\",\\"state\\":\\"${state}\\",\\"phoneNumber\\":\\"${fixedNum}\\"}"],"messageId":"${randNum()}"}\r\n`;
     myHeaders.append('Content-Type', 'text/plain');
     let requestOptions = {
@@ -109,11 +112,11 @@ export const CallDetection = () => {
   //INCOMING RINGING
   useEffect(() => {
     if (incoming && !offhook && !disconnected && !missed) {
-      logger('INCOMING', 'RINGING');
+      logger('INCOMING', 'RINGING', incUUID);
     }
 
     if (incoming && offhook && !disconnected) {
-      logger('INCOMING', 'ANSWERED');
+      logger('INCOMING', 'ANSWERED', incUUID);
     }
 
     if (incoming && offhook && disconnected) {
@@ -121,26 +124,27 @@ export const CallDetection = () => {
       setOffhook(prevState => !prevState);
       setDisconnected(prevState => !prevState);
       //Call is completed, so we can restart the 'enter' variable. Call can now enter the INCOMING, ANSWERED state
-      logger('INCOMING', 'DISCONNECTED');
+      logger('INCOMING', 'DISCONNECTED', incUUID);
+      setIncUUID(create_UUID());
     }
 
     if (incoming && missed) {
       //reset variables
       setIncoming(prevState => !prevState);
       setMissed(prevState => !prevState);
-      logger('INCOMING', 'MISSED');
+      logger('INCOMING', 'MISSED', incUUID);
     }
     //OUTGOING, RINGING
     if (!incoming && offhook && !disconnected) {
-      logger('OUTGOING', 'OFFHOOK');
+      logger('OUTGOING', 'OFFHOOK', outUUID);
     }
     if (!incoming && offhook && disconnected) {
       setOffhook(prevState => !prevState);
       setDisconnected(prevState => !prevState);
-
-      logger('OUTGOING', 'DISCONNECTED');
+      setOutUUID(create_UUID());
+      logger('OUTGOING', 'DISCONNECTED', outUUID);
     }
-  }, [incoming, offhook, missed, disconnected]);
+  }, [incoming, offhook, missed, disconnected, incUUID, outUUID]);
 
   stopListenerTapped = () => {
     console.log(`just STOPED listening calls\n\t feature is ${featureOn}`);
