@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
 import {generalStyles} from '../generalStyles';
 import {StyleSheet, Text, View, PermissionsAndroid, Switch} from 'react-native';
@@ -11,6 +10,7 @@ export const CallDetection = () => {
   const [offhook, setOffhook] = useState(false);
   const [disconnected, setDisconnected] = useState(false);
   const [missed, setMissed] = useState(false);
+  const [rand, setRand] = useState(true);
 
   const [number, setNumber] = useState('');
   const [event, setEvent] = useState('');
@@ -35,8 +35,6 @@ export const CallDetection = () => {
       body: raw,
       redirect: 'follow',
     };
-    console.log('requestOptions' + requestOptions.body);
-    console.log('myHeaders: ' + myHeaders);
 
     fetch('http://ipbx.cloudon.gr:8050', requestOptions)
       .then(response => response.text())
@@ -75,15 +73,16 @@ export const CallDetection = () => {
         setEvent(event);
         if (event === 'Disconnected') {
           setDisconnected(true);
-          console.log('inside disconnected');
+          // console.log('inside disconnected');
         } else if (event === 'Incoming') {
-          console.log('inside incoming');
+          // console.log('inside incoming');
+          setRand(true);
           setIncoming(true);
         } else if (event === 'Offhook') {
-          console.log('inside offhook');
+          // console.log('inside offhook');
           setOffhook(true);
         } else if (event === 'Missed') {
-          console.log('Inside Missed');
+          // console.log('Inside Missed');
           setMissed(true);
         }
       },
@@ -97,31 +96,52 @@ export const CallDetection = () => {
     );
   };
 
-  //Initialize Event and Calltype
-
-  //States:
-  //Incoming Missed Call
-  if (incoming && missed) {
-    console.log('------- Incoming Missed Call');
-    setIncoming(false);
-    setMissed(false);
-    logger('INCOMING', 'MISSED');
-  }
-  //Incoming Missed Call
-  if (incoming && offhook & disconnected) {
-    console.log('------- //Incoming Missed Call');
-    setIncoming(false);
-    setOffhook(false);
-    setDisconnected(false);
+  if (incoming && offhook && rand) {
+    setRand(false);
     logger('INCOMING', 'ANSWERED');
   }
-  //Outgoin Call
-  if (offhook && disconnected && !incoming) {
-    console.log('------- Outgoin Call');
+
+  if (incoming && offhook && disconnected) {
+    stateFinal = 'disconnected';
+    setIncoming(false);
     setOffhook(false);
     setDisconnected(false);
+    setRand(true);
+    logger('INCOMING', 'DISCONNECTED');
+  }
+
+  if (!incoming && offhook && rand) {
+    setRand(false);
+    logger('OUTGOING', 'ONGOING');
+  }
+  if (!incoming && offhook && disconnected) {
+    setOffhook(false);
+    setDisconnected(false);
+    setRand(true);
     logger('OUTGOING', 'DISCONNECTED');
   }
+
+  // if (incoming && missed) {
+  //   console.log('------- Incoming Missed Call');
+  //   setIncoming(false);
+  //   setMissed(false);
+  //   logger('INCOMING', 'MISSED');
+  // }
+  // //Incoming Missed Call
+  // if (incoming && offhook & disconnected) {
+  //   console.log('------- //Incoming Missed Call');
+  //   setIncoming(false);
+  //   setOffhook(false);
+  //   setDisconnected(false);
+  //   logger('INCOMING', 'ANSWERED');
+  // }
+  // //Outgoin Call
+  // if (offhook && disconnected && !incoming) {
+  //   console.log('------- Outgoin Call');
+  //   setOffhook(false);
+  //   setDisconnected(false);
+  //   logger('OUTGOING', 'DISCONNECTED');
+  // }
 
   stopListenerTapped = () => {
     console.log(`just STOPED listening calls\n\t feature is ${featureOn}`);
