@@ -10,7 +10,7 @@ export const CallDetection = () => {
   const [offhook, setOffhook] = useState(false);
   const [disconnected, setDisconnected] = useState(false);
   const [missed, setMissed] = useState(false);
-  const [rand, setRand] = useState(true);
+  const [enter, setEnter] = useState(true);
 
   const [number, setNumber] = useState('');
   const [event, setEvent] = useState('');
@@ -65,7 +65,6 @@ export const CallDetection = () => {
 
   startListenerTapped = () => {
     setFeatureOn(true);
-
     console.log(`just STARTED listening calls\n\t feature is ${featureOn}`);
     let callDetector = new CallDetectorManager(
       (event, number) => {
@@ -76,7 +75,7 @@ export const CallDetection = () => {
           // console.log('inside disconnected');
         } else if (event === 'Incoming') {
           // console.log('inside incoming');
-          setRand(true);
+
           setIncoming(true);
         } else if (event === 'Offhook') {
           // console.log('inside offhook');
@@ -96,28 +95,36 @@ export const CallDetection = () => {
     );
   };
 
-  if (incoming && offhook && rand) {
-    setRand(false);
+  //Log the call that is ringing and gets answered
+  if (incoming && offhook && enter) {
+    //change state of rand. In the next calldetection run it will overlook this statement
+    setEnter(false);
     logger('INCOMING', 'ANSWERED');
   }
 
+  if (incoming && missed) {
+    //reset variables
+    setIncoming(false);
+    setMissed(false);
+    logger('INCOMING', 'MISSED');
+  }
   if (incoming && offhook && disconnected) {
-    stateFinal = 'disconnected';
     setIncoming(false);
     setOffhook(false);
     setDisconnected(false);
-    setRand(true);
+    //Call is completed, so we can restart the 'enter' variable. Call can now enter the INCOMING, ANSWERED state
+    setEnter(true);
     logger('INCOMING', 'DISCONNECTED');
   }
 
-  if (!incoming && offhook && rand) {
-    setRand(false);
+  if (!incoming && offhook && enter) {
+    setEnter(false);
     logger('OUTGOING', 'ONGOING');
   }
   if (!incoming && offhook && disconnected) {
     setOffhook(false);
     setDisconnected(false);
-    setRand(true);
+    setEnter(true);
     logger('OUTGOING', 'DISCONNECTED');
   }
 
