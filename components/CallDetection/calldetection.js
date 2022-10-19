@@ -75,15 +75,15 @@ export const CallDetection = () => {
         setEvent(event);
         if (event === 'Disconnected') {
           setDisconnected(true);
-          // console.log('inside disconnected');
+          console.log('inside disconnected');
         } else if (event === 'Incoming') {
-          // console.log('inside incoming');
+          console.log('inside incoming');
           setIncoming(true);
         } else if (event === 'Offhook') {
-          // console.log('inside offhook');
+          console.log('inside offhook');
           setOffhook(true);
         } else if (event === 'Missed') {
-          // console.log('Inside Missed');
+          console.log('Inside Missed');
           setMissed(true);
         }
       },
