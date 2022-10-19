@@ -15,10 +15,10 @@ const styles = StyleSheet.create({
   TopBar: {
     backgroundColor: 'white',
     width: '100%',
-    padding: 20,
+    padding: 10,
   },
   Image: {
-    width: 120,
-    height: 40,
+    width: 100,
+    height: 30,
   },
 });

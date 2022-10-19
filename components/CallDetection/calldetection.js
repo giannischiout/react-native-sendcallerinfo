@@ -3,18 +3,32 @@ import {generalStyles} from '../generalStyles';
 import {StyleSheet, Text, View, PermissionsAndroid, Switch} from 'react-native';
 import CallDetectorManager from 'react-native-call-detection';
 
+function create_UUID() {
+  var dt = new Date().getTime();
+  var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+    /[xy]/g,
+    function (c) {
+      var r = (dt + Math.random() * 16) % 16 | 0;
+      dt = Math.floor(dt / 16);
+      return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16);
+    },
+  );
+  return uuid;
+}
+
 export const CallDetection = () => {
+  //Listening to calls
   const [featureOn, setFeatureOn] = useState(false);
-  //Set States of StarListener
+  //Set States of StarListener, set the events
   const [incoming, setIncoming] = useState(false);
   const [offhook, setOffhook] = useState(false);
   const [disconnected, setDisconnected] = useState(false);
   const [missed, setMissed] = useState(false);
-  const [enter, setEnter] = useState(true);
-
+  //set the Number
   const [number, setNumber] = useState('');
-  const [event, setEvent] = useState('');
+  //State for the switch button
   const [isEnabled, setIsEnabled] = useState(false);
+
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState);
     isEnabled ? stopListenerTapped() : startListenerTapped();
@@ -61,21 +75,18 @@ export const CallDetection = () => {
     }
   };
 
-  useEffect(() => {});
-
   startListenerTapped = () => {
     setFeatureOn(true);
     console.log(`just STARTED listening calls\n\t feature is ${featureOn}`);
     let callDetector = new CallDetectorManager(
       (event, number) => {
         setNumber(number);
-        setEvent(event);
+
         if (event === 'Disconnected') {
           setDisconnected(true);
           // console.log('inside disconnected');
         } else if (event === 'Incoming') {
           // console.log('inside incoming');
-
           setIncoming(true);
         } else if (event === 'Offhook') {
           // console.log('inside offhook');
@@ -95,60 +106,41 @@ export const CallDetection = () => {
     );
   };
 
-  //Log the call that is ringing and gets answered
-  if (incoming && offhook && enter) {
-    //change state of rand. In the next calldetection run it will overlook this statement
-    setEnter(false);
-    logger('INCOMING', 'ANSWERED');
-  }
+  //INCOMING RINGING
+  useEffect(() => {
+    if (incoming && !offhook && !disconnected && !missed) {
+      logger('INCOMING', 'RINGING');
+    }
 
-  if (incoming && missed) {
-    //reset variables
-    setIncoming(false);
-    setMissed(false);
-    logger('INCOMING', 'MISSED');
-  }
-  if (incoming && offhook && disconnected) {
-    setIncoming(false);
-    setOffhook(false);
-    setDisconnected(false);
-    //Call is completed, so we can restart the 'enter' variable. Call can now enter the INCOMING, ANSWERED state
-    setEnter(true);
-    logger('INCOMING', 'DISCONNECTED');
-  }
+    if (incoming && offhook && !disconnected) {
+      logger('INCOMING', 'ANSWERED');
+    }
 
-  if (!incoming && offhook && enter) {
-    setEnter(false);
-    logger('OUTGOING', 'ONGOING');
-  }
-  if (!incoming && offhook && disconnected) {
-    setOffhook(false);
-    setDisconnected(false);
-    setEnter(true);
-    logger('OUTGOING', 'DISCONNECTED');
-  }
+    if (incoming && offhook && disconnected) {
+      setIncoming(prevState => !prevState);
+      setOffhook(prevState => !prevState);
+      setDisconnected(prevState => !prevState);
+      //Call is completed, so we can restart the 'enter' variable. Call can now enter the INCOMING, ANSWERED state
+      logger('INCOMING', 'DISCONNECTED');
+    }
 
-  // if (incoming && missed) {
-  //   console.log('------- Incoming Missed Call');
-  //   setIncoming(false);
-  //   setMissed(false);
-  //   logger('INCOMING', 'MISSED');
-  // }
-  // //Incoming Missed Call
-  // if (incoming && offhook & disconnected) {
-  //   console.log('------- //Incoming Missed Call');
-  //   setIncoming(false);
-  //   setOffhook(false);
-  //   setDisconnected(false);
-  //   logger('INCOMING', 'ANSWERED');
-  // }
-  // //Outgoin Call
-  // if (offhook && disconnected && !incoming) {
-  //   console.log('------- Outgoin Call');
-  //   setOffhook(false);
-  //   setDisconnected(false);
-  //   logger('OUTGOING', 'DISCONNECTED');
-  // }
+    if (incoming && missed) {
+      //reset variables
+      setIncoming(prevState => !prevState);
+      setMissed(prevState => !prevState);
+      logger('INCOMING', 'MISSED');
+    }
+    //OUTGOING, RINGING
+    if (!incoming && offhook && !disconnected) {
+      logger('OUTGOING', 'OFFHOOK');
+    }
+    if (!incoming && offhook && disconnected) {
+      setOffhook(prevState => !prevState);
+      setDisconnected(prevState => !prevState);
+
+      logger('OUTGOING', 'DISCONNECTED');
+    }
+  }, [incoming, offhook, missed, disconnected]);
 
   stopListenerTapped = () => {
     console.log(`just STOPED listening calls\n\t feature is ${featureOn}`);
