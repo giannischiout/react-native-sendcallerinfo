@@ -34,7 +34,6 @@ export const LoginStyles = StyleSheet.create({
   },
 
   button: {
-    marginTop: 5,
     padding: 10,
     backgroundColor: 'rgb(237,28,35)',
     borderRadius: 3,

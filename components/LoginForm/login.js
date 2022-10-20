@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Text} from 'react-native';
 //Imports from different directories:
 import {LoginInputUser, LoginInputPass} from './LoginInput';
-import {LoginButton} from './LoginButton';
+import {LoginButton} from './LoginButtons/LoginButton';
 import {ClearButton} from './LoginClearButton';
 import {TopBar} from './topBar';
 import {CheckBox} from './LoginButtons/LoginCheckBox';
@@ -25,7 +25,10 @@ export const UserLogin = ({navigation}) => {
   const handleUser = text => setUsername(text);
 
   const onPressActions = () => {
-    storeCred();
+    if (isChecked) {
+      storeCred();
+    }
+
     doUserLogIn(username, password, navigation);
   };
 
@@ -59,9 +62,10 @@ export const UserLogin = ({navigation}) => {
   const handleLogout = async () => {
     const logout = await Keychain.resetGenericPassword();
     console.log({logout});
-    if (logout) {
+    if (logout && isChecked) {
       setUsername('');
       setPassword('');
+      setIsChecked(previousState => !previousState);
     }
   };
 

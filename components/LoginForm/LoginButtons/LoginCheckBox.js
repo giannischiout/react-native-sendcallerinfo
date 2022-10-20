@@ -7,8 +7,7 @@ import FontAws from '../../../node_modules/react-native-vector-icons/FontAwesome
 //Import Async Storage:
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const CheckBox = () => {
-  const [isChecked, setIsChecked] = useState(false);
+export const CheckBox = ({isChecked, setIsChecked}) => {
   const handleCheck = async () => {
     try {
       let val = !isChecked;
@@ -31,6 +30,7 @@ export const CheckBox = () => {
     const val = await AsyncStorage.getItem('@checkBtn');
     const value = JSON.parse(val);
     console.log('value ' + value);
+    //On first login there is no value store, so we set it to false. Next if the value will not be not so we set the state to 'value'
     if (value !== null) {
       setIsChecked(value);
     } else {
@@ -43,20 +43,16 @@ export const CheckBox = () => {
   }, []);
 
   return (
-    <View style={Styles.containerCheck}>
-      <TouchableOpacity onPress={onBtnPress} style={Styles.checkBox}>
-        <View style={Styles.checkBoxView}>
-          <Text>
-            {isChecked ? (
-              <FontAws style={Styles.checkIcon} name="check" />
-            ) : null}
-          </Text>
-        </View>
-      </TouchableOpacity>
+    <TouchableOpacity onPress={onBtnPress} style={Styles.containerCheck}>
+      <View style={Styles.checkBox}>
+        <Text>
+          {isChecked ? <FontAws style={Styles.checkIcon} name="check" /> : null}
+        </Text>
+      </View>
       <Text style={isChecked ? Styles.textSave : Styles.text}>
         {isChecked ? 'User data saved' : 'Store User Data'}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -74,12 +70,10 @@ const Styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 3,
     marginLeft: 2,
-  },
-  checkBoxView: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
+
   checkIcon: {
     color: COLORS.white,
   },
