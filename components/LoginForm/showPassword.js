@@ -4,7 +4,7 @@ import IconFont from '../../node_modules/react-native-vector-icons/FontAwesome5'
 import {LoginStyles} from './loginStyles';
 
 export const ShowPass = ({bool, action}) => {
-  console.log('bool' + bool);
+  // console.log('bool' + bool);
   return (
     <IconFont
       name="eye"

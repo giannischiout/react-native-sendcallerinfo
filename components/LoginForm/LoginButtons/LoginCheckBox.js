@@ -7,30 +7,29 @@ import FontAws from '../../../node_modules/react-native-vector-icons/FontAwesome
 //Import Async Storage:
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const CheckBox = ({isChecked, setIsChecked}) => {
+export const CheckBox = ({
+  isChecked,
+  setIsChecked,
+  isDisabled,
+  setIsDisabled,
+}) => {
   const handleCheck = async () => {
+    /* On clicking the button we will change the state. Before setting setIsChecked-> i change the value manually, and store it in a variable, then i alter the state*/
     try {
-      let val = !isChecked;
-      let value = JSON.stringify(val);
-      console.log('val' + typeof val);
-      console.log('value' + typeof value);
-
+      let value = JSON.stringify(!isChecked);
       await AsyncStorage.setItem('@checkBtn', value);
     } catch (e) {
       console.log(e);
     }
     setIsChecked(previousState => !previousState);
-    console.log('on Press works fine');
-  };
-  const onBtnPress = () => {
-    handleCheck();
+    setIsDisabled(previousState => !previousState);
   };
 
   const getData = async () => {
     const val = await AsyncStorage.getItem('@checkBtn');
     const value = JSON.parse(val);
-    console.log('value ' + value);
-    //On first login there is no value store, so we set it to false. Next if the value will not be not so we set the state to 'value'
+    console.log('valueGetData ' + value);
+    //On first login there is no value stored, so we set it to false. after the login we have a new value saved and we later retreive it and store it in the variable 'value'
     if (value !== null) {
       setIsChecked(value);
     } else {
@@ -43,7 +42,10 @@ export const CheckBox = ({isChecked, setIsChecked}) => {
   }, []);
 
   return (
-    <TouchableOpacity onPress={onBtnPress} style={Styles.containerCheck}>
+    <TouchableOpacity
+      onPress={handleCheck}
+      style={Styles.containerCheck}
+      disabled={isDisabled}>
       <View style={Styles.checkBox}>
         <Text>
           {isChecked ? <FontAws style={Styles.checkIcon} name="check" /> : null}

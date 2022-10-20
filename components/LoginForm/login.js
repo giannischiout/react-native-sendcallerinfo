@@ -20,15 +20,16 @@ export const UserLogin = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [showPass, setShowPass] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   const handleShowText = () => setShowPass(previousState => !previousState);
   const handlePass = text => setPassword(text);
   const handleUser = text => setUsername(text);
 
+  //Login Button
   const onPressActions = () => {
     if (isChecked) {
       storeCred();
     }
-
     doUserLogIn(username, password, navigation);
   };
 
@@ -66,6 +67,7 @@ export const UserLogin = ({navigation}) => {
       setUsername('');
       setPassword('');
       setIsChecked(previousState => !previousState);
+      setIsDisabled(previousState => !previousState);
     }
   };
 
@@ -86,7 +88,9 @@ export const UserLogin = ({navigation}) => {
             showPass={showPass}></LoginInputPass>
           <CheckBox
             isChecked={isChecked}
-            setIsChecked={setIsChecked}></CheckBox>
+            setIsChecked={setIsChecked}
+            isDisabled={isDisabled}
+            setIsDisabled={setIsDisabled}></CheckBox>
           <LoginButton onPressActions={onPressActions}></LoginButton>
           <ClearButton handleLogout={handleLogout}></ClearButton>
         </View>
