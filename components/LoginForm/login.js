@@ -5,6 +5,7 @@ import {LoginInputUser, LoginInputPass} from './LoginInput';
 import {LoginButton} from './LoginButton';
 import {ClearButton} from './LoginClearButton';
 import {TopBar} from './topBar';
+import {CheckBox} from './LoginButtons/LoginCheckBox';
 //Import Styles:
 import {LoginStyles} from './loginStyles';
 import {generalStyles} from '../generalStyles';
@@ -18,6 +19,7 @@ export const UserLogin = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPass, setShowPass] = useState(true);
+  const [isChecked, setIsChecked] = useState(false);
   const handleShowText = () => setShowPass(previousState => !previousState);
   const handlePass = text => setPassword(text);
   const handleUser = text => setUsername(text);
@@ -78,8 +80,11 @@ export const UserLogin = ({navigation}) => {
             handlePass={handlePass}
             handleShowText={handleShowText}
             showPass={showPass}></LoginInputPass>
-          <ClearButton handleLogout={handleLogout}></ClearButton>
+          <CheckBox
+            isChecked={isChecked}
+            setIsChecked={setIsChecked}></CheckBox>
           <LoginButton onPressActions={onPressActions}></LoginButton>
+          <ClearButton handleLogout={handleLogout}></ClearButton>
         </View>
       </View>
     </>

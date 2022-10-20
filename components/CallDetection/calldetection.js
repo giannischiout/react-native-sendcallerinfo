@@ -17,17 +17,18 @@ function create_UUID() {
 }
 
 export const CallDetection = () => {
-  //Listening to calls
+  //Listening to calls:
   const [featureOn, setFeatureOn] = useState(false);
-  //Set States of StarListener, set the events
+  //Set States of StarListener, set the events:
   const [incoming, setIncoming] = useState(false);
   const [offhook, setOffhook] = useState(false);
   const [disconnected, setDisconnected] = useState(false);
   const [missed, setMissed] = useState(false);
-  //set the Number
+  //set the Number:
   const [number, setNumber] = useState('');
-  //State for the switch button
+  //State for the switch button:
   const [isEnabled, setIsEnabled] = useState(false);
+  //Create the Unique ids that will be sent with the POST request:
   const [incUUID, setIncUUID] = useState(create_UUID());
   const [outUUID, setOutUUID] = useState(create_UUID());
 
@@ -43,7 +44,6 @@ export const CallDetection = () => {
   }
 
   logger = (calltype, state, uuid) => {
-    console.log('uuid ' + uuid);
     let raw = `{"userName":"thanos","password":"XaMuQ","action":"ThirdPartyCallForAgent","body":["{\\"agent\\":\\"Admin\\",\\"callType\\":\\"${calltype}\\",\\"state\\":\\"${state}\\",\\"phoneNumber\\":\\"${fixedNum}\\",\\"callId\\":\\"${uuid}\\"}"],"messageId":"${randNum()}"}\r\n`;
     myHeaders.append('Content-Type', 'text/plain');
     let requestOptions = {

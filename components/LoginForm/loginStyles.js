@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {Component, startTransition} from 'react';
+import {COLORS} from '../Colors';
 
 export const LoginStyles = StyleSheet.create({
   container: {
@@ -56,7 +57,7 @@ export const LoginStyles = StyleSheet.create({
   },
   icon: {
     fontSize: 25,
-    color: '#8c8c8e',
+    color: COLORS.lightGrey,
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 10,

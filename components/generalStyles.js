@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-
+import {COLORS} from './Colors';
 export const generalStyles = StyleSheet.create({
   body: {
     backgroundColor: '#2B2E33',
@@ -13,5 +13,8 @@ export const generalStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'grey',
+  },
+  text: {
+    color: COLORS.white,
   },
 });

@@ -13,11 +13,11 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* <Stack.Screen
+        <Stack.Screen
           name="login"
           component={UserLogin}
           options={{headerShown: false}}
-        /> */}
+        />
         <Stack.Screen name="CallDetect" component={CallDetection} />
       </Stack.Navigator>
     </NavigationContainer>
