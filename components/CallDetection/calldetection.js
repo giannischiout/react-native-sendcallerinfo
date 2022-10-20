@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {generalStyles} from '../generalStyles';
 import {StyleSheet, Text, View, PermissionsAndroid, Switch} from 'react-native';
 import CallDetectorManager from 'react-native-call-detection';
+import SwitchWithIcons from 'react-native-switch-with-icons';
 
 function create_UUID() {
   var dt = new Date().getTime();
@@ -155,9 +156,9 @@ export const CallDetection = () => {
 
   return (
     <View style={generalStyles.body}>
-      <Text style={styles.text}>Should the detection be on?</Text>
+      <Text style={Styles.text}>Should the detection be on?</Text>
 
-      <View style={styles.toggle}>
+      <View style={Styles.toggle}>
         <Switch
           style={{transform: [{scaleX: 2}, {scaleY: 2}]}}
           trackColor={{false: 'grey', true: 'white'}}
@@ -167,8 +168,8 @@ export const CallDetection = () => {
           value={isEnabled}
         />
       </View>
-      <View style={styles.loggerInfoContainer}>
-        {incoming && <Text style={styles.callerHeader}>Caller's Phone :</Text>}
+      <View style={Styles.loggerInfoContainer}>
+        {incoming && <Text style={Styles.callerHeader}>Caller's Phone :</Text>}
         {incoming && (
           <Text style={{fontSize: 30, color: 'white'}}>{number}</Text>
         )}
@@ -178,9 +179,8 @@ export const CallDetection = () => {
   );
 };
 
-const styles = StyleSheet.create({
+const Styles = StyleSheet.create({
   body: {
-    backgroundColor: 'honeydew',
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,

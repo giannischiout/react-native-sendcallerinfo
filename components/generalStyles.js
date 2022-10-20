@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 import {COLORS} from './Colors';
 export const generalStyles = StyleSheet.create({
   body: {
-    backgroundColor: '#2B2E33',
+    backgroundColor: COLORS.bodyColor,
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
