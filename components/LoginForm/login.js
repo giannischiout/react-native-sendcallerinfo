@@ -14,6 +14,9 @@ import {doUserLogIn} from './fetchUser';
 //Import to store users credential:
 import * as Keychain from 'react-native-keychain';
 
+//Import Async Storage:
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 //Build final Login Component:
 export const UserLogin = ({navigation}) => {
   const [username, setUsername] = useState('');
@@ -66,10 +69,36 @@ export const UserLogin = ({navigation}) => {
     if (logout && isChecked) {
       setUsername('');
       setPassword('');
-      setIsChecked(previousState => !previousState);
-      setIsDisabled(previousState => !previousState);
+      handleCheck();
     }
   };
+
+  const handleCheck = async () => {
+    /* On clicking the button we will change the state. Before setting setIsChecked-> i change the value manually, and store it in a variable, then i alter the state*/
+    try {
+      let value = JSON.stringify(!isChecked);
+      await AsyncStorage.setItem('@checkBtn', value);
+    } catch (e) {
+      console.log(e);
+    }
+    setIsChecked(previousState => !previousState);
+  };
+
+  const getData = async () => {
+    const val = await AsyncStorage.getItem('@checkBtn');
+    const value = JSON.parse(val);
+    console.log('valueGetData ' + value);
+    //On first login there is no value stored, so we set it to false. after the login we have a new value saved and we later retreive it and store it in the variable 'value'
+    if (value !== null) {
+      setIsChecked(value);
+    } else {
+      setIsChecked(false);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <>
@@ -88,8 +117,9 @@ export const UserLogin = ({navigation}) => {
             showPass={showPass}></LoginInputPass>
           <CheckBox
             isChecked={isChecked}
+            handleCheck={handleCheck}
             setIsChecked={setIsChecked}
-            isDisabled={isDisabled}
+            // isDisabled={isDisabled}
             setIsDisabled={setIsDisabled}></CheckBox>
           <LoginButton onPressActions={onPressActions}></LoginButton>
           <ClearButton handleLogout={handleLogout}></ClearButton>

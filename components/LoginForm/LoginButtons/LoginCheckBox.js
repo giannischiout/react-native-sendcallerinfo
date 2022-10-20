@@ -7,12 +7,7 @@ import FontAws from '../../../node_modules/react-native-vector-icons/FontAwesome
 //Import Async Storage:
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const CheckBox = ({
-  isChecked,
-  setIsChecked,
-  isDisabled,
-  setIsDisabled,
-}) => {
+export const CheckBox = ({isChecked, setIsChecked}) => {
   const handleCheck = async () => {
     /* On clicking the button we will change the state. Before setting setIsChecked-> i change the value manually, and store it in a variable, then i alter the state*/
     try {
@@ -22,7 +17,6 @@ export const CheckBox = ({
       console.log(e);
     }
     setIsChecked(previousState => !previousState);
-    setIsDisabled(previousState => !previousState);
   };
 
   const getData = async () => {
@@ -42,10 +36,7 @@ export const CheckBox = ({
   }, []);
 
   return (
-    <TouchableOpacity
-      onPress={handleCheck}
-      style={Styles.containerCheck}
-      disabled={isDisabled}>
+    <TouchableOpacity onPress={handleCheck} style={Styles.containerCheck}>
       <View style={Styles.checkBox}>
         <Text>
           {isChecked ? <FontAws style={Styles.checkIcon} name="check" /> : null}
