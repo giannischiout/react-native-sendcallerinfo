@@ -1,8 +1,6 @@
 import React from 'react';
-
 import {TouchableOpacity, View, Text} from 'react-native';
-import {LoginStyles} from './loginStyles';
-
+import {LoginStyles} from '../loginStyles';
 export const LoginButton = ({onPressActions}) => {
   return (
     <>

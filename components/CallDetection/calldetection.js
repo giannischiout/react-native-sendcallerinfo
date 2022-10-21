@@ -2,7 +2,9 @@ import React, {useState, useEffect} from 'react';
 import {generalStyles} from '../generalStyles';
 import {StyleSheet, Text, View, PermissionsAndroid, Switch} from 'react-native';
 import CallDetectorManager from 'react-native-call-detection';
-
+import {CustomSwitch} from './CustomSwitch/CustomSwitch';
+import {COLORS} from '../Colors';
+// import CustomSwitch from 'react-native-custom-switch';
 function create_UUID() {
   var dt = new Date().getTime();
   var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
@@ -17,24 +19,26 @@ function create_UUID() {
 }
 
 export const CallDetection = () => {
-  //Listening to calls
+  //Listening to calls:
   const [featureOn, setFeatureOn] = useState(false);
-  //Set States of StarListener, set the events
+  //Set States of StarListener, set the events:
   const [incoming, setIncoming] = useState(false);
   const [offhook, setOffhook] = useState(false);
   const [disconnected, setDisconnected] = useState(false);
   const [missed, setMissed] = useState(false);
-  //set the Number
+  //set the Number:
   const [number, setNumber] = useState('');
-  //State for the switch button
+  //State for the switch button:
+
   const [isEnabled, setIsEnabled] = useState(false);
+  //Create the Unique ids that will be sent with the POST request:
   const [incUUID, setIncUUID] = useState(create_UUID());
   const [outUUID, setOutUUID] = useState(create_UUID());
 
-  const toggleSwitch = () => {
-    setIsEnabled(previousState => !previousState);
-    isEnabled ? stopListenerTapped() : startListenerTapped();
-  };
+  // const toggleSwitch = () => {
+  //   setIsEnabled(previousState => !previousState);
+  //   isEnabled ? stopListenerTapped() : startListenerTapped();
+  // };
 
   let myHeaders = new Headers();
   let fixedNum = number.replace('+30', '');
@@ -43,7 +47,6 @@ export const CallDetection = () => {
   }
 
   logger = (calltype, state, uuid) => {
-    console.log('uuid ' + uuid);
     let raw = `{"userName":"thanos","password":"XaMuQ","action":"ThirdPartyCallForAgent","body":["{\\"agent\\":\\"Admin\\",\\"callType\\":\\"${calltype}\\",\\"state\\":\\"${state}\\",\\"phoneNumber\\":\\"${fixedNum}\\",\\"callId\\":\\"${uuid}\\"}"],"messageId":"${randNum()}"}\r\n`;
     myHeaders.append('Content-Type', 'text/plain');
     let requestOptions = {
@@ -78,7 +81,7 @@ export const CallDetection = () => {
     }
   };
 
-  startListenerTapped = () => {
+  const startListenerTapped = () => {
     setFeatureOn(true);
     console.log(`just STARTED listening calls\n\t feature is ${featureOn}`);
     let callDetector = new CallDetectorManager(
@@ -146,7 +149,7 @@ export const CallDetection = () => {
     }
   }, [incoming, offhook, missed, disconnected, incUUID, outUUID]);
 
-  stopListenerTapped = () => {
+  const stopListenerTapped = () => {
     console.log(`just STOPED listening calls\n\t feature is ${featureOn}`);
     let callDetector = new CallDetectorManager();
     callDetector && callDetector.dispose();
@@ -155,20 +158,14 @@ export const CallDetection = () => {
 
   return (
     <View style={generalStyles.body}>
-      <Text style={styles.text}>Should the detection be on?</Text>
+      <Text style={Styles.text}>Should the detection be on?</Text>
 
-      <View style={styles.toggle}>
-        <Switch
-          style={{transform: [{scaleX: 2}, {scaleY: 2}]}}
-          trackColor={{false: 'grey', true: 'white'}}
-          thumbColor={isEnabled ? '#64fd1f' : '#f4f3f4'}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch}
-          value={isEnabled}
-        />
-      </View>
-      <View style={styles.loggerInfoContainer}>
-        {incoming && <Text style={styles.callerHeader}>Caller's Phone :</Text>}
+      <CustomSwitch
+        startListenerTapped={startListenerTapped}
+        stopListenerTapped={stopListenerTapped}
+      />
+      <View style={Styles.loggerInfoContainer}>
+        {incoming && <Text style={Styles.callerHeader}>Caller's Phone :</Text>}
         {incoming && (
           <Text style={{fontSize: 30, color: 'white'}}>{number}</Text>
         )}
@@ -178,9 +175,8 @@ export const CallDetection = () => {
   );
 };
 
-const styles = StyleSheet.create({
+const Styles = StyleSheet.create({
   body: {
-    backgroundColor: 'honeydew',
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
@@ -188,6 +184,7 @@ const styles = StyleSheet.create({
   text: {
     padding: 20,
     fontSize: 20,
+    color: COLORS.white,
   },
   button: {},
   toggle: {
