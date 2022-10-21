@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text} from 'react-native';
 //Imports from different directories:
-import {LoginInputUser, LoginInputPass} from './LoginInput';
+
+import {LoginInputUser, LoginInputPass, LoginInputCompany} from './LoginInput';
 import {LoginButton} from './LoginButtons/LoginButton';
 import {ClearButton} from './LoginClearButton';
 import {TopBar} from './topBar';
@@ -10,6 +11,7 @@ import {CheckBox} from './LoginButtons/LoginCheckBox';
 import {LoginStyles} from './loginStyles';
 import {generalStyles} from '../generalStyles';
 //Import Fetch Request:
+
 import {doUserLogIn} from './fetchUser';
 //Import to store users credential:
 import * as Keychain from 'react-native-keychain';
@@ -21,19 +23,26 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const UserLogin = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [company, setCompany] = useState(null);
   const [showPass, setShowPass] = useState(true);
+  //Store Password Checkbox -> File: LoginButtons/LoginCheckbox
   const [isChecked, setIsChecked] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
+
   const handleShowText = () => setShowPass(previousState => !previousState);
   const handlePass = text => setPassword(text);
   const handleUser = text => setUsername(text);
+  const handleCompany = text => setCompany(text);
 
-  //Login Button
+  //Login, OnSubmit Button
   const onPressActions = () => {
+    //If checkbox:on -> Store Credentials
     if (isChecked) {
       storeCred();
     }
-    doUserLogIn(username, password, navigation);
+    //Fetch Request
+    doUserLogIn(username, password, company, navigation).then(data =>
+      console.log('data' + data),
+    );
   };
 
   // Store Credentials for future Login
@@ -56,12 +65,13 @@ export const UserLogin = ({navigation}) => {
     })();
   }, []);
 
-  //Set PASS and Username with KeyChain
+  //Set PASS and Username with KeyChain or AsyncStorage
   const storeCred = async () => {
     if (password && username) {
       await Keychain.setGenericPassword(username, password);
     }
   };
+
   //Handle Logout with KeyChain
   const handleLogout = async () => {
     const logout = await Keychain.resetGenericPassword();
@@ -69,8 +79,25 @@ export const UserLogin = ({navigation}) => {
     if (logout && isChecked) {
       setUsername('');
       setPassword('');
-      handleCheck();
+      clearOtherFields();
+      resaveCheckBox();
     }
+  };
+  //Clear Other fields : Company -> On logout
+
+  const clearOtherFields = async () => {
+    setCompany('');
+  };
+
+  const resaveCheckBox = async () => {
+    try {
+      let value = JSON.stringify(!isChecked);
+      await AsyncStorage.setItem('@checkBtn', value);
+    } catch (e) {
+      console.log(e);
+    }
+
+    setIsChecked(previousValue => !previousValue);
   };
 
   const handleCheck = async () => {
@@ -83,22 +110,6 @@ export const UserLogin = ({navigation}) => {
     }
     setIsChecked(previousState => !previousState);
   };
-
-  const getData = async () => {
-    const val = await AsyncStorage.getItem('@checkBtn');
-    const value = JSON.parse(val);
-    console.log('valueGetData ' + value);
-    //On first login there is no value stored, so we set it to false. after the login we have a new value saved and we later retreive it and store it in the variable 'value'
-    if (value !== null) {
-      setIsChecked(value);
-    } else {
-      setIsChecked(false);
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
 
   return (
     <>
@@ -115,12 +126,14 @@ export const UserLogin = ({navigation}) => {
             handlePass={handlePass}
             handleShowText={handleShowText}
             showPass={showPass}></LoginInputPass>
+          <Text style={LoginStyles.inputLabel}>Company:</Text>
+          <LoginInputCompany
+            company={company}
+            handleCompany={handleCompany}></LoginInputCompany>
           <CheckBox
             isChecked={isChecked}
             handleCheck={handleCheck}
-            setIsChecked={setIsChecked}
-            // isDisabled={isDisabled}
-            setIsDisabled={setIsDisabled}></CheckBox>
+            setIsChecked={setIsChecked}></CheckBox>
           <LoginButton onPressActions={onPressActions}></LoginButton>
           <ClearButton handleLogout={handleLogout}></ClearButton>
         </View>

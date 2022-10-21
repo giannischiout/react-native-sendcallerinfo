@@ -2,6 +2,7 @@ import React from 'react';
 import {TextInput, View, Text} from 'react-native';
 import {LoginStyles} from './loginStyles';
 import Icon from '../../node_modules/react-native-vector-icons/MaterialCommunityIcons';
+import FoundationIcon from '../../node_modules/react-native-vector-icons/Foundation';
 import {ShowPass} from './showPassword';
 
 export const LoginInputUser = ({username, handleUser}) => {
@@ -15,6 +16,21 @@ export const LoginInputUser = ({username, handleUser}) => {
           value={username}
           placeholder={username}
           onChangeText={handleUser}></TextInput>
+      </View>
+    </>
+  );
+};
+export const LoginInputCompany = ({company, handleCompany}) => {
+  return (
+    <>
+      <View style={LoginStyles.inputWrapper}>
+        {/* <FoundationIcon name="torso-business" style={LoginStyles.icon} /> */}
+        <TextInput
+          placeholderTextColor="#ffffff"
+          style={LoginStyles.input}
+          value={company}
+          placeholder={company}
+          onChangeText={handleCompany}></TextInput>
       </View>
     </>
   );

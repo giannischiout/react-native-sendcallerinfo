@@ -10,18 +10,19 @@ export const LoginStyles = StyleSheet.create({
   },
   inputWrapper: {
     width: '100%',
-    borderWidth: 1,
+    borderWidth: 0.5,
     borderRadius: 5,
-    borderColor: '#646465',
+    borderColor: COLORS.lightGrey,
     flexDirection: 'row',
     alignItems: 'center',
   },
   inputLabel: {
-    color: '#8c8c8e',
-    fontSize: 18,
+    color: COLORS.lightGrey,
+    fontSize: 13,
     letterSpacing: 0.9,
-    marginTop: 12,
+    marginTop: 10,
     marginBottom: 5,
+    fontWeight: '200',
   },
 
   input: {
@@ -55,7 +56,7 @@ export const LoginStyles = StyleSheet.create({
     color: 'white',
   },
   icon: {
-    fontSize: 25,
+    fontSize: 22,
     color: COLORS.lightGrey,
     alignItems: 'center',
     justifyContent: 'center',
