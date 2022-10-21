@@ -125,6 +125,7 @@ export const UserLogin = ({navigation}) => {
           <ClearButton handleLogout={handleLogout}></ClearButton>
         </View>
       </View>
+      <Text>delete this</Text>
     </>
   );
 };
