@@ -1,6 +1,12 @@
 // var globalvar = '';
 
-export const doUserLogIn = async (username, password, company, navigation) => {
+export const doUserLogIn = async (
+  username,
+  password,
+  company,
+  navigation,
+  setMessage,
+) => {
   console.log(`Username inside doUserLogin(): ${username} `);
   console.log(`Password inside doUserLogin(): ${password} `);
   console.log(`Company inside doUserLogin(): ${company} `);
@@ -31,11 +37,11 @@ export const doUserLogIn = async (username, password, company, navigation) => {
             'Success!',
             `User ${username} has successfully signed in!`,
           );
-
+          setMessage(data.result);
           navigation.navigate('CallDetect');
         } else if (data.error === 'Wrong Username/Password') {
           //Reload Page
-
+          setMessage('error');
           navigation.navigate('Login');
 
           // globalvar = 'failure';

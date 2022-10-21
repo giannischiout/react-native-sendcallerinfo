@@ -23,6 +23,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const UserLogin = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
   const [company, setCompany] = useState(null);
   const [showPass, setShowPass] = useState(true);
   //Store Password Checkbox -> File: LoginButtons/LoginCheckbox
@@ -33,6 +34,7 @@ export const UserLogin = ({navigation}) => {
   const handleUser = text => setUsername(text);
   const handleCompany = text => setCompany(text);
 
+  console.log(message);
   //Login, OnSubmit Button
   const onPressActions = () => {
     //If checkbox:on -> Store Credentials
@@ -40,9 +42,7 @@ export const UserLogin = ({navigation}) => {
       storeCred();
     }
     //Fetch Request
-    doUserLogIn(username, password, company, navigation).then(data =>
-      console.log('data' + data),
-    );
+    doUserLogIn(username, password, company, navigation, setMessage);
   };
 
   // Store Credentials for future Login
