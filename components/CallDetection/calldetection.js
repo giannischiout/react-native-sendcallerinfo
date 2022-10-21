@@ -2,8 +2,9 @@ import React, {useState, useEffect} from 'react';
 import {generalStyles} from '../generalStyles';
 import {StyleSheet, Text, View, PermissionsAndroid, Switch} from 'react-native';
 import CallDetectorManager from 'react-native-call-detection';
-import SwitchWithIcons from 'react-native-switch-with-icons';
-
+import {CustomSwitch} from './CustomSwitch/CustomSwitch';
+import {COLORS} from '../Colors';
+// import CustomSwitch from 'react-native-custom-switch';
 function create_UUID() {
   var dt = new Date().getTime();
   var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
@@ -28,15 +29,16 @@ export const CallDetection = () => {
   //set the Number:
   const [number, setNumber] = useState('');
   //State for the switch button:
+
   const [isEnabled, setIsEnabled] = useState(false);
   //Create the Unique ids that will be sent with the POST request:
   const [incUUID, setIncUUID] = useState(create_UUID());
   const [outUUID, setOutUUID] = useState(create_UUID());
 
-  const toggleSwitch = () => {
-    setIsEnabled(previousState => !previousState);
-    isEnabled ? stopListenerTapped() : startListenerTapped();
-  };
+  // const toggleSwitch = () => {
+  //   setIsEnabled(previousState => !previousState);
+  //   isEnabled ? stopListenerTapped() : startListenerTapped();
+  // };
 
   let myHeaders = new Headers();
   let fixedNum = number.replace('+30', '');
@@ -79,7 +81,7 @@ export const CallDetection = () => {
     }
   };
 
-  startListenerTapped = () => {
+  const startListenerTapped = () => {
     setFeatureOn(true);
     console.log(`just STARTED listening calls\n\t feature is ${featureOn}`);
     let callDetector = new CallDetectorManager(
@@ -147,7 +149,7 @@ export const CallDetection = () => {
     }
   }, [incoming, offhook, missed, disconnected, incUUID, outUUID]);
 
-  stopListenerTapped = () => {
+  const stopListenerTapped = () => {
     console.log(`just STOPED listening calls\n\t feature is ${featureOn}`);
     let callDetector = new CallDetectorManager();
     callDetector && callDetector.dispose();
@@ -158,16 +160,10 @@ export const CallDetection = () => {
     <View style={generalStyles.body}>
       <Text style={Styles.text}>Should the detection be on?</Text>
 
-      <View style={Styles.toggle}>
-        <Switch
-          style={{transform: [{scaleX: 2}, {scaleY: 2}]}}
-          trackColor={{false: 'grey', true: 'white'}}
-          thumbColor={isEnabled ? '#64fd1f' : '#f4f3f4'}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch}
-          value={isEnabled}
-        />
-      </View>
+      <CustomSwitch
+        startListenerTapped={startListenerTapped}
+        stopListenerTapped={stopListenerTapped}
+      />
       <View style={Styles.loggerInfoContainer}>
         {incoming && <Text style={Styles.callerHeader}>Caller's Phone :</Text>}
         {incoming && (
@@ -188,6 +184,7 @@ const Styles = StyleSheet.create({
   text: {
     padding: 20,
     fontSize: 20,
+    color: COLORS.white,
   },
   button: {},
   toggle: {
