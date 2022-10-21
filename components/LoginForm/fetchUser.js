@@ -41,6 +41,7 @@ export const doUserLogIn = async (
           navigation.navigate('CallDetect');
         } else if (data.error === 'Wrong Username/Password') {
           //Reload Page
+          console.log('Wrong Username/Password')
           setMessage('error');
           navigation.navigate('Login');
 

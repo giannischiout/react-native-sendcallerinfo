@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Alert} from 'react-native';
 //Imports from different directories:
 
 import {LoginInputUser, LoginInputPass, LoginInputCompany} from './LoginInput';
@@ -35,15 +35,28 @@ export const UserLogin = ({navigation}) => {
   const handleCompany = text => setCompany(text);
 
   console.log(message);
+  console.log(message.result)
   //Login, OnSubmit Button
-  const onPressActions = () => {
+  const onPressActions = async () => {
+     //Fetch Requestr
+     doUserLogIn(username, password, company, navigation, setMessage);
     //If checkbox:on -> Store Credentials
     if (isChecked) {
       storeCred();
     }
-    //Fetch Request
-    doUserLogIn(username, password, company, navigation, setMessage);
+    if(message === 'error') {
+      const logout = await Keychain.resetGenericPassword();
+      console.log({logout});
+      if (logout) {
+        setUsername('');
+        setPassword('');
+        clearOtherFields();
+      }
+    }
+    {message === 'error' ? Alert.alert("Failure","Wrong Username/Password") : null}
   };
+
+  
 
   // Store Credentials for future Login
   useEffect(() => {
@@ -54,11 +67,16 @@ export const UserLogin = ({navigation}) => {
           console.log(
             `Credentials fully loaded for user ${credentials.username}`,
           );
-          setPassword(credentials.password);
-          setUsername(credentials.username);
+          if(message.result === 'OK') {
+            setPassword(credentials.password);
+            setUsername(credentials.username);
+          } 
+          
         } else {
           console.log('No credentials stored');
-        }
+        } 
+
+       
       } catch (error) {
         console.log("Keychain couldn't be accessed!", error);
       }
@@ -116,6 +134,11 @@ export const UserLogin = ({navigation}) => {
       <TopBar></TopBar>
       <View style={generalStyles.body}>
         <View style={LoginStyles.container}>
+        
+        <Text style={LoginStyles.inputLabel}>Company:</Text>
+          <LoginInputCompany
+            company={company}
+            handleCompany={handleCompany}></LoginInputCompany>
           <Text style={LoginStyles.inputLabel}>Username:</Text>
           <LoginInputUser
             username={username}
@@ -126,15 +149,12 @@ export const UserLogin = ({navigation}) => {
             handlePass={handlePass}
             handleShowText={handleShowText}
             showPass={showPass}></LoginInputPass>
-          <Text style={LoginStyles.inputLabel}>Company:</Text>
-          <LoginInputCompany
-            company={company}
-            handleCompany={handleCompany}></LoginInputCompany>
+          
           <CheckBox
             isChecked={isChecked}
             handleCheck={handleCheck}
             setIsChecked={setIsChecked}></CheckBox>
-          <LoginButton onPressActions={onPressActions}></LoginButton>
+          <LoginButton onPressActions={onPressActions} message="message"></LoginButton>
           <ClearButton handleLogout={handleLogout}></ClearButton>
         </View>
       </View>
