@@ -4,6 +4,7 @@ import {StyleSheet, Text, View, PermissionsAndroid, Switch} from 'react-native';
 import CallDetectorManager from 'react-native-call-detection';
 import {CustomSwitch} from './CustomSwitch/CustomSwitch';
 import {COLORS} from '../Colors';
+import {settingsBar} from './SettingsBar/SettingsBar';
 // import CustomSwitch from 'react-native-custom-switch';
 function create_UUID() {
   var dt = new Date().getTime();
@@ -159,18 +160,19 @@ export const CallDetection = () => {
   return (
     <View style={generalStyles.body}>
       <Text style={Styles.text}>Should the detection be on?</Text>
+      <View style={settingsBar.container}>
+        <Text style={generalStyles.textMediumGrey}>Call Detection State:</Text>
+        <CustomSwitch
+          startListenerTapped={startListenerTapped}
+          stopListenerTapped={stopListenerTapped}></CustomSwitch>
+      </View>
 
-      <CustomSwitch
-        startListenerTapped={startListenerTapped}
-        stopListenerTapped={stopListenerTapped}
-      />
-      <View style={Styles.loggerInfoContainer}>
+      {/* <View style={Styles.loggerInfoContainer}>
         {incoming && <Text style={Styles.callerHeader}>Caller's Phone :</Text>}
         {incoming && (
           <Text style={{fontSize: 30, color: 'white'}}>{number}</Text>
         )}
-      </View>
-      {/* <Button title="fake call" onPress={() => {}}></Button> */}
+      </View> */}
     </View>
   );
 };

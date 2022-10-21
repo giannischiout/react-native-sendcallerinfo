@@ -9,6 +9,7 @@ export const CustomSwitch = ({startListenerTapped, stopListenerTapped}) => {
     setIsOn(previousState => !previousState);
     isOn ? stopListenerTapped() : startListenerTapped();
   };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -30,6 +31,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 5,
   },
   switchOff: {
     width: 55,

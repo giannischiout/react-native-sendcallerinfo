@@ -3,7 +3,6 @@ import {COLORS} from './Colors';
 export const generalStyles = StyleSheet.create({
   body: {
     backgroundColor: COLORS.bodyColor,
-    justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
     color: 'white',
@@ -16,5 +15,15 @@ export const generalStyles = StyleSheet.create({
   },
   text: {
     color: COLORS.white,
+  },
+  textMedium: {
+    color: COLORS.white,
+    fontSize: 18,
+    letterSpacing: 1,
+  },
+  textMediumGrey: {
+    color: COLORS.lightGrey,
+    fontSize: 18,
+    letterSpacing: 1,
   },
 });
