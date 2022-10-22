@@ -7,6 +7,7 @@ import {LoginButton} from './LoginButtons/LoginButton';
 import {ClearButton} from './LoginClearButton';
 import {TopBar} from './topBar';
 import {CheckBox} from './LoginButtons/LoginCheckBox';
+import {Validate_fields} from '../Services/validateFIelds';
 //Import CSS Styles:
 import {LoginStyles} from './loginStyles';
 import {generalStyles} from '../generalStyles';
@@ -32,18 +33,27 @@ export const UserLogin = ({navigation}) => {
   const handleCompany = text => setCompany(text);
 
   //Log message Receive from fetch response
-
+  console.log(`company inside LOGIN Actions: ${company}`);
   //Login, OnSubmit Button
   const onPressActions = async () => {
     //Fetch Requestr
+    console.log(`username----: ${username}`);
     try {
-      const message = await doUserLogIn(username, password, company);
+      const response = await doUserLogIn(username, password, company);
       // storeCred();
-      actionsAfterLogin(message);
+      console.log(`company inside OnPress Actions: ${company}`);
+      actionsAfterLogin(response);
+      Validate_fields(username, password, company);
     } catch (e) {
       console.log(e);
     }
   };
+
+  // const validate_fields = () => {
+  //   if (username === '') {
+  //     Alert.alert('Alert Title', 'Empty Username');
+  //   }
+  // };
 
   const actionsAfterLogin = message => {
     if (message === 'ok') {
@@ -60,15 +70,22 @@ export const UserLogin = ({navigation}) => {
     (async () => {
       try {
         const credentials = await Keychain.getGenericPassword();
+        const company = await AsyncStorage.getItem('@company');
         if (credentials) {
           console.log(
             `Credentials fully loaded for user ${credentials.username}`,
           );
           setPassword(credentials.password);
           setUsername(credentials.username);
+          if (company) {
+            setCompany(company);
+          }
+          // setCompany(company);
         } else {
           console.log('No credentials stored');
         }
+
+        console.log(`AsyncCompany: ${company}`);
       } catch (error) {
         console.log("Keychain couldn't be accessed!", error);
       }
@@ -78,8 +95,10 @@ export const UserLogin = ({navigation}) => {
   //Set PASS and Username with KeyChain or AsyncStorage
   //Store it only if the checkbox: checked
   const storeCred = async () => {
-    if (password && username && isChecked) {
+    console.log('company  inside store cred: ' + company);
+    if (password && username && company && isChecked) {
       await Keychain.setGenericPassword(username, password);
+      await AsyncStorage.setItem('@company', company);
     }
   };
 
@@ -149,8 +168,12 @@ export const UserLogin = ({navigation}) => {
           <LoginButton
             onPressActions={onPressActions}
             message="message"></LoginButton>
-          <ClearButton handleLogout={handleLogout}></ClearButton>
+          {/* <ClearButton handleLogout={handleLogout}></ClearButton> */}
+          {isChecked ? (
+            <ClearButton handleLogout={handleLogout}></ClearButton>
+          ) : null}
         </View>
+        <View></View>
       </View>
     </>
   );
