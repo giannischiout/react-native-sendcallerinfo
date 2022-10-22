@@ -37,19 +37,24 @@ export const UserLogin = ({navigation}) => {
   const onPressActions = async () => {
     //Fetch Requestr
     try {
-      const message1 = await doUserLogIn(username, password, company);
-      console.log('message1 ' + message1);
+      const message = await doUserLogIn(username, password, company);
+      // storeCred();
+      actionsAfterLogin(message);
     } catch (e) {
       console.log(e);
     }
-
-    //If checkbox:on -> Store Credentials
-
-    //After OnSubmit -> If the returned message is error -> clear all fields
-
-    // {message === 'error' ? Alert.alert("Failure","Wrong Username/Password") : null}
   };
 
+  const actionsAfterLogin = message => {
+    if (message === 'ok') {
+      storeCred();
+      navigation.navigate('CallDetect');
+    }
+    if (message === 'error') {
+      clearAllFields();
+      navigation.navigate('Login');
+    }
+  };
   // Store Credentials for future Login
   useEffect(() => {
     (async () => {
