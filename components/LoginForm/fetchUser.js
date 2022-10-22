@@ -1,12 +1,6 @@
 // var globalvar = '';
 
-export const doUserLogIn = async (
-  username,
-  password,
-  company,
-  navigation,
-  setMessage,
-) => {
+export const doUserLogIn = async (username, password, company) => {
   console.log(`Username inside doUserLogin(): ${username} `);
   console.log(`Password inside doUserLogin(): ${password} `);
   console.log(`Company inside doUserLogin(): ${company} `);
@@ -21,37 +15,23 @@ export const doUserLogIn = async (
         'https://dgsoft.oncloud.gr/s1services/JS/MobileTest/loginMobApp',
     }),
   };
-  try {
-    await fetch(
-      'https://ccmde1.cloudon.gr/softone/softone.php?validationToken=123',
-      requestOptions,
-    ).then(response => {
-      response.json().then(data => {
-        if (
-          data.result === 'OK' &&
-          data.error === 'No Errors' &&
-          data.errorcode === 200 &&
-          data.success === true
-        ) {
-          console.log(
-            'Success!',
-            `User ${username} has successfully signed in!`,
-          );
-          setMessage(data.result);
-          navigation.navigate('CallDetect');
-        } else if (data.error === 'Wrong Username/Password') {
-          //Reload Page
-          console.log('Wrong Username/Password')
-          setMessage('error');
-          navigation.navigate('Login');
-
-          // globalvar = 'failure';
-        } else {
-          console.log('something is wrong');
-        }
-      });
-    });
-  } catch (error) {
-    console.log(error);
+  const res = await fetch(
+    'https://ccmde1.cloudon.gr/softone/softone.php?validationToken=123',
+    requestOptions,
+  );
+  const data = await res.json();
+  console.log(res, data);
+  if (
+    data.result === 'OK' &&
+    data.error === 'No Errors' &&
+    data.errorcode === 200 &&
+    data.success === true
+  ) {
+    console.log('Success!', `User ${username} has successfully signed in!`);
+    let message = 'ok';
+    return message;
+  } else {
+    let message = 'error';
+    return message;
   }
 };

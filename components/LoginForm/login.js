@@ -1,29 +1,26 @@
+//React Native Imports:
 import React, {useState, useEffect} from 'react';
 import {View, Text, Alert} from 'react-native';
-//Imports from different directories:
-
 import {LoginInputUser, LoginInputPass, LoginInputCompany} from './LoginInput';
+//Imports from different directories:
 import {LoginButton} from './LoginButtons/LoginButton';
 import {ClearButton} from './LoginClearButton';
 import {TopBar} from './topBar';
 import {CheckBox} from './LoginButtons/LoginCheckBox';
-//Import Styles:
+//Import CSS Styles:
 import {LoginStyles} from './loginStyles';
 import {generalStyles} from '../generalStyles';
 //Import Fetch Request:
-
 import {doUserLogIn} from './fetchUser';
 //Import to store users credential:
 import * as Keychain from 'react-native-keychain';
-
 //Import Async Storage:
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //Build final Login Component:
 export const UserLogin = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
   const [company, setCompany] = useState(null);
   const [showPass, setShowPass] = useState(true);
   //Store Password Checkbox -> File: LoginButtons/LoginCheckbox
@@ -34,29 +31,24 @@ export const UserLogin = ({navigation}) => {
   const handleUser = text => setUsername(text);
   const handleCompany = text => setCompany(text);
 
-  console.log(message);
-  console.log(message.result)
+  //Log message Receive from fetch response
+
   //Login, OnSubmit Button
   const onPressActions = async () => {
-     //Fetch Requestr
-     doUserLogIn(username, password, company, navigation, setMessage);
-    //If checkbox:on -> Store Credentials
-    if (isChecked) {
-      storeCred();
+    //Fetch Requestr
+    try {
+      const message1 = await doUserLogIn(username, password, company);
+      console.log('message1 ' + message1);
+    } catch (e) {
+      console.log(e);
     }
-    if(message === 'error') {
-      const logout = await Keychain.resetGenericPassword();
-      console.log({logout});
-      if (logout) {
-        setUsername('');
-        setPassword('');
-        clearOtherFields();
-      }
-    }
-    {message === 'error' ? Alert.alert("Failure","Wrong Username/Password") : null}
-  };
 
-  
+    //If checkbox:on -> Store Credentials
+
+    //After OnSubmit -> If the returned message is error -> clear all fields
+
+    // {message === 'error' ? Alert.alert("Failure","Wrong Username/Password") : null}
+  };
 
   // Store Credentials for future Login
   useEffect(() => {
@@ -67,16 +59,11 @@ export const UserLogin = ({navigation}) => {
           console.log(
             `Credentials fully loaded for user ${credentials.username}`,
           );
-          if(message.result === 'OK') {
-            setPassword(credentials.password);
-            setUsername(credentials.username);
-          } 
-          
+          setPassword(credentials.password);
+          setUsername(credentials.username);
         } else {
           console.log('No credentials stored');
-        } 
-
-       
+        }
       } catch (error) {
         console.log("Keychain couldn't be accessed!", error);
       }
@@ -84,8 +71,9 @@ export const UserLogin = ({navigation}) => {
   }, []);
 
   //Set PASS and Username with KeyChain or AsyncStorage
+  //Store it only if the checkbox: checked
   const storeCred = async () => {
-    if (password && username) {
+    if (password && username && isChecked) {
       await Keychain.setGenericPassword(username, password);
     }
   };
@@ -95,18 +83,19 @@ export const UserLogin = ({navigation}) => {
     const logout = await Keychain.resetGenericPassword();
     console.log({logout});
     if (logout && isChecked) {
-      setUsername('');
-      setPassword('');
-      clearOtherFields();
+      clearAllFields();
       resaveCheckBox();
     }
   };
   //Clear Other fields : Company -> On logout
 
-  const clearOtherFields = async () => {
+  const clearAllFields = () => {
     setCompany('');
+    setUsername('');
+    setPassword('');
   };
 
+  //Used after LOGIN OUT -> resets and resaves the original value of the checkbox
   const resaveCheckBox = async () => {
     try {
       let value = JSON.stringify(!isChecked);
@@ -114,7 +103,6 @@ export const UserLogin = ({navigation}) => {
     } catch (e) {
       console.log(e);
     }
-
     setIsChecked(previousValue => !previousValue);
   };
 
@@ -134,8 +122,7 @@ export const UserLogin = ({navigation}) => {
       <TopBar></TopBar>
       <View style={generalStyles.body}>
         <View style={LoginStyles.container}>
-        
-        <Text style={LoginStyles.inputLabel}>Company:</Text>
+          <Text style={LoginStyles.inputLabel}>Company:</Text>
           <LoginInputCompany
             company={company}
             handleCompany={handleCompany}></LoginInputCompany>
@@ -149,12 +136,14 @@ export const UserLogin = ({navigation}) => {
             handlePass={handlePass}
             handleShowText={handleShowText}
             showPass={showPass}></LoginInputPass>
-          
+
           <CheckBox
             isChecked={isChecked}
             handleCheck={handleCheck}
             setIsChecked={setIsChecked}></CheckBox>
-          <LoginButton onPressActions={onPressActions} message="message"></LoginButton>
+          <LoginButton
+            onPressActions={onPressActions}
+            message="message"></LoginButton>
           <ClearButton handleLogout={handleLogout}></ClearButton>
         </View>
       </View>
