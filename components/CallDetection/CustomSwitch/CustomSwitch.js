@@ -6,6 +6,16 @@ import FontIcon from '../../../node_modules/react-native-vector-icons/FontAwesom
 import {saveToAsync} from '../../Services/AnyscStoreBool';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const saveToAsyncBool = async (itemName, value) => {
+  try {
+    let val = JSON.stringify(value);
+    console.log(`value stored ${val}`);
+    await AsyncStorage.setItem(itemName, val);
+  } catch (e) {
+    console.log('SaveToAsyncError ' + e);
+  }
+};
+
 export const CustomSwitch = ({startListenerTapped, stopListenerTapped}) => {
   const [isOn, setIsOn] = useState(false);
 
@@ -13,7 +23,7 @@ export const CustomSwitch = ({startListenerTapped, stopListenerTapped}) => {
     startListener();
     let value = JSON.stringify(!isOn);
     console.log(typeof value);
-    saveToAsync('@toggleCallDetection', value);
+    saveToAsyncBool('@toggleCallDetection', value);
     setIsOn(previousState => !previousState);
   };
 

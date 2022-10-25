@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {COLORS} from '../../Colors';
+
 export const settingsBar = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -11,5 +12,6 @@ export const settingsBar = StyleSheet.create({
     borderRadius: 3,
     borderLeftColor: COLORS.redPrimary,
     borderLeftWidth: 2,
+    marginTop: 15,
   },
 });

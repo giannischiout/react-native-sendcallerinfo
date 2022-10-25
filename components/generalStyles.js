@@ -30,8 +30,9 @@ export const generalStyles = StyleSheet.create({
     letterSpacing: 1,
   },
   text18: {
+    color: COLORS.white,
     fontSize: 18,
-    letterSpacing: 1,
+    letterSpacing: 0.8,
   },
   textMediumGrey: {
     color: COLORS.lightGrey,

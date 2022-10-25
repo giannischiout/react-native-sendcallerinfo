@@ -5,7 +5,9 @@ import CallDetectorManager from 'react-native-call-detection';
 import {CustomSwitch} from './CustomSwitch/CustomSwitch';
 import {COLORS} from '../Colors';
 import {settingsBar} from './SettingsBar/SettingsBar';
+//import components:
 import {Welcome} from './welcomeMessage';
+import {LastCaller} from './lastCaller';
 
 //Import Components:
 import {HeaderComp} from './header/header';
@@ -180,6 +182,9 @@ export const CallDetection = ({route, navigation}) => {
           <CustomSwitch
             startListenerTapped={startListenerTapped}
             stopListenerTapped={stopListenerTapped}></CustomSwitch>
+        </View>
+        <View style={settingsBar.container}>
+          <LastCaller number={number} />
         </View>
 
         {/* <View style={Styles.loggerInfoContainer}>
