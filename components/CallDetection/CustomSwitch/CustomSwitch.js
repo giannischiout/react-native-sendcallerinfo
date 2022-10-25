@@ -16,6 +16,8 @@ export const CustomSwitch = ({startListenerTapped, stopListenerTapped}) => {
         style={isOn ? styles.switchOn : styles.switchOff}
         activeOpacity={1}
         onPress={toggleSwitch}>
+        <Text style={styles.textOn}>{isOn ? 'ON' : null}</Text>
+
         <View style={styles.inner}>
           <FontIcon
             style={isOn ? styles.iconON : styles.iconOFF}
@@ -70,6 +72,10 @@ const styles = StyleSheet.create({
   },
   iconON: {
     fontSize: 15,
-    color: COLORS.kellyGreen,
+    color: COLORS.redDark,
+  },
+  textOn: {
+    fontSize: 12,
+    color: COLORS.redDark,
   },
 });
