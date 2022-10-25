@@ -2,23 +2,9 @@ import React from 'react';
 import {TextInput, View, Text, Alert} from 'react-native';
 import {LoginStyles} from './loginStyles';
 import Icon from '../../node_modules/react-native-vector-icons/MaterialCommunityIcons';
-import FoundationIcon from '../../node_modules/react-native-vector-icons/Foundation';
 import {ShowPass} from './showPassword';
 
 export const LoginInputUser = ({username, handleUser}) => {
-  validate_fields = () => {
-    if (username === '') {
-      <Alert>"Alert Title", "My Alert Msg",</Alert>;
-      return false;
-    }
-    return true;
-  };
-
-  making_call = () => {
-    if (this.validate_fields) {
-      <Alert>"Alert Title", "Succesfull login!!!",</Alert>;
-    }
-  };
   return (
     <>
       <View style={LoginStyles.inputWrapper}>
@@ -34,7 +20,6 @@ export const LoginInputUser = ({username, handleUser}) => {
   );
 };
 export const LoginInputCompany = ({company, handleCompany}) => {
-  console.log(`company inside Input: ${company}`);
   return (
     <>
       <View style={LoginStyles.inputWrapper}>

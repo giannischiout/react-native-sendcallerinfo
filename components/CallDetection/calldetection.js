@@ -5,6 +5,10 @@ import CallDetectorManager from 'react-native-call-detection';
 import {CustomSwitch} from './CustomSwitch/CustomSwitch';
 import {COLORS} from '../Colors';
 import {settingsBar} from './SettingsBar/SettingsBar';
+import {Welcome} from './welcomeMessage';
+
+//Import Components:
+import {HeaderComp} from './header/header';
 // import CustomSwitch from 'react-native-custom-switch';
 function create_UUID() {
   var dt = new Date().getTime();
@@ -19,7 +23,10 @@ function create_UUID() {
   return uuid;
 }
 
-export const CallDetection = () => {
+export const CallDetection = ({route, navigation}) => {
+  //import company from Login:
+  const {company} = route.params;
+
   //Listening to calls:
   const [featureOn, setFeatureOn] = useState(false);
   //Set States of StarListener, set the events:
@@ -40,6 +47,8 @@ export const CallDetection = () => {
   //   setIsEnabled(previousState => !previousState);
   //   isEnabled ? stopListenerTapped() : startListenerTapped();
   // };
+
+  console.log(`company ${company}`);
 
   let myHeaders = new Headers();
   let fixedNum = number.replace('+30', '');
@@ -159,20 +168,26 @@ export const CallDetection = () => {
 
   return (
     <View style={generalStyles.body}>
-      <Text style={Styles.text}>Should the detection be on?</Text>
-      <View style={settingsBar.container}>
-        <Text style={generalStyles.textMediumGrey}>Call Detection State:</Text>
-        <CustomSwitch
-          startListenerTapped={startListenerTapped}
-          stopListenerTapped={stopListenerTapped}></CustomSwitch>
-      </View>
+      <Welcome navigation={navigation} company={company} />
+      <View style={generalStyles.containerMedWidth}>
+        <HeaderComp />
 
-      {/* <View style={Styles.loggerInfoContainer}>
+        <View style={settingsBar.container}>
+          <Text style={generalStyles.textMediumGrey}>
+            Call Detection State:
+          </Text>
+          <CustomSwitch
+            startListenerTapped={startListenerTapped}
+            stopListenerTapped={stopListenerTapped}></CustomSwitch>
+        </View>
+
+        {/* <View style={Styles.loggerInfoContainer}>
         {incoming && <Text style={Styles.callerHeader}>Caller's Phone :</Text>}
         {incoming && (
           <Text style={{fontSize: 30, color: 'white'}}>{number}</Text>
         )}
       </View> */}
+      </View>
     </View>
   );
 };
@@ -188,7 +203,7 @@ const Styles = StyleSheet.create({
     fontSize: 20,
     color: COLORS.white,
   },
-  button: {},
+
   toggle: {
     marginTop: 30,
     marginBottom: 30,

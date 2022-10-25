@@ -8,6 +8,7 @@ export const COLORS = {
   mediumGrey: '#808080',
   switchBack: 'gray',
   redPrimary: 'rgb(237,28,35)',
+  redDark: '#c30101',
   //used for the switch icon
   kellyGreen: 'rgb(76, 187, 23)',
   almostWhite: '#F5F5F5',

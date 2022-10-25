@@ -17,7 +17,11 @@ const App = () => {
           component={UserLogin}
           options={{headerShown: false}}
         />
-        <Stack.Screen name="CallDetect" component={CallDetection} />
+        <Stack.Screen
+          name="CallDetect"
+          component={CallDetection}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

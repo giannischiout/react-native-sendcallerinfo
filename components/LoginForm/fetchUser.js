@@ -11,27 +11,33 @@ export const doUserLogIn = async (username, password, company) => {
       username: username,
       password: password,
       company: company,
-      softoneURL:
-        'https://dgsoft.oncloud.gr/s1services/JS/MobileTest/loginMobApp',
     }),
   };
+
   const res = await fetch(
     'https://ccmde1.cloudon.gr/softone/softone.php?validationToken=123',
     requestOptions,
   );
+
   const data = await res.json();
-  console.log(res, data);
-  if (
-    data.result === 'OK' &&
-    data.error === 'No Errors' &&
-    data.errorcode === 200 &&
-    data.success === true
-  ) {
-    console.log('Success!', `User ${username} has successfully signed in!`);
-    let message = 'ok';
-    return message;
-  } else {
-    let message = 'error';
-    return message;
+  console.log(data);
+
+  try {
+    if (
+      data.result === 'OK' &&
+      data.error === 'No Errors' &&
+      data.errorcode === 200 &&
+      data.success === true
+    ) {
+      console.log('Success!', `User ${username} has successfully signed in!`);
+      let message = 'ok';
+      console.log(message);
+      return message;
+    } else {
+      let message = 'error';
+      return message;
+    }
+  } catch (e) {
+    console.log('catch error');
   }
 };

@@ -35,30 +35,19 @@ export const UserLogin = ({navigation}) => {
   //Log message Receive from fetch response
   console.log(`company inside LOGIN Actions: ${company}`);
   //Login, OnSubmit Button
-  const onPressActions = async () => {
-    //Fetch Requestr
-    console.log(`username----: ${username}`);
-    try {
-      const response = await doUserLogIn(username, password, company);
-      // storeCred();
-      console.log(`company inside OnPress Actions: ${company}`);
-      actionsAfterLogin(response);
-      Validate_fields(username, password, company);
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
-  // const validate_fields = () => {
-  //   if (username === '') {
-  //     Alert.alert('Alert Title', 'Empty Username');
-  //   }
-  // };
+  const onPressActions = async () => {
+    const response = await doUserLogIn(username, password, company);
+    console.log('response: ' + response);
+    storeCred();
+    actionsAfterLogin(response);
+    Validate_fields(username, password, company);
+  };
 
   const actionsAfterLogin = message => {
     if (message === 'ok') {
       storeCred();
-      navigation.navigate('CallDetect');
+      navigation.navigate('CallDetect', {company: company});
     }
     if (message === 'error') {
       clearAllFields();

@@ -6,7 +6,7 @@ export const settingsBar = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: COLORS.darkGrey,
-    width: '90%',
+    width: '100%',
     padding: 10,
     borderRadius: 3,
     borderLeftColor: COLORS.redPrimary,
