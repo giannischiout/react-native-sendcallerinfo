@@ -1,14 +1,46 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {COLORS} from '../../Colors';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import FontIcon from '../../../node_modules/react-native-vector-icons/FontAwesome';
+//Async Storage:
+import {saveToAsync} from '../../Services/AnyscStoreBool';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const CustomSwitch = ({startListenerTapped, stopListenerTapped}) => {
   const [isOn, setIsOn] = useState(false);
+
   const toggleSwitch = () => {
+    startListener();
+    let value = JSON.stringify(!isOn);
+    console.log(typeof value);
+    saveToAsync('@toggleCallDetection', value);
     setIsOn(previousState => !previousState);
+  };
+
+  const startListener = () => {
     isOn ? stopListenerTapped() : startListenerTapped();
   };
+
+  const getFromAsync = async () => {
+    const val = await AsyncStorage.getItem('@toggleCallDetection');
+    const value = JSON.parse(val);
+    console.log('valueGetData ' + value);
+    if (value == 'false') {
+      setIsOn(false);
+    }
+    if (value == 'true') {
+      setIsOn(true);
+    }
+
+    if (value == null) {
+      setIsOn(false);
+    }
+  };
+
+  useEffect(() => {
+    getFromAsync();
+    startListener();
+  }, []);
 
   return (
     <View style={styles.container}>

@@ -58,6 +58,7 @@ export const CallDetection = ({route, navigation}) => {
 
   logger = (calltype, state, uuid) => {
     let raw = `{"userName":"thanos","password":"XaMuQ","action":"ThirdPartyCallForAgent","body":["{\\"agent\\":\\"Admin\\",\\"callType\\":\\"${calltype}\\",\\"state\\":\\"${state}\\",\\"phoneNumber\\":\\"${fixedNum}\\",\\"callId\\":\\"${uuid}\\"}"],"messageId":"${randNum()}"}\r\n`;
+    console.log(raw);
     myHeaders.append('Content-Type', 'text/plain');
     let requestOptions = {
       method: 'POST',
