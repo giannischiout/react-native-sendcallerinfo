@@ -16,7 +16,7 @@ export const CheckBox = ({isChecked, setIsChecked}) => {
     } catch (e) {
       console.log(e);
     }
-    setIsChecked(previousState => !previousState);
+    setIsChecked(true);
   };
 
   const getData = async () => {

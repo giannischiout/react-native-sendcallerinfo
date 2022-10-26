@@ -50,6 +50,7 @@ export const UserLogin = ({navigation}) => {
       navigation.navigate('CallDetect', {company: company});
     }
     if (message === 'error') {
+      console.log('Message was error');
       clearAllFields();
       navigation.navigate('Login');
     }
@@ -98,6 +99,7 @@ export const UserLogin = ({navigation}) => {
     if (logout && isChecked) {
       clearAllFields();
       resaveCheckBox();
+      setIsChecked(false);
     }
   };
   //Clear Other fields : Company -> On logout
@@ -116,19 +118,20 @@ export const UserLogin = ({navigation}) => {
     } catch (e) {
       console.log(e);
     }
-    setIsChecked(previousValue => !previousValue);
+    // setIsChecked(previousValue => !previousValue);
+    setIsChecked(false);
   };
 
-  const handleCheck = async () => {
-    /* On clicking the button we will change the state. Before setting setIsChecked-> i change the value manually, and store it in a variable, then i alter the state*/
-    try {
-      let value = JSON.stringify(!isChecked);
-      await AsyncStorage.setItem('@checkBtn', value);
-    } catch (e) {
-      console.log(e);
-    }
-    setIsChecked(previousState => !previousState);
-  };
+  // const handleCheck = async () => {
+  //   /* On clicking the button we will change the state. Before setting setIsChecked-> i change the value manually, and store it in a variable, then i alter the state*/
+  //   try {
+  //     let value = JSON.stringify(!isChecked);
+  //     await AsyncStorage.setItem('@checkBtn', value);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  //   setIsChecked(previousState => !previousState);
+  // };
 
   return (
     <>
@@ -152,7 +155,6 @@ export const UserLogin = ({navigation}) => {
 
           <CheckBox
             isChecked={isChecked}
-            handleCheck={handleCheck}
             setIsChecked={setIsChecked}></CheckBox>
           <LoginButton
             onPressActions={onPressActions}
