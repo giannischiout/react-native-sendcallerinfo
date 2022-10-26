@@ -4,6 +4,7 @@ export const COLORS = {
   bodyColor: '#000',
   //grey
   lightGrey: '#8c8c8e',
+
   darkGrey: '#121212',
   mediumGrey: '#808080',
   switchBack: 'gray',

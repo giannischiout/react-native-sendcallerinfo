@@ -13,8 +13,13 @@ export const generalStyles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'grey',
   },
+
+  //text styles
   text: {
     color: COLORS.white,
+  },
+  textGrey: {
+    color: COLORS.lightGrey,
   },
   textMedium: {
     color: COLORS.white,
@@ -23,7 +28,6 @@ export const generalStyles = StyleSheet.create({
   },
   textRed: {
     color: COLORS.redDark,
-    fontSize: 22,
   },
   text22: {
     fontSize: 22,
@@ -38,6 +42,9 @@ export const generalStyles = StyleSheet.create({
     color: COLORS.lightGrey,
     fontSize: 18,
     letterSpacing: 1,
+  },
+  textExSm: {
+    fotnSize: 13,
   },
   containerRow: {
     flexDirection: 'row',
@@ -56,6 +63,7 @@ export const generalStyles = StyleSheet.create({
   backgroundDarkGrey: {
     backgroundColor: COLORS.darkGrey,
   },
+
   padding15: {
     padding: 15,
   },

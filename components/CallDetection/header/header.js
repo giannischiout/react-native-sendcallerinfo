@@ -12,6 +12,7 @@ export const HeaderComp = () => {
         style={{
           ...generalStyles.containerRow,
           ...generalStyles.marginVerticalMed,
+          ...styles.marginBot,
         }}>
         <Icon style={styles.settingsIcon} name="settings"></Icon>
         <Text style={styles.text}>Settings</Text>
@@ -33,5 +34,8 @@ const styles = StyleSheet.create({
   },
   settingsView: {
     marginHorizontal: 10,
+  },
+  marginBot: {
+    marginBottom: 40,
   },
 });

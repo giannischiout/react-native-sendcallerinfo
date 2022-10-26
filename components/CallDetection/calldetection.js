@@ -8,6 +8,7 @@ import {settingsBar} from './SettingsBar/SettingsBar';
 //import components:
 import {Welcome} from './welcomeMessage';
 import {LastCaller} from './lastCaller';
+import {Topbar} from './TopBar/TopBar';
 
 //Import Components:
 import {HeaderComp} from './header/header';
@@ -171,9 +172,10 @@ export const CallDetection = ({route, navigation}) => {
 
   return (
     <View style={generalStyles.body}>
-      <Welcome navigation={navigation} company={company} />
+      <Topbar navigation={navigation} />
       <View style={generalStyles.containerMedWidth}>
         <HeaderComp />
+        <Welcome company={company} />
 
         <View style={settingsBar.container}>
           <Text style={generalStyles.textMediumGrey}>
@@ -184,15 +186,8 @@ export const CallDetection = ({route, navigation}) => {
             stopListenerTapped={stopListenerTapped}></CustomSwitch>
         </View>
         <View style={settingsBar.container}>
-          <LastCaller number={number} />
+          <LastCaller number={number}></LastCaller>
         </View>
-
-        {/* <View style={Styles.loggerInfoContainer}>
-        {incoming && <Text style={Styles.callerHeader}>Caller's Phone :</Text>}
-        {incoming && (
-          <Text style={{fontSize: 30, color: 'white'}}>{number}</Text>
-        )}
-      </View> */}
       </View>
     </View>
   );
