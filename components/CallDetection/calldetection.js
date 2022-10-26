@@ -9,27 +9,13 @@ import {settingsBar} from './SettingsBar/SettingsBar';
 import {Welcome} from './welcomeMessage';
 import {LastCaller} from './lastCaller';
 import {Topbar} from './TopBar/TopBar';
-
-//Import Components:
 import {HeaderComp} from './header/header';
-// import CustomSwitch from 'react-native-custom-switch';
-function create_UUID() {
-  var dt = new Date().getTime();
-  var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
-    /[xy]/g,
-    function (c) {
-      var r = (dt + Math.random() * 16) % 16 | 0;
-      dt = Math.floor(dt / 16);
-      return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16);
-    },
-  );
-  return uuid;
-}
+//Import Services:
+import {create_UUID} from '../Services/createUUID';
 
 export const CallDetection = ({route, navigation}) => {
   //import company from Login:
   const {company} = route.params;
-
   //Listening to calls:
   const [featureOn, setFeatureOn] = useState(false);
   //Set States of StarListener, set the events:
@@ -39,17 +25,9 @@ export const CallDetection = ({route, navigation}) => {
   const [missed, setMissed] = useState(false);
   //set the Number:
   const [number, setNumber] = useState('');
-  //State for the switch button:
-
-  const [isEnabled, setIsEnabled] = useState(false);
   //Create the Unique ids that will be sent with the POST request:
   const [incUUID, setIncUUID] = useState(create_UUID());
   const [outUUID, setOutUUID] = useState(create_UUID());
-
-  // const toggleSwitch = () => {
-  //   setIsEnabled(previousState => !previousState);
-  //   isEnabled ? stopListenerTapped() : startListenerTapped();
-  // };
 
   console.log(`company ${company}`);
 
