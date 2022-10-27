@@ -12,6 +12,8 @@ import {Topbar} from './TopBar/TopBar';
 import {HeaderComp} from './header/header';
 //Import Services:
 import {create_UUID} from '../Services/createUUID';
+import {logger} from '../Services/callDetecRequest';
+//CallDetection Component:
 
 export const CallDetection = ({route, navigation}) => {
   //import company from Login:
@@ -29,35 +31,8 @@ export const CallDetection = ({route, navigation}) => {
   const [incUUID, setIncUUID] = useState(create_UUID());
   const [outUUID, setOutUUID] = useState(create_UUID());
 
-  console.log(`company ${company}`);
-
-  let myHeaders = new Headers();
-  let fixedNum = number.replace('+30', '');
-  function randNum() {
-    return Math.floor(Math.random() * (99999 - 1000) + 1000);
-  }
-
-  logger = (calltype, state, uuid) => {
-    let raw = `{"userName":"thanos","password":"XaMuQ","action":"ThirdPartyCallForAgent","body":["{\\"agent\\":\\"Admin\\",\\"callType\\":\\"${calltype}\\",\\"state\\":\\"${state}\\",\\"phoneNumber\\":\\"${fixedNum}\\",\\"callId\\":\\"${uuid}\\"}"],"messageId":"${randNum()}"}\r\n`;
-    console.log(raw);
-    myHeaders.append('Content-Type', 'text/plain');
-    let requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow',
-    };
-
-    fetch('http://ipbx.cloudon.gr:8050', requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        console.log(`result: \n\r ${result} `);
-        console.log(`raw: \n\r ${raw}`);
-      })
-      .catch(error => console.log('error', error));
-  };
-
   useEffect(() => {
+    //ask android permissions READ_CALL_LOG, READ_PHONE_STATE
     askPermission();
   });
 
@@ -107,11 +82,12 @@ export const CallDetection = ({route, navigation}) => {
   //INCOMING RINGING
   useEffect(() => {
     if (incoming && !offhook && !disconnected && !missed) {
-      logger('INCOMING', 'RINGING', incUUID);
+      logger('INCOMING', 'RINGING', incUUID, number);
     }
 
     if (incoming && offhook && !disconnected) {
-      logger('INCOMING', 'ANSWERED', incUUID);
+      console.log('answered');
+      logger('INCOMING', 'ANSWERED', incUUID, number);
     }
 
     if (incoming && offhook && disconnected) {
@@ -119,7 +95,7 @@ export const CallDetection = ({route, navigation}) => {
       setOffhook(prevState => !prevState);
       setDisconnected(prevState => !prevState);
       //Call is completed, so we can restart the 'enter' variable. Call can now enter the INCOMING, ANSWERED state
-      logger('INCOMING', 'DISCONNECTED', incUUID);
+      logger('INCOMING', 'DISCONNECTED', incUUID, number);
       setIncUUID(create_UUID());
     }
 
@@ -127,17 +103,18 @@ export const CallDetection = ({route, navigation}) => {
       //reset variables
       setIncoming(prevState => !prevState);
       setMissed(prevState => !prevState);
-      logger('INCOMING', 'MISSED', incUUID);
+      logger('INCOMING', 'MISSED', incUUID, number);
     }
-    //OUTGOING, RINGING
+    //OUTGOING, RINGING:
     if (!incoming && offhook && !disconnected) {
-      logger('OUTGOING', 'OFFHOOK', outUUID);
+      logger('OUTGOING', 'OFFHOOK', outUUID, number);
     }
+    //OUTGOING, Disconnected:
     if (!incoming && offhook && disconnected) {
       setOffhook(prevState => !prevState);
       setDisconnected(prevState => !prevState);
       setOutUUID(create_UUID());
-      logger('OUTGOING', 'DISCONNECTED', outUUID);
+      logger('OUTGOING', 'DISCONNECTED', outUUID, number);
     }
   }, [incoming, offhook, missed, disconnected, incUUID, outUUID]);
 
