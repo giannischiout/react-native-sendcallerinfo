@@ -40,11 +40,11 @@ export const UserLogin = ({navigation}) => {
   const onPressActions = async () => {
     const response = await doUserLogIn(username, password, company);
     // console.log('response: ' + response);
-    actionsAfterLogin(response);
+    actionsAfterLogin(response, navigation);
     // Validate_fields(username, password, company);
   };
 
-  const actionsAfterLogin = res => {
+  const actionsAfterLogin = (res, navigation) => {
     if (
       res.result === 'OK' &&
       res.error === 'No Errors' &&
@@ -58,10 +58,14 @@ export const UserLogin = ({navigation}) => {
     if (res.dberror === 1 && res.errorcode === 220) {
       console.log('Company Not found in database');
       setCompany('');
+      pop_Alert(res.result);
+      navigation.navigate('Login');
     }
 
-    if (res.errocode == 250 && success == false) {
+    if (res.errorcode == 250 && res.result == 'Wrong Username/Password') {
       console.log('Wrong Username/Password');
+      pop_Alert(res.result);
+      navigation.navigate('Login');
     }
     if (
       res.errorcode == 230 &&
@@ -69,9 +73,9 @@ export const UserLogin = ({navigation}) => {
       res.success == false
     ) {
       console.log('Please Fill Fields');
+      pop_Alert(res.result);
+      navigation.navigate('Login');
     }
-    pop_Alert(res.result);
-    navigation.navigate('Login');
   };
 
   // Store Credentials for future Login
