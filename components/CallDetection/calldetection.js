@@ -7,7 +7,7 @@ import {COLORS} from '../Colors';
 import {settingsBar} from './SettingsBar/SettingsBar';
 //import components:
 import {Welcome} from './welcomeMessage';
-import {LastCaller} from './lastCaller';
+import {LastCaller, CallerInfo} from './lastCaller';
 import {Topbar} from './TopBar/TopBar';
 import {HeaderComp} from './header/header';
 //Import Services:
@@ -140,9 +140,7 @@ export const CallDetection = ({route, navigation}) => {
             startListenerTapped={startListenerTapped}
             stopListenerTapped={stopListenerTapped}></CustomSwitch>
         </View>
-        <View style={settingsBar.container}>
-          <LastCaller number={number}></LastCaller>
-        </View>
+        <LastCaller number={number}></LastCaller>
       </View>
     </View>
   );

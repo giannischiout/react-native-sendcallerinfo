@@ -15,3 +15,14 @@ export const settingsBar = StyleSheet.create({
     marginTop: 15,
   },
 });
+export const settingsBarNoFlex = StyleSheet.create({
+  container: {
+    backgroundColor: COLORS.darkGrey,
+    width: '100%',
+    padding: 10,
+    borderRadius: 3,
+    borderLeftColor: COLORS.redPrimary,
+    borderLeftWidth: 2,
+    marginTop: 15,
+  },
+});

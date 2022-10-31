@@ -29,6 +29,9 @@ export const generalStyles = StyleSheet.create({
   textRed: {
     color: COLORS.redDark,
   },
+  textPlain18: {
+    fontSize: 18,
+  },
   text22: {
     fontSize: 22,
     letterSpacing: 1,
@@ -44,7 +47,13 @@ export const generalStyles = StyleSheet.create({
     letterSpacing: 1,
   },
   textExSm: {
-    fotnSize: 13,
+    fontSize: 13,
+  },
+  textExSm: {
+    fontSize: 15,
+  },
+  textWhite: {
+    color: COLORS.white,
   },
   containerRow: {
     flexDirection: 'row',
@@ -59,6 +68,9 @@ export const generalStyles = StyleSheet.create({
   },
   marginLeft5: {
     marginLeft: 5,
+  },
+  marginTop5: {
+    marginTop: 5,
   },
   backgroundDarkGrey: {
     backgroundColor: COLORS.darkGrey,
