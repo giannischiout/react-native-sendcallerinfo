@@ -1,6 +1,6 @@
 //React Native Imports:
 import React, {useState, useEffect} from 'react';
-import {View, Text, Alert} from 'react-native';
+import {View, Text, ActivityIndicator} from 'react-native';
 import {LoginInputUser, LoginInputPass, LoginInputCompany} from './LoginInput';
 //Imports from different directories:
 import {LoginButton} from './LoginButtons/LoginButton';
@@ -27,6 +27,7 @@ export const UserLogin = ({navigation}) => {
   const [showPass, setShowPass] = useState(true);
   //Store Password Checkbox -> File: LoginButtons/LoginCheckbox
   const [isChecked, setIsChecked] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleShowText = () => setShowPass(previousState => !previousState);
   const handlePass = text => setPassword(text);
@@ -38,12 +39,11 @@ export const UserLogin = ({navigation}) => {
   //Login, OnSubmit Button
 
   const onPressActions = async () => {
+    setLoading(true);
     const response = await doUserLogIn(username, password, company);
-    // console.log('response: ' + response);
     actionsAfterLogin(response, navigation);
-    // Validate_fields(username, password, company);
   };
-
+  //
   const actionsAfterLogin = (res, navigation) => {
     if (
       res.result === 'OK' &&
@@ -53,6 +53,7 @@ export const UserLogin = ({navigation}) => {
     ) {
       console.log('Succesfull Login');
       storeCred();
+
       navigation.navigate('CallDetect', {company: company});
     }
     if (res.dberror === 1 && res.errorcode === 220) {
@@ -186,8 +187,10 @@ export const UserLogin = ({navigation}) => {
           {isChecked ? (
             <ClearButton handleLogout={handleLogout}></ClearButton>
           ) : null}
+          <View>
+            {loading && <ActivityIndicator size="large" color="#fff" />}
+          </View>
         </View>
-        <View></View>
       </View>
     </>
   );
