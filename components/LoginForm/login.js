@@ -7,17 +7,18 @@ import {LoginButton} from './LoginButtons/LoginButton';
 import {ClearButton} from './LoginClearButton';
 import {TopBar} from './topBar';
 import {CheckBox} from './LoginButtons/LoginCheckBox';
-import {Validate_fields} from '../Services/validateFIelds';
+import {pop_Alert} from '../Services/validateFIelds';
 //Import CSS Styles:
 import {LoginStyles} from './loginStyles';
 import {generalStyles} from '../generalStyles';
 //Import Fetch Request:
-import {doUserLogIn} from './fetchUser';
+import {doUserLogIn} from './loginServices/fetchUser';
 //Import to store users credential:
 import * as Keychain from 'react-native-keychain';
 //Import Async Storage:
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 //Build final Login Component:
 export const UserLogin = ({navigation}) => {
   const [username, setUsername] = useState('');
@@ -38,23 +39,45 @@ export const UserLogin = ({navigation}) => {
 
   const onPressActions = async () => {
     const response = await doUserLogIn(username, password, company);
-    console.log('response: ' + response);
-    storeCred();
-    actionsAfterLogin(response);
-    Validate_fields(username, password, company);
+    // console.log('response: ' + response);
+    actionsAfterLogin(response, navigation);
+    // Validate_fields(username, password, company);
   };
 
-  const actionsAfterLogin = message => {
-    if (message === 'ok') {
+  const actionsAfterLogin = (res, navigation) => {
+    if (
+      res.result === 'OK' &&
+      res.error === 'No Errors' &&
+      res.errorcode === 200 &&
+      res.success === true
+    ) {
+      console.log('Succesfull Login');
       storeCred();
       navigation.navigate('CallDetect', {company: company});
     }
-    if (message === 'error') {
-      console.log('Message was error');
-      clearAllFields();
+    if (res.dberror === 1 && res.errorcode === 220) {
+      console.log('Company Not found in database');
+      setCompany('');
+      pop_Alert(res.result);
+      navigation.navigate('Login');
+    }
+
+    if (res.errorcode == 250 && res.result == 'Wrong Username/Password') {
+      console.log('Wrong Username/Password');
+      pop_Alert(res.result);
+      navigation.navigate('Login');
+    }
+    if (
+      res.errorcode == 230 &&
+      res.errorType == 'Login' &&
+      res.success == false
+    ) {
+      console.log('Please Fill Fields');
+      pop_Alert(res.result);
       navigation.navigate('Login');
     }
   };
+
   // Store Credentials for future Login
   useEffect(() => {
     (async () => {
