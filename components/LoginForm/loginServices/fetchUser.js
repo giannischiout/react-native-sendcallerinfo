@@ -50,16 +50,3 @@ export const doUserLogIn = async (username, password, company) => {
 //   } catch (e) {
 //     console.log('catch error');
 //   }
-
-export const actionsAfterLogin = (res, navigation) => {
-  if (res.data === 'OK') {
-    console.log('succesfully Loged in');
-    storeCred();
-    navigation.navigate('CallDetect', {company: company});
-  }
-  if (message === 'error') {
-    console.log('Wrong Password/Username');
-    clearAllFields();
-    navigation.navigate('Login');
-  }
-};

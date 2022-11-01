@@ -19,6 +19,11 @@ import * as Keychain from 'react-native-keychain';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+const storeURL = async url => {
+  console.log('save async url:' + url);
+  await AsyncStorage.setItem('@URL', JSON.stringify(url));
+};
+
 //Build final Login Component:
 export const UserLogin = ({navigation}) => {
   const [username, setUsername] = useState('');
@@ -41,6 +46,7 @@ export const UserLogin = ({navigation}) => {
   const onPressActions = async () => {
     setLoading(true);
     const response = await doUserLogIn(username, password, company);
+    storeURL(response.soneURL);
     actionsAfterLogin(response, navigation);
   };
   //
@@ -109,7 +115,6 @@ export const UserLogin = ({navigation}) => {
   //Set PASS and Username with KeyChain or AsyncStorage
   //Store it only if the checkbox: checked
   const storeCred = async () => {
-    console.log('company  inside store cred: ' + company);
     if (password && username && company && isChecked) {
       await Keychain.setGenericPassword(username, password);
       await AsyncStorage.setItem('@company', company);

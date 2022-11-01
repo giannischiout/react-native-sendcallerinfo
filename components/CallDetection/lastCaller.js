@@ -3,31 +3,43 @@ import {Text, View, StyleSheet} from 'react-native';
 import {generalStyles} from '../generalStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {settingsBarNoFlex} from './SettingsBar/SettingsBar';
+import {COLORS} from '../Colors';
 
-const data = [
-  {
-    name: 'dgstoft',
-    number: 2105711581,
-  },
-  {
-    name: 'giannis',
-    number: 6946430846,
-  },
-];
+const fetchCallerInfo = async number => {
+  console.log(`fetch  number ${number}`);
+  const url = await AsyncStorage.getItem('@URL');
+  const requestOptions = {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      callingParty: number,
+      url: url,
+    }),
+  };
+
+  const res = await fetch(
+    'https://ccmde1.cloudon.gr/softone/soneCustomer.php',
+    requestOptions,
+  )
+    .then(response => response.json())
+    .then(data => {
+      return data;
+    });
+  if (res.result !== null) {
+    return res.result;
+  }
+};
 
 export const LastCaller = ({number}) => {
   const [num, setNum] = useState(null);
+  const [name, setName] = useState('');
 
-  // let name = '';
-  function getName() {
-    for (i = 0; i < data.length; i++) {
-      if (data[i].number == num) {
-        return data[i].name;
-      }
-    }
-  }
-
-  let name = getName();
+  const handleData = async () => {
+    let res = await fetchCallerInfo(num);
+    console.log(res[0]['NAME']);
+    setName(() => res[0]['NAME']);
+    // setData(res);
+  };
 
   const saveToAsync = async () => {
     if (number) {
@@ -56,24 +68,26 @@ export const LastCaller = ({number}) => {
     handleNumber();
   }, [number, num]);
 
+  useEffect(() => {
+    handleData();
+  }, [name, num]);
+
   return (
     <>
       <View style={settingsBarNoFlex.container}>
         <View style={Styles.rowFlex}>
           <Text style={generalStyles.textMediumGrey}>Last Caller:</Text>
-          <CallerInfo
-            name={name}
-            style={generalStyles.marginLeft5}></CallerInfo>
-        </View>
-        <View style={Styles.container}>
-          <Text
-            style={{
-              ...generalStyles.textExSm,
-              ...generalStyles.textWhite,
-              ...generalStyles.marginTop5,
-            }}>
+          <Text style={[generalStyles.text18, generalStyles.marginLeft5]}>
             {num ? num : number}
           </Text>
+        </View>
+        <View style={Styles.container}>
+          <CallerInfo
+            name={name}
+            style={[
+              generalStyles.textExSm,
+              generalStyles.textWhite,
+            ]}></CallerInfo>
         </View>
       </View>
     </>
@@ -83,13 +97,19 @@ export const LastCaller = ({number}) => {
 export const CallerInfo = ({name}) => {
   return (
     <>
-      <Text
-        style={{
-          ...generalStyles.text18,
-          ...generalStyles.marginLeft5,
-        }}>
-        {name ? name : null}
-      </Text>
+      <View style={Styles.row}>
+        <Text style={[generalStyles.textExSm, generalStyles.textGrey]}>
+          Eπωνυμία:
+        </Text>
+        <Text
+          style={{
+            ...generalStyles.textExSm,
+            ...generalStyles.textWhite,
+            ...generalStyles.marginLeft10,
+          }}>
+          {name ? name : 'User Not Found'}
+        </Text>
+      </View>
     </>
   );
 };
@@ -98,5 +118,17 @@ const Styles = StyleSheet.create({
   rowFlex: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingBottom: 4,
+    borderBottomWidth: 3,
+    borderBottomColor: 'black',
+    marginBottom: 10,
+  },
+  callerInfo: {
+    color: COLORS.lightGrey,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
   },
 });

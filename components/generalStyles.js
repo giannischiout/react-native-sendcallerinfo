@@ -49,7 +49,7 @@ export const generalStyles = StyleSheet.create({
   textExSm: {
     fontSize: 13,
   },
-  textExSm: {
+  textSm: {
     fontSize: 15,
   },
   textWhite: {
@@ -67,6 +67,9 @@ export const generalStyles = StyleSheet.create({
     marginVertical: 10,
   },
   marginLeft5: {
+    marginLeft: 5,
+  },
+  marginLeft10: {
     marginLeft: 5,
   },
   marginTop5: {

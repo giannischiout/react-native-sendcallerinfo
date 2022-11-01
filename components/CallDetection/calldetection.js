@@ -122,7 +122,6 @@ export const CallDetection = ({route, navigation}) => {
     console.log(`just STOPED listening calls\n\t feature is ${featureOn}`);
     let callDetector = new CallDetectorManager();
     callDetector && callDetector.dispose();
-    setFeatureOn(false);
   };
 
   return (
