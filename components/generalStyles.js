@@ -70,10 +70,13 @@ export const generalStyles = StyleSheet.create({
     marginLeft: 5,
   },
   marginLeft10: {
-    marginLeft: 5,
+    marginLeft: 10,
   },
   marginTop5: {
     marginTop: 5,
+  },
+  marginTop10: {
+    marginTop: 10,
   },
   backgroundDarkGrey: {
     backgroundColor: COLORS.darkGrey,

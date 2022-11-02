@@ -7,7 +7,7 @@ import {COLORS} from '../Colors';
 import {settingsBar} from './SettingsBar/SettingsBar';
 //import components:
 import {Welcome} from './welcomeMessage';
-import {LastCaller, CallerInfo} from './lastCaller';
+import {LastCaller} from './lastCaller/lastCaller';
 import {Topbar} from './TopBar/TopBar';
 import {HeaderComp} from './header/header';
 //Import Services:

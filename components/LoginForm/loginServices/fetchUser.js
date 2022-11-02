@@ -20,7 +20,6 @@ export const doUserLogIn = async (username, password, company) => {
   )
     .then(response => response.json())
     .then(data => {
-      console.log(data);
       return data;
     });
   console.log('res:' + (await res.result));
