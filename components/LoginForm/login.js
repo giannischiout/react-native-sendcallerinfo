@@ -164,7 +164,7 @@ export const UserLogin = ({navigation}) => {
 
   return (
     <>
-      <TopBar></TopBar>
+      {/* <TopBar></TopBar> */}
       <View style={generalStyles.body}>
         <View style={LoginStyles.container}>
           <Text style={LoginStyles.inputLabel}>Company:</Text>

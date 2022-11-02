@@ -126,7 +126,7 @@ export const CallDetection = ({route, navigation}) => {
 
   return (
     <View style={generalStyles.body}>
-      <Topbar navigation={navigation} />
+      {/* <Topbar navigation={navigation} /> */}
       <View style={generalStyles.containerMedWidth}>
         <HeaderComp />
         <Welcome company={company} />

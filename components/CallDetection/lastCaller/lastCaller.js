@@ -84,7 +84,7 @@ export const LastCaller = ({number}) => {
   }, [num]);
 
   const callNum = () => {
-    num ? Linking.openURL(`tel:${num}`) : Linking.openURL(`tel:${mumber}`);
+    num ? Linking.openURL(`tel:${num}`) : Linking.openURL(`tel:${number}`);
   };
   return (
     <>
@@ -169,9 +169,12 @@ const Styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#black',
+    paddingBottom: 10,
   },
   borderTop: {
-    borderTopWidth: 3,
+    borderTopWidth: 1,
     borderTopColor: 'black',
     paddingTop: 10,
     marginTop: 5,
