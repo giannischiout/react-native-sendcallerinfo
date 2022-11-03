@@ -42,7 +42,6 @@ export const CallDetection = ({route, navigation}) => {
         PermissionsAndroid.PERMISSIONS.READ_CALL_LOG,
         PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE,
       ]);
-      // console.log('Permissions are:', permissions);
     } catch (err) {
       console.warn(err);
     }
