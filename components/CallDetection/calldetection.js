@@ -17,7 +17,7 @@ import {logger} from '../Services/callDetecRequest';
 
 export const CallDetection = ({route, navigation}) => {
   //import company from Login:
-  const {company} = route.params;
+  // const {company} = route.params;
   //Listening to calls:
   const [featureOn, setFeatureOn] = useState(false);
   //Set States of StarListener, set the events:
@@ -129,7 +129,8 @@ export const CallDetection = ({route, navigation}) => {
       {/* <Topbar navigation={navigation} /> */}
       <View style={generalStyles.containerMedWidth}>
         <HeaderComp />
-        <Welcome company={company} />
+        {/* <Welcome company={company} /> */}
+        <Welcome />
 
         <View style={settingsBar.container}>
           <Text style={generalStyles.textMediumGrey}>

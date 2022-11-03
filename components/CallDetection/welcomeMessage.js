@@ -21,7 +21,7 @@ export const Welcome = ({company}) => {
             ...generalStyles.marginLeft5,
             ...generalStyles.textExSm,
           }}>
-          {company.toUpperCase()}
+          {/* {company ? company.toUpperCase() : null} */}
         </Text>
       </View>
     </>
