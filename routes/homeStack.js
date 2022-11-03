@@ -12,11 +12,6 @@ export const HomeStack = () => {
         component={UserLogin}
         options={{header: () => <NavStyle />}}
       />
-      {/* <Stack.Screen
-        name="CallDetect"
-        component={CallDetection}
-        options={{header: () => <NavDrawer />}}
-      /> */}
       <Stack.Screen
         name="Main"
         component={MyDrawer}
