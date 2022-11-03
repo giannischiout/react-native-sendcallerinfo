@@ -6,7 +6,7 @@ import {CustomSwitch} from './CustomSwitch/CustomSwitch';
 import {COLORS} from '../Colors';
 import {settingsBar} from './SettingsBar/SettingsBar';
 //import components:
-import {Welcome} from './welcomeMessage';
+import {Welcome} from './WelcomeMessage/welcomeMessage';
 import {LastCaller} from './lastCaller/lastCaller';
 import {Topbar} from './TopBar/TopBar';
 import {HeaderComp} from './header/header';
@@ -145,36 +145,3 @@ export const CallDetection = ({route, navigation}) => {
     </View>
   );
 };
-
-const Styles = StyleSheet.create({
-  body: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-  },
-  text: {
-    padding: 20,
-    fontSize: 20,
-    color: COLORS.white,
-  },
-
-  toggle: {
-    marginTop: 30,
-    marginBottom: 30,
-  },
-
-  loggerInfoContainer: {
-    width: '80%',
-    height: 150,
-    backgroundColor: '#101010',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 8,
-  },
-
-  callerHeader: {
-    fontSize: 18,
-    color: '#ecf0f1',
-  },
-});

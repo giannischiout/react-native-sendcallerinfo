@@ -1,11 +1,15 @@
 //React Native Imports:
 import React, {useState, useEffect} from 'react';
 import {View, Text, ActivityIndicator} from 'react-native';
-import {LoginInputUser, LoginInputPass, LoginInputCompany} from './LoginInput';
+import {
+  LoginInputUser,
+  LoginInputPass,
+  LoginInputCompany,
+} from './LoginInput/LoginInput';
 //Imports from different directories:
 import {LoginButton} from './LoginButtons/LoginButton';
-import {ClearButton} from './LoginClearButton';
-import {TopBar} from './topBar';
+// import {ClearButton} from '../LoginClearButton';
+import {ClearButton} from './LoginClearButton/LoginClearButton';
 import {CheckBox} from './LoginButtons/LoginCheckBox';
 import {pop_Alert} from '../Services/validateFIelds';
 //Import CSS Styles:

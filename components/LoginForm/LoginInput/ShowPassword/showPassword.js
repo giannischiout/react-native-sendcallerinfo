@@ -1,10 +1,8 @@
 import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
-import IconFont from '../../node_modules/react-native-vector-icons/FontAwesome5';
-import {LoginStyles} from './loginStyles';
+import IconFont from 'react-native-vector-icons/FontAwesome5';
 
 export const ShowPass = ({bool, action}) => {
-  // console.log('bool' + bool);
   return (
     <IconFont
       name="eye"

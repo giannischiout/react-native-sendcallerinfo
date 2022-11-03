@@ -1,8 +1,8 @@
 import React from 'react';
 import {TextInput, View, Text, Alert} from 'react-native';
-import {LoginStyles} from './loginStyles';
-import Icon from '../../node_modules/react-native-vector-icons/MaterialCommunityIcons';
-import {ShowPass} from './showPassword';
+import {LoginStyles} from '../loginStyles';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {ShowPass} from './ShowPassword/showPassword';
 
 export const LoginInputUser = ({username, handleUser}) => {
   return (

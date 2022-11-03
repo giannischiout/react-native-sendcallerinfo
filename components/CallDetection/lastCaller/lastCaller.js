@@ -109,10 +109,6 @@ export const LastCaller = ({number}) => {
 };
 
 const CallerInfo = ({data}) => {
-  console.log('caller info ' + data);
-  if (data == null) {
-    console.log('what the fuck');
-  }
   const {NAME, ADDRESS, CODE, PHONE01} = data;
   const text = ['Επωνυμία:', 'Διεύθυνση:', 'Κωδικός Πελάτη:', 'Τηλέφωνο01:'];
   return (

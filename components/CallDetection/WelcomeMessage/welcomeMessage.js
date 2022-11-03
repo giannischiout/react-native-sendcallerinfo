@@ -1,8 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {generalStyles} from '../generalStyles';
-import {COLORS} from '../Colors';
-import AntIcon from '../../node_modules/react-native-vector-icons/AntDesign';
+import {generalStyles} from '../../generalStyles';
+import {COLORS} from '../../Colors';
 
 export const Welcome = ({company}) => {
   return (
