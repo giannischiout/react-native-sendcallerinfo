@@ -4,7 +4,6 @@ import {Input} from '../../LoginForm/LoginInput/LoginInput';
 import {LoginButton} from '../../LoginForm/LoginButtons/LoginButton';
 import {generalStyles} from '../../generalStyles';
 import {fetchData} from '../../Services/fetch';
-
 const urlPost = 'https://ccmde1.cloudon.gr/softone/searchCustomer.php';
 
 export const SearchForm = ({navigation}) => {

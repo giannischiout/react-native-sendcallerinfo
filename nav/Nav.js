@@ -2,21 +2,31 @@ import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import {COLORS} from '../components/Colors';
 import Icon from '../node_modules/react-native-vector-icons/Feather';
-export const NavStyle = () => {
+import BackIcon from 'react-native-vector-icons/AntDesign';
+
+export const NavStyle = ({showback, navigation}) => {
+  console.log(navigation);
   return (
     <View style={Styles.header}>
       <View style={[Styles.containerStart]}>
         <Image
-          style={[Styles.image, Styles.container]}
+          style={[Styles.image]}
           source={require('../assets/imgs/ccm.png')}
         />
       </View>
-      {/* <View style={Styles.containerEnd}>
-        {!logScreen && <Icon name="menu" style={Styles.burgerIcon} />}
-      </View> */}
+      <View style={Styles.containerEnd}>
+        {showback && (
+          <BackIcon
+            name="arrowleft"
+            onPress={navigation.goBack()}
+            style={Styles.burgerIcon}
+          />
+        )}
+      </View>
     </View>
   );
 };
+
 export const NavDrawer = ({navigation}) => {
   const toggleMenu = () => {
     navigation.openDrawer();

@@ -4,7 +4,10 @@ import {CallDetection} from '../components/CallDetection/calldetection';
 import {NavDrawer} from '../nav/Nav';
 import {Image, StyleSheet} from 'react-native';
 import IconFontAw from '../node_modules/react-native-vector-icons/FontAwesome/';
-import {ResultStack} from './homeStack';
+// import {ResultStack} from './homeStack';
+import {SearchResult} from '../components/Search/SearchResult/SearchResult';
+import {SearchForm} from '../components/Search/SearchForm/SearchForm';
+import BackIcon from 'react-native-vector-icons/AntDesign';
 
 const Drawer = createDrawerNavigator();
 
@@ -23,12 +26,11 @@ export const MyDrawer = () => {
       />
       <Drawer.Screen
         name="Search"
-        initialRouteName="SeachForm"
-        component={ResultStack}
+        component={SearchForm}
         options={{
           header: ({navigation}) => <NavDrawer navigation={navigation} />,
           drawerIcon: () => (
-            <IconFontAw name="search" style={Styles.SideBarIcon} />
+            <IconFontAw name="home" style={Styles.SideBarIcon} />
           ),
         }}
       />
@@ -41,3 +43,16 @@ const Styles = StyleSheet.create({
     fontSize: 20,
   },
 });
+
+// <Drawer.Screen
+// name="Search"
+// initialRouteName="SeachForm"
+// component={ResultStack}
+// // options={{
+// //   header: ({navigation}) => <NavDrawer navigation={navigation} />,
+// //   drawerIcon: () => (
+// //     <IconFontAw name="search" style={Styles.SideBarIcon} />
+// //   ),
+// // }}
+// options={{headerShown: false}}
+// />
