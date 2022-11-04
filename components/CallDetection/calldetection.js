@@ -1,14 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {generalStyles} from '../generalStyles';
-import {StyleSheet, Text, View, PermissionsAndroid, Switch} from 'react-native';
+import {Text, View, PermissionsAndroid} from 'react-native';
 import CallDetectorManager from 'react-native-call-detection';
-import {CustomSwitch} from './CustomSwitch/CustomSwitch';
-import {COLORS} from '../Colors';
+import {CustomSwitch, SwitchDependant} from './CustomSwitch/CustomSwitch';
 import {settingsBar} from './SettingsBar/SettingsBar';
 //import components:
 import {Welcome} from './WelcomeMessage/welcomeMessage';
 import {LastCaller} from './lastCaller/lastCaller';
-import {Topbar} from './TopBar/TopBar';
 import {HeaderComp} from './header/header';
 //Import Services:
 import {create_UUID} from '../Services/createUUID';
@@ -30,6 +28,7 @@ export const CallDetection = ({route, navigation}) => {
   //Create the Unique ids that will be sent with the POST request:
   const [incUUID, setIncUUID] = useState(create_UUID());
   const [outUUID, setOutUUID] = useState(create_UUID());
+  const [recordedOugoin, setRecordOutgoing] = useState(false);
 
   useEffect(() => {
     //ask android permissions READ_CALL_LOG, READ_PHONE_STATE
@@ -108,6 +107,7 @@ export const CallDetection = ({route, navigation}) => {
     if (!incoming && offhook && !disconnected) {
       logger('OUTGOING', 'OFFHOOK', outUUID, number);
     }
+
     //OUTGOING, Disconnected:
     if (!incoming && offhook && disconnected) {
       setOffhook(prevState => !prevState);
@@ -138,6 +138,12 @@ export const CallDetection = ({route, navigation}) => {
           <CustomSwitch
             startListenerTapped={startListenerTapped}
             stopListenerTapped={stopListenerTapped}></CustomSwitch>
+        </View>
+        <View style={settingsBar.container}>
+          <Text style={generalStyles.textMediumGrey}>Outgoing State:</Text>
+          <SwitchDependant
+            startListenerTapped={startListenerTapped}
+            stopListenerTapped={stopListenerTapped}></SwitchDependant>
         </View>
         <LastCaller number={number}></LastCaller>
       </View>

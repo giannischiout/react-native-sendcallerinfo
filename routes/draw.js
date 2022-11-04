@@ -4,6 +4,7 @@ import {CallDetection} from '../components/CallDetection/calldetection';
 import {NavDrawer} from '../nav/Nav';
 import {Image, StyleSheet} from 'react-native';
 import IconFontAw from '../node_modules/react-native-vector-icons/FontAwesome/';
+import {ResultStack} from './homeStack';
 
 const Drawer = createDrawerNavigator();
 
@@ -22,7 +23,8 @@ export const MyDrawer = () => {
       />
       <Drawer.Screen
         name="Search"
-        component={Search}
+        initialRouteName="SeachForm"
+        component={ResultStack}
         options={{
           header: ({navigation}) => <NavDrawer navigation={navigation} />,
           drawerIcon: () => (

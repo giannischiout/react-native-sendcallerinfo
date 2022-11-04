@@ -1,9 +1,9 @@
 // var globalvar = '';
 
 export const doUserLogIn = async (username, password, company) => {
-  console.log(`Username inside doUserLogin(): ${username} `);
-  console.log(`Password inside doUserLogin(): ${password} `);
-  console.log(`Company inside doUserLogin(): ${company} `);
+  // console.log(`Username inside doUserLogin(): ${username} `);
+  // console.log(`Password inside doUserLogin(): ${password} `);
+  // console.log(`Company inside doUserLogin(): ${company} `);
   const requestOptions = {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},

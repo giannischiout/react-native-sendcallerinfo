@@ -70,6 +70,19 @@ export const CustomSwitch = ({startListenerTapped, stopListenerTapped}) => {
   );
 };
 
+export const SwitchDependant = ({startListenerTapped, stopListenerTapped}) => {
+  const [isOnDep, setIsOnDep] = useState(false);
+  return (
+    <>
+      <CustomSwitch
+        startListenerTapped={startListenerTapped}
+        stopListenerTapped={stopListenerTapped}
+        isOnDep={isOnDep}
+      />
+    </>
+  );
+};
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',

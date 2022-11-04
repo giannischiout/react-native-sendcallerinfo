@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {TextInput, View, Text, Alert} from 'react-native';
 import {LoginStyles} from '../loginStyles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -53,6 +53,22 @@ export const LoginInputPass = ({
           secureTextEntry={showPass}
           onChangeText={handlePass}></TextInput>
         <ShowPass bool={showPass} action={handleShowText} />
+      </View>
+    </>
+  );
+};
+
+//Generic Input
+export const Input = ({placeholder, text, handleType}) => {
+  return (
+    <>
+      <View style={LoginStyles.inputWrapper}>
+        <TextInput
+          placeholderTextColor="#ffffff"
+          style={LoginStyles.input}
+          defaultValue={text}
+          placeholder={placeholder}
+          onChangeText={handleType}></TextInput>
       </View>
     </>
   );

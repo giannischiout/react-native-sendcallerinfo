@@ -135,7 +135,7 @@ const CallerInfo = ({data}) => {
   );
 };
 
-const DisplayItem = ({attribute, text, margin}) => {
+export const DisplayItem = ({attribute, text, margin}) => {
   return (
     <View style={[Styles.row, margin]}>
       <Text style={[generalStyles.textExSm, generalStyles.textGrey]}>
