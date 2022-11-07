@@ -1,0 +1,25 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Jura-Bold.ttf",
+      "sha1": "b76183dfa854ae92d39cf70a5963faa0d1daaa43"
+    },
+    {
+      "path": "assets/fonts/Jura-Light.ttf",
+      "sha1": "904d7cd41d99eb207c1382156f41908f4f2e8d3f"
+    },
+    {
+      "path": "assets/fonts/Jura-Medium.ttf",
+      "sha1": "a5fab73f412ed57d3067bcba89ce3022f1c5ffdb"
+    },
+    {
+      "path": "assets/fonts/Jura-Regular.ttf",
+      "sha1": "881de283ca015f557806719a0e71541ee47f0ca3"
+    },
+    {
+      "path": "assets/fonts/Jura-SemiBold.ttf",
+      "sha1": "762de41bf2cbff67ee70b193909fab2dddcff5ce"
+    }
+  ]
+}
