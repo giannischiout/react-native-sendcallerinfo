@@ -8,12 +8,11 @@ export const LoginInputUser = ({username, handleUser}) => {
   return (
     <>
       <View style={LoginStyles.inputWrapper}>
-        <Icon name="account" style={LoginStyles.icon} />
+        {/* <Icon name="account" style={LoginStyles.icon} /> */}
         <TextInput
-          placeholderTextColor="#ffffff"
           style={LoginStyles.input}
           value={username}
-          placeholder={username}
+          placeholder={'Username'}
           onChangeText={handleUser}></TextInput>
       </View>
     </>
@@ -23,12 +22,10 @@ export const LoginInputCompany = ({company, handleCompany}) => {
   return (
     <>
       <View style={LoginStyles.inputWrapper}>
-        {/* <FoundationIcon name="torso-business" style={LoginStyles.icon} /> */}
         <TextInput
-          placeholderTextColor="#ffffff"
           style={LoginStyles.input}
           value={company}
-          placeholder={company}
+          placeholder={'Company'}
           onChangeText={handleCompany}></TextInput>
       </View>
     </>
@@ -44,12 +41,10 @@ export const LoginInputPass = ({
   return (
     <>
       <View style={LoginStyles.inputWrapper}>
-        <Icon name="lock" style={LoginStyles.icon} />
         <TextInput
-          placeholderTextColor="#ffffff"
           style={LoginStyles.input}
           value={password}
-          placeholder={password}
+          placeholder={'Password'}
           secureTextEntry={showPass}
           onChangeText={handlePass}></TextInput>
         <ShowPass bool={showPass} action={handleShowText} />

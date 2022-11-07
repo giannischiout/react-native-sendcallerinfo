@@ -3,6 +3,7 @@ import {StyleSheet, TouchableOpacity, View, Text} from 'react-native';
 
 //Imports From other Files:
 import {COLORS} from '../../Colors';
+import {FONTS} from '../../../shared/Fonts/Fonts';
 import FontAws from '../../../node_modules/react-native-vector-icons/FontAwesome5';
 //Import Async Storage:
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -53,13 +54,13 @@ const Styles = StyleSheet.create({
   containerCheck: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 15,
     color: COLORS.white,
+    marginBottom: 20,
   },
   checkBox: {
     width: 20,
     height: 20,
-    borderColor: COLORS.lightGrey,
+    borderColor: COLORS.thinGrey,
     borderWidth: 1,
     borderRadius: 3,
     marginLeft: 2,
@@ -68,16 +69,17 @@ const Styles = StyleSheet.create({
   },
 
   checkIcon: {
-    color: COLORS.white,
+    color: COLORS.black,
   },
   text: {
-    color: COLORS.white,
+    color: COLORS.lightGrey,
     marginLeft: 5,
-    letterSpacing: 1,
+    fontFamily: FONTS.NotoLight,
   },
   textSave: {
     marginLeft: 5,
-    letterSpacing: 1,
+    letterSpacing: 0.8,
     color: COLORS.lightGrey,
+    fontFamily: FONTS.NotoLight,
   },
 });

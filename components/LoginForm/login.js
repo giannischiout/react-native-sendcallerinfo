@@ -1,12 +1,14 @@
 //React Native Imports:
 import React, {useState, useEffect} from 'react';
-import {View, Text, ActivityIndicator} from 'react-native';
+import {COLORS} from '../Colors';
+import {View, Text, ActivityIndicator, Image} from 'react-native';
 import {
   LoginInputUser,
   LoginInputPass,
   LoginInputCompany,
 } from './LoginInput/LoginInput';
 //Imports from different directories:
+import {Logo} from './logo/Logo';
 import {LoginButton} from './LoginButtons/LoginButton';
 // import {ClearButton} from '../LoginClearButton';
 import {ClearButton} from './LoginClearButton/LoginClearButton';
@@ -172,21 +174,19 @@ export const UserLogin = ({navigation}) => {
       {/* <TopBar></TopBar> */}
       <View style={generalStyles.body}>
         <View style={LoginStyles.container}>
-          <Text style={LoginStyles.inputLabel}>Company:</Text>
+          <Logo />
+
           <LoginInputCompany
             company={company}
             handleCompany={handleCompany}></LoginInputCompany>
-          <Text style={LoginStyles.inputLabel}>Username:</Text>
           <LoginInputUser
             username={username}
             handleUser={handleUser}></LoginInputUser>
-          <Text style={LoginStyles.inputLabel}>Password:</Text>
           <LoginInputPass
             password={password}
             handlePass={handlePass}
             handleShowText={handleShowText}
             showPass={showPass}></LoginInputPass>
-
           <CheckBox
             isChecked={isChecked}
             setIsChecked={setIsChecked}></CheckBox>
