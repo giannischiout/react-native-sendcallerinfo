@@ -149,7 +149,7 @@ export const UserLogin = ({navigation}) => {
   //Used after LOGIN OUT -> resets and resaves the original value of the checkbox
   const resaveCheckBox = async () => {
     try {
-      let value = JSON.stringify(!isChecked);
+      let value = JSON.stringify(false);
       await AsyncStorage.setItem('@checkBtn', value);
     } catch (e) {
       console.log(e);
@@ -175,11 +175,9 @@ export const UserLogin = ({navigation}) => {
       <View style={generalStyles.body}>
         <View style={LoginStyles.container}>
           <Logo />
-
           <LoginInputCompany
             company={company}
             handleCompany={handleCompany}></LoginInputCompany>
-
           <LoginInputUser
             username={username}
             handleUser={handleUser}></LoginInputUser>
@@ -189,6 +187,9 @@ export const UserLogin = ({navigation}) => {
             handleShowText={handleShowText}
             showPass={showPass}></LoginInputPass>
           <CheckBox
+            password={password}
+            username={username}
+            company={company}
             isChecked={isChecked}
             setIsChecked={setIsChecked}></CheckBox>
           <LoginButton

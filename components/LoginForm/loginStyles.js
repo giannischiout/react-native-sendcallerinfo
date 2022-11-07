@@ -11,22 +11,24 @@ export const LoginStyles = StyleSheet.create({
   },
   inputWrapper: {
     width: '100%',
-    borderWidth: 1.5,
-    borderRadius: 1,
-    borderColor: COLORS.thinGrey,
+    borderWidth: 3,
+    borderColor: '#ececec',
+    borderRadius: 30,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 10,
+    backgroundColor: COLORS.thinGrey,
   },
 
   input: {
     height: 50,
     padding: 10,
-    fontSize: 18,
-    color: COLORS.fontPrimary,
+    fontSize: 16,
+    color: COLORS.darkGrey,
     flex: 1,
     fontFamily: 'NotoSans-Regular',
+    letterSpacing: 0.8,
   },
 
   button: {
@@ -53,13 +55,14 @@ export const LoginStyles = StyleSheet.create({
     color: 'white',
   },
   icon: {
-    fontSize: 15,
+    fontSize: 18,
     color: 'white',
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 10,
-    backgroundColor: COLORS.redPrimary,
+    backgroundColor: '#d4d4d4',
     padding: 5,
-    borderRadius: 2,
+    borderRadius: 50,
+    // elevation: 1,
   },
 });

@@ -10,7 +10,7 @@ export const Logo = () => {
           style={[Styles.logo]}
           source={require('../../../assets/imgs/ccm2.png')}
         />
-        <Text style={Styles.introText}>Login in to continue</Text>
+        {/* <Text style={Styles.introText}>Login in to continue</Text> */}
       </View>
     </>
   );
@@ -25,6 +25,7 @@ const Styles = StyleSheet.create({
   logo: {
     width: 100,
     height: 30,
+    marginBottom: 30,
   },
   introText: {
     marginVertical: 20,

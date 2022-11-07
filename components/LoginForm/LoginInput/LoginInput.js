@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {TextInput, View, Text, Alert} from 'react-native';
 import {LoginStyles} from '../loginStyles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {ShowPass} from './ShowPassword/showPassword';
 import {COLORS} from '../../Colors';
 
@@ -9,12 +10,12 @@ export const LoginInputUser = ({username, handleUser}) => {
   return (
     <>
       <View style={LoginStyles.inputWrapper}>
-        {/* <Icon name="account" style={LoginStyles.icon} /> */}
+        <Icon name="account" style={LoginStyles.icon} />
         <TextInput
           style={LoginStyles.input}
           value={username}
-          placeholder={'Username'}
-          placeholderTextColor="#c2c2c2"
+          placeholder={'USERNAME'}
+          placeholderTextColor={'#969696'}
           onChangeText={handleUser}></TextInput>
       </View>
     </>
@@ -24,12 +25,13 @@ export const LoginInputCompany = ({company, handleCompany}) => {
   return (
     <>
       <View style={LoginStyles.inputWrapper}>
+        <MaterialIcon name="business" style={LoginStyles.icon} />
         <TextInput
           style={LoginStyles.input}
           value={company}
-          placeholder={'Company'}
+          placeholder={'COMPANY'}
           onChangeText={handleCompany}
-          placeholderTextColor="#c2c2c2"></TextInput>
+          placeholderTextColor={'#969696'}></TextInput>
       </View>
     </>
   );
@@ -44,11 +46,12 @@ export const LoginInputPass = ({
   return (
     <>
       <View style={LoginStyles.inputWrapper}>
+        <Icon name="lock" style={LoginStyles.icon} />
         <TextInput
           style={LoginStyles.input}
           value={password}
-          placeholder={'Password'}
-          placeholderTextColor="#c2c2c2"
+          placeholder={'PASSWORD'}
+          placeholderTextColor={'#969696'}
           secureTextEntry={showPass}
           onChangeText={handlePass}></TextInput>
         <ShowPass bool={showPass} action={handleShowText} />
