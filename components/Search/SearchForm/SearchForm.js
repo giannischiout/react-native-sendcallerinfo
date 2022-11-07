@@ -25,7 +25,8 @@ export const SearchForm = ({navigation}) => {
     console.log('Fetch Customer');
     const payload = await fetchData(urlPost, postData);
     console.log('send payload ' + payload.ADDRESS);
-    await navigation.navigate('SearchResult', payload);
+    console.log('await navigation: ' + navigation);
+    await navigation.push('SearchResult', payload);
   };
 
   return (

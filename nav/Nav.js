@@ -5,7 +5,10 @@ import Icon from '../node_modules/react-native-vector-icons/Feather';
 import BackIcon from 'react-native-vector-icons/AntDesign';
 
 export const NavStyle = ({showback, navigation}) => {
-  console.log(navigation);
+  const goback = () => {
+    navigation.goBack();
+  };
+
   return (
     <View style={Styles.header}>
       <View style={[Styles.containerStart]}>
@@ -17,8 +20,8 @@ export const NavStyle = ({showback, navigation}) => {
       <View style={Styles.containerEnd}>
         {showback && (
           <BackIcon
+            onPress={goback}
             name="arrowleft"
-            onPress={navigation.goBack()}
             style={Styles.burgerIcon}
           />
         )}

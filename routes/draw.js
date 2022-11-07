@@ -8,6 +8,7 @@ import IconFontAw from '../node_modules/react-native-vector-icons/FontAwesome/';
 import {SearchResult} from '../components/Search/SearchResult/SearchResult';
 import {SearchForm} from '../components/Search/SearchForm/SearchForm';
 import BackIcon from 'react-native-vector-icons/AntDesign';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 
 const Drawer = createDrawerNavigator();
 
@@ -30,7 +31,7 @@ export const MyDrawer = () => {
         options={{
           header: ({navigation}) => <NavDrawer navigation={navigation} />,
           drawerIcon: () => (
-            <IconFontAw name="home" style={Styles.SideBarIcon} />
+            <FeatherIcon name="search" style={Styles.SideBarIcon} />
           ),
         }}
       />
