@@ -29,9 +29,7 @@ export const generalStyles = StyleSheet.create({
   textRed: {
     color: COLORS.redDark,
   },
-  textPlain18: {
-    fontSize: 18,
-  },
+
   text22: {
     fontSize: 22,
     letterSpacing: 1,

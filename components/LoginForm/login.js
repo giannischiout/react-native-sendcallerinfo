@@ -192,6 +192,7 @@ export const UserLogin = ({navigation}) => {
             setIsChecked={setIsChecked}></CheckBox>
           <LoginButton
             onPressActions={onPressActions}
+            text={'Login'}
             message="message"></LoginButton>
           {/* <ClearButton handleLogout={handleLogout}></ClearButton> */}
           {isChecked ? (

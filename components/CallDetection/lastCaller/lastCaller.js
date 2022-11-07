@@ -135,17 +135,19 @@ const CallerInfo = ({data}) => {
   );
 };
 
-export const DisplayItem = ({attribute, text, margin}) => {
+export const DisplayItem = ({attribute, text, margin, callNum}) => {
   return (
     <View style={[Styles.row, margin]}>
       <Text style={[generalStyles.textExSm, generalStyles.textGrey]}>
         {text}
       </Text>
       <Text
+        onPress={callNum}
         style={{
           ...generalStyles.textExSm,
           ...generalStyles.textWhite,
           ...generalStyles.marginLeft10,
+          ...generalStyles.textDecorationLine,
         }}>
         {attribute ? attribute : 'User Not Found'}
       </Text>

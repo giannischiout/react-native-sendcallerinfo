@@ -28,7 +28,6 @@ export const CallDetection = ({route, navigation}) => {
   //Create the Unique ids that will be sent with the POST request:
   const [incUUID, setIncUUID] = useState(create_UUID());
   const [outUUID, setOutUUID] = useState(create_UUID());
-  const [recordedOugoin, setRecordOutgoing] = useState(false);
 
   useEffect(() => {
     //ask android permissions READ_CALL_LOG, READ_PHONE_STATE
@@ -139,12 +138,7 @@ export const CallDetection = ({route, navigation}) => {
             startListenerTapped={startListenerTapped}
             stopListenerTapped={stopListenerTapped}></CustomSwitch>
         </View>
-        <View style={settingsBar.container}>
-          <Text style={generalStyles.textMediumGrey}>Outgoing State:</Text>
-          <SwitchDependant
-            startListenerTapped={startListenerTapped}
-            stopListenerTapped={stopListenerTapped}></SwitchDependant>
-        </View>
+
         <LastCaller number={number}></LastCaller>
       </View>
     </View>
