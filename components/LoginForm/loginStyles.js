@@ -26,12 +26,14 @@ export const LoginStyles = StyleSheet.create({
   },
 
   input: {
-    height: 'auto',
-    paddingLeft: 10,
-    fontSize: 25,
+    padding: 10,
+    fontSize: 22,
     color: 'white',
     placeholderTextColor: 'white',
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    letterSpacing: 0.8,
   },
 
   button: {
