@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {FONTS} from '../shared/Fonts/Fonts';
 import {COLORS} from './Colors';
 export const generalStyles = StyleSheet.create({
   body: {
@@ -12,6 +13,15 @@ export const generalStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'grey',
+  },
+  containerMedWidth: {
+    width: '90%',
+  },
+  containerMedWidthFlex: {
+    width: '90%',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   //text styles
@@ -40,12 +50,27 @@ export const generalStyles = StyleSheet.create({
     letterSpacing: 0.8,
   },
   textMediumGrey: {
-    color: COLORS.lightGrey,
+    color: COLORS.darkGrey,
     fontSize: 18,
     letterSpacing: 1,
+    fontFamily: FONTS.NotoLight,
+  },
+  textBoldGrey: {
+    color: COLORS.darkGrey,
+    fontSize: 18,
+    letterSpacing: 1,
+    fontFamily: FONTS.NotoBold,
+  },
+  textMediumGrey: {
+    color: COLORS.darkGrey,
+    fontSize: 14,
+    letterSpacing: 1,
+    fontFamily: FONTS.NotoMedium,
   },
   textExSm: {
     fontSize: 13,
+    fontFamily: FONTS.NotoLight,
+    color: COLORS.darkGrey,
   },
   textSm: {
     fontSize: 15,
@@ -58,9 +83,7 @@ export const generalStyles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
-  containerMedWidth: {
-    width: '90%',
-  },
+
   marginVerticalMed: {
     marginVertical: 10,
   },

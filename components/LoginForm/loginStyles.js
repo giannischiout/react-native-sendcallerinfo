@@ -30,7 +30,14 @@ export const LoginStyles = StyleSheet.create({
     fontFamily: 'NotoSans-Regular',
     letterSpacing: 0.8,
   },
+  clearLog: {
+    color: '#000000',
+    textDecorationLine: 'underline',
+    marginTop: 15,
+    marginBottom: 5,
+  },
 
+  //Login Button:
   button: {
     padding: 12,
     backgroundColor: COLORS.redPrimary,
@@ -38,13 +45,9 @@ export const LoginStyles = StyleSheet.create({
     width: '100%',
     borderRadius: 30,
     elevation: 8,
-  },
-  clearLog: {
-    color: '#000000',
-    textDecorationLine: 'underline',
     marginTop: 15,
-    marginBottom: 5,
   },
+
   buttonText: {
     fontSize: 20,
     color: 'white',

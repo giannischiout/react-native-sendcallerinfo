@@ -67,7 +67,7 @@ export const UserLogin = ({navigation}) => {
       storeCred();
 
       // navigation.navigate('CallDetect', {company: company});
-      navigation.navigate('Main');
+      navigation.navigate('Main', {company: company});
     }
     if (res.dberror === 1 && res.errorcode === 220) {
       console.log('Company Not found in database');

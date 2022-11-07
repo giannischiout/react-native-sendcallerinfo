@@ -79,8 +79,8 @@ const Styles = StyleSheet.create({
     paddingBottom: 10,
   },
   borderTop: {
-    borderTopWidth: 1,
-    borderTopColor: 'black',
+    // borderTopWidth: 1,
+    // borderTopColor: 'black',
     paddingTop: 10,
     marginTop: 5,
   },

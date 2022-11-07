@@ -66,7 +66,7 @@ export const Input = ({placeholder, text, handleType}) => {
     <>
       <View style={LoginStyles.inputWrapper}>
         <TextInput
-          placeholderTextColor="#ffffff"
+          placeholderTextColor="#969696"
           style={LoginStyles.input}
           defaultValue={text}
           placeholder={placeholder}
