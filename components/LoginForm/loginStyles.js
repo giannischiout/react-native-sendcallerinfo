@@ -11,7 +11,7 @@ export const LoginStyles = StyleSheet.create({
   },
   inputWrapper: {
     width: '100%',
-    borderWidth: 1.2,
+    borderWidth: 1.5,
     borderRadius: 1,
     borderColor: COLORS.thinGrey,
     flexDirection: 'row',
@@ -25,7 +25,6 @@ export const LoginStyles = StyleSheet.create({
     padding: 10,
     fontSize: 18,
     color: COLORS.fontPrimary,
-    placeholderTextColor: '#E6E5E7',
     flex: 1,
     fontFamily: 'NotoSans-Regular',
   },

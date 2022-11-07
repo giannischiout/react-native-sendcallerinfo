@@ -4,7 +4,7 @@ export const COLORS = {
   bodyColor: '#fff',
   //grey
   lightGrey: '#8c8c8e',
-  thinGrey: '#E6E5E7',
+  thinGrey: '#f0f0f0',
   //button Color:
   buttonColor: '#ad0c0c',
   darkGrey: '#121212',

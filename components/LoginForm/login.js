@@ -179,6 +179,7 @@ export const UserLogin = ({navigation}) => {
           <LoginInputCompany
             company={company}
             handleCompany={handleCompany}></LoginInputCompany>
+
           <LoginInputUser
             username={username}
             handleUser={handleUser}></LoginInputUser>
