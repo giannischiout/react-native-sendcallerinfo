@@ -4,6 +4,7 @@ import {generalStyles} from '../../generalStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {settingsBarNoFlex} from '../SettingsBar/SettingsBar';
 import {COLORS} from '../../Colors';
+import {FONTS} from '../../../shared/Fonts/Fonts';
 
 const fetchCallerInfo = async number => {
   console.log(`fetch  number ${number}`);
@@ -135,17 +136,13 @@ const CallerInfo = ({data}) => {
   );
 };
 
-export const DisplayItem = ({attribute, text, margin, callNum}) => {
+export const DisplayItem = ({attribute, text, margin, callNum, border}) => {
   return (
-    <View style={[Styles.row, margin]}>
-      <Text style={[generalStyles.textMediumGrey]}>{text}</Text>
+    <View style={[Styles.row, margin, border]}>
+      <Text style={[Styles.textHeader]}>{text}</Text>
       <Text
         onPress={callNum}
-        style={{
-          ...generalStyles.textExSm,
-          // ...generalStyles.marginLeft10,
-          ...generalStyles.textDecorationLine,
-        }}>
+        style={[Styles.text, callNum ? Styles.phone : null]}>
         {attribute ? attribute : 'Not Found'}
       </Text>
     </View>
@@ -161,19 +158,17 @@ const Styles = StyleSheet.create({
   callerInfo: {
     color: COLORS.darkGrey,
   },
-  // row: {
-  //   flexDirection: 'row',
-  //   alignItems: 'center',
-
-  //   paddingBottom: 10,
-  // },
-  // borderTop: {
-  //   // borderTopWidth: 1,
-  //   // borderTopColor: 'black',
-  //   paddingTop: 10,
-  //   marginTop: 5,
-  // },
+  textHeader: {
+    fontSize: 15,
+    fontFamily: FONTS.NotoReg,
+  },
+  text: {
+    fontSize: 19,
+    fontFamily: FONTS.NotoBold,
+    color: '#000',
+  },
   phone: {
     textDecorationLine: 'underline',
+    fontFamily: FONTS.NotoBold,
   },
 });
