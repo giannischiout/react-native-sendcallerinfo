@@ -1,20 +1,26 @@
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {Search} from '../components/Search';
 import {CallDetection} from '../components/CallDetection/calldetection';
 import {NavDrawer} from '../nav/Nav';
-import {Image, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import IconFontAw from '../node_modules/react-native-vector-icons/FontAwesome/';
 // import {ResultStack} from './homeStack';
-import {SearchResult} from '../components/Search/SearchResult/SearchResult';
 import {SearchForm} from '../components/Search/SearchForm/SearchForm';
-import BackIcon from 'react-native-vector-icons/AntDesign';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import {COLORS} from '../components/Colors';
 
 const Drawer = createDrawerNavigator();
 
 export const MyDrawer = () => {
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator
+      screenOptions={{
+        drawerStyle: {
+          // backgroundColor: 'grey',
+          width: '80%',
+        },
+        drawerActiveTintColor: COLORS.redPrimary,
+        drawerInactiveTintColor: COLORS.darkGrey,
+      }}>
       <Drawer.Screen
         name="Home"
         component={CallDetection}
@@ -42,6 +48,7 @@ export const MyDrawer = () => {
 const Styles = StyleSheet.create({
   SideBarIcon: {
     fontSize: 20,
+    color: COLORS.redPrimary,
   },
 });
 
