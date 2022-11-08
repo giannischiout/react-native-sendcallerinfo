@@ -66,9 +66,10 @@ export const Login = ({navigation}) => {
     ) {
       console.log('Succesfull Login');
       storeCred();
+      console.log(navigation);
 
       // navigation.navigate('CallDetect', {company: company});
-      navigation.navigate('Main', {company: company});
+      navigation.navigate('Main');
     }
     if (res.dberror === 1 && res.errorcode === 220) {
       console.log('Company Not found in database');
@@ -192,12 +193,12 @@ export const Login = ({navigation}) => {
   );
 };
 
-export const UserLogin = () => {
+export const UserLogin = ({navigation}) => {
   return (
     <View style={generalStyles.body}>
       <FadeInView
         style={LoginStyles.container}
-        children={<Login />}></FadeInView>
+        children={<Login navigation={navigation} />}></FadeInView>
     </View>
   );
 };
