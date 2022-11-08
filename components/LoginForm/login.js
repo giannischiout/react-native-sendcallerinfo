@@ -1,7 +1,7 @@
 //React Native Imports:
 import React, {useState, useEffect} from 'react';
 import {COLORS} from '../Colors';
-import {View, Text, ActivityIndicator, Image} from 'react-native';
+import {View} from 'react-native';
 import {
   LoginInputUser,
   LoginInputPass,
@@ -51,6 +51,7 @@ export const Login = ({navigation}) => {
   //Login, OnSubmit Button
 
   const onPressActions = async () => {
+    console.log(true);
     setLoading(true);
     const response = await doUserLogIn(username, password, company);
     storeURL(response.soneURL);
@@ -181,6 +182,7 @@ export const Login = ({navigation}) => {
         isChecked={isChecked}
         setIsChecked={setIsChecked}></CheckBox>
       <LoginButton
+        loading={loading}
         onPressActions={onPressActions}
         text={'Login'}
         message="message"></LoginButton>
@@ -188,7 +190,6 @@ export const Login = ({navigation}) => {
       {isChecked ? (
         <ClearButton handleLogout={handleLogout}></ClearButton>
       ) : null}
-      <View>{loading && <ActivityIndicator size="large" color="#fff" />}</View>
     </>
   );
 };
