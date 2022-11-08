@@ -94,7 +94,7 @@ export const LastCaller = ({number}) => {
           <Text
             onPress={() => callNum()}
             style={[
-              generalStyles.text18,
+              generalStyles.textBoldGrey,
               generalStyles.marginLeft5,
               Styles.phone,
             ]}>
@@ -138,18 +138,15 @@ const CallerInfo = ({data}) => {
 export const DisplayItem = ({attribute, text, margin, callNum}) => {
   return (
     <View style={[Styles.row, margin]}>
-      <Text style={[generalStyles.textExSm, generalStyles.textGrey]}>
-        {text}
-      </Text>
+      <Text style={[generalStyles.textMediumGrey]}>{text}</Text>
       <Text
         onPress={callNum}
         style={{
           ...generalStyles.textExSm,
-          ...generalStyles.textWhite,
-          ...generalStyles.marginLeft10,
+          // ...generalStyles.marginLeft10,
           ...generalStyles.textDecorationLine,
         }}>
-        {attribute ? attribute : 'User Not Found'}
+        {attribute ? attribute : 'Not Found'}
       </Text>
     </View>
   );
@@ -162,21 +159,20 @@ const Styles = StyleSheet.create({
     paddingBottom: 4,
   },
   callerInfo: {
-    color: COLORS.lightGrey,
+    color: COLORS.darkGrey,
   },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#black',
-    paddingBottom: 10,
-  },
-  borderTop: {
-    borderTopWidth: 1,
-    borderTopColor: 'black',
-    paddingTop: 10,
-    marginTop: 5,
-  },
+  // row: {
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+
+  //   paddingBottom: 10,
+  // },
+  // borderTop: {
+  //   // borderTopWidth: 1,
+  //   // borderTopColor: 'black',
+  //   paddingTop: 10,
+  //   marginTop: 5,
+  // },
   phone: {
     textDecorationLine: 'underline',
   },

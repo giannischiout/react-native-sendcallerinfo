@@ -15,7 +15,7 @@ export const HomeStack = () => {
       <Stack.Screen
         name="Login"
         component={UserLogin}
-        options={{header: () => <NavStyle />}}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="Main"

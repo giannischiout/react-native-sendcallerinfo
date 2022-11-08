@@ -14,7 +14,7 @@ export const NavStyle = ({showback, navigation}) => {
       <View style={[Styles.containerStart]}>
         <Image
           style={[Styles.image]}
-          source={require('../assets/imgs/ccm.png')}
+          source={require('../assets/imgs/ccm2.png')}
         />
       </View>
       <View style={Styles.containerEnd}>
@@ -39,7 +39,7 @@ export const NavDrawer = ({navigation}) => {
       <View style={[Styles.containerStart]}>
         <Image
           style={[Styles.image, Styles.container]}
-          source={require('../assets/imgs/ccm.png')}
+          source={require('../assets/imgs/ccm2.png')}
         />
       </View>
       <View style={Styles.containerEnd}>
@@ -52,14 +52,15 @@ export const NavDrawer = ({navigation}) => {
 const Styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
-    backgroundColor: COLORS.darkGrey,
+    backgroundColor: COLORS.thinGrey,
     height: 60,
     alignItems: 'center',
-    padding: 10,
+    padding: 15,
+    elevation: 2,
   },
   image: {
-    width: 85,
-    height: 30,
+    width: 80,
+    height: 25,
   },
   containerStart: {
     width: '50%',
@@ -69,7 +70,7 @@ const Styles = StyleSheet.create({
     width: '50%',
   },
   burgerIcon: {
-    color: COLORS.white,
-    fontSize: 25,
+    color: COLORS.redPrimary,
+    fontSize: 30,
   },
 });

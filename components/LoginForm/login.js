@@ -1,17 +1,20 @@
 //React Native Imports:
 import React, {useState, useEffect} from 'react';
-import {View, Text, ActivityIndicator} from 'react-native';
+import {COLORS} from '../Colors';
+import {View, Text, ActivityIndicator, Image} from 'react-native';
 import {
   LoginInputUser,
   LoginInputPass,
   LoginInputCompany,
 } from './LoginInput/LoginInput';
 //Imports from different directories:
+import {Logo} from './logo/Logo';
 import {LoginButton} from './LoginButtons/LoginButton';
 // import {ClearButton} from '../LoginClearButton';
 import {ClearButton} from './LoginClearButton/LoginClearButton';
 import {CheckBox} from './LoginButtons/LoginCheckBox';
 import {pop_Alert} from '../Services/validateFIelds';
+import {FadeInView} from '../../shared/AnimatedView/AnimatedView';
 //Import CSS Styles:
 import {LoginStyles} from './loginStyles';
 import {generalStyles} from '../generalStyles';
@@ -29,7 +32,7 @@ const storeURL = async url => {
 };
 
 //Build final Login Component:
-export const UserLogin = ({navigation}) => {
+export const Login = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [company, setCompany] = useState(null);
@@ -65,7 +68,7 @@ export const UserLogin = ({navigation}) => {
       storeCred();
 
       // navigation.navigate('CallDetect', {company: company});
-      navigation.navigate('Main');
+      navigation.navigate('Main', {company: company});
     }
     if (res.dberror === 1 && res.errorcode === 220) {
       console.log('Company Not found in database');
@@ -147,7 +150,7 @@ export const UserLogin = ({navigation}) => {
   //Used after LOGIN OUT -> resets and resaves the original value of the checkbox
   const resaveCheckBox = async () => {
     try {
-      let value = JSON.stringify(!isChecked);
+      let value = JSON.stringify(false);
       await AsyncStorage.setItem('@checkBtn', value);
     } catch (e) {
       console.log(e);
@@ -156,53 +159,45 @@ export const UserLogin = ({navigation}) => {
     setIsChecked(false);
   };
 
-  // const handleCheck = async () => {
-  //   /* On clicking the button we will change the state. Before setting setIsChecked-> i change the value manually, and store it in a variable, then i alter the state*/
-  //   try {
-  //     let value = JSON.stringify(!isChecked);
-  //     await AsyncStorage.setItem('@checkBtn', value);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  //   setIsChecked(previousState => !previousState);
-  // };
-
   return (
     <>
-      {/* <TopBar></TopBar> */}
-      <View style={generalStyles.body}>
-        <View style={LoginStyles.container}>
-          <Text style={LoginStyles.inputLabel}>Company:</Text>
-          <LoginInputCompany
-            company={company}
-            handleCompany={handleCompany}></LoginInputCompany>
-          <Text style={LoginStyles.inputLabel}>Username:</Text>
-          <LoginInputUser
-            username={username}
-            handleUser={handleUser}></LoginInputUser>
-          <Text style={LoginStyles.inputLabel}>Password:</Text>
-          <LoginInputPass
-            password={password}
-            handlePass={handlePass}
-            handleShowText={handleShowText}
-            showPass={showPass}></LoginInputPass>
-
-          <CheckBox
-            isChecked={isChecked}
-            setIsChecked={setIsChecked}></CheckBox>
-          <LoginButton
-            onPressActions={onPressActions}
-            text={'Login'}
-            message="message"></LoginButton>
-          {/* <ClearButton handleLogout={handleLogout}></ClearButton> */}
-          {isChecked ? (
-            <ClearButton handleLogout={handleLogout}></ClearButton>
-          ) : null}
-          <View>
-            {loading && <ActivityIndicator size="large" color="#fff" />}
-          </View>
-        </View>
-      </View>
+      <Logo />
+      <LoginInputCompany
+        company={company}
+        handleCompany={handleCompany}></LoginInputCompany>
+      <LoginInputUser
+        username={username}
+        handleUser={handleUser}></LoginInputUser>
+      <LoginInputPass
+        password={password}
+        handlePass={handlePass}
+        handleShowText={handleShowText}
+        showPass={showPass}></LoginInputPass>
+      <CheckBox
+        password={password}
+        username={username}
+        company={company}
+        isChecked={isChecked}
+        setIsChecked={setIsChecked}></CheckBox>
+      <LoginButton
+        onPressActions={onPressActions}
+        text={'Login'}
+        message="message"></LoginButton>
+      {/* <ClearButton handleLogout={handleLogout}></ClearButton> */}
+      {isChecked ? (
+        <ClearButton handleLogout={handleLogout}></ClearButton>
+      ) : null}
+      <View>{loading && <ActivityIndicator size="large" color="#fff" />}</View>
     </>
+  );
+};
+
+export const UserLogin = () => {
+  return (
+    <View style={generalStyles.body}>
+      <FadeInView
+        style={LoginStyles.container}
+        children={<Login />}></FadeInView>
+    </View>
   );
 };

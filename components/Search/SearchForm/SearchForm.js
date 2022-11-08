@@ -38,7 +38,7 @@ export const SearchForm = ({navigation}) => {
   return (
     <>
       <View style={generalStyles.body}>
-        <View style={generalStyles.containerMedWidth}>
+        <View style={generalStyles.containerMedWidthFlex}>
           <Input placeholder={'Όνομα'} text={name} handleType={handleName} />
           <Input
             placeholder={'Διεύθυνση'}

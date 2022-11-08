@@ -15,6 +15,7 @@ import {logger} from '../Services/callDetecRequest';
 
 export const CallDetection = ({route, navigation}) => {
   //import company from Login:
+  console.log('route params ' + route.params);
   // const {company} = route.params;
   //Listening to calls:
   const [featureOn, setFeatureOn] = useState(false);
@@ -124,11 +125,9 @@ export const CallDetection = ({route, navigation}) => {
 
   return (
     <View style={generalStyles.body}>
-      {/* <Topbar navigation={navigation} /> */}
       <View style={generalStyles.containerMedWidth}>
-        <HeaderComp />
-        {/* <Welcome company={company} /> */}
-        <Welcome />
+        {/* <HeaderComp /> */}
+        {/* <Welcome /> */}
 
         <View style={settingsBar.container}>
           <Text style={generalStyles.textMediumGrey}>

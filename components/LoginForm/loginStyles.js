@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {Component, startTransition} from 'react';
 import {COLORS} from '../Colors';
+import {FONTS} from '../../shared/Fonts/Fonts';
 
 export const LoginStyles = StyleSheet.create({
   container: {
@@ -10,58 +11,61 @@ export const LoginStyles = StyleSheet.create({
   },
   inputWrapper: {
     width: '100%',
-    borderWidth: 0.5,
-    borderRadius: 5,
-    borderColor: COLORS.lightGrey,
+    borderWidth: 3,
+    borderColor: '#ececec',
+    borderRadius: 30,
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  inputLabel: {
-    color: COLORS.lightGrey,
-    fontSize: 13,
-    letterSpacing: 0.9,
-    marginTop: 10,
-    marginBottom: 5,
-    fontWeight: '200',
+    justifyContent: 'center',
+    marginBottom: 10,
+    backgroundColor: COLORS.thinGrey,
   },
 
   input: {
+    height: 50,
     padding: 10,
-    fontSize: 22,
-    color: 'white',
-    placeholderTextColor: 'white',
+    fontSize: 16,
+    color: COLORS.darkGrey,
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    fontFamily: 'NotoSans-Regular',
     letterSpacing: 0.8,
   },
-
-  button: {
-    padding: 10,
-    backgroundColor: 'rgb(237,28,35)',
-    borderRadius: 3,
-    width: '100%',
-    borderRadius: 5,
-  },
   clearLog: {
-    color: 'white',
+    color: '#000000',
     textDecorationLine: 'underline',
     marginTop: 15,
     marginBottom: 5,
   },
+
+  //Login Button:
+  button: {
+    padding: 12,
+    backgroundColor: COLORS.redPrimary,
+    borderRadius: 3,
+    width: '100%',
+    borderRadius: 30,
+    elevation: 8,
+    marginTop: 15,
+  },
+
   buttonText: {
-    fontSize: 25,
+    fontSize: 20,
     color: 'white',
     textAlign: 'center',
+    fontFamily: FONTS.NotoLight,
   },
   whiteText: {
     color: 'white',
   },
   icon: {
-    fontSize: 22,
-    color: COLORS.lightGrey,
+    fontSize: 18,
+    color: 'white',
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 10,
+    backgroundColor: '#d4d4d4',
+    padding: 5,
+    borderRadius: 50,
+    // elevation: 1,
   },
 });

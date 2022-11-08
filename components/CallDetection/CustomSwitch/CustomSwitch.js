@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   switchOff: {
     width: 55,
     height: 30,
-    backgroundColor: COLORS.switchBack,
+    backgroundColor: COLORS.lightGrey,
     borderRadius: 20,
     flexDirection: 'row',
     alignItems: 'center',
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   switchOn: {
     width: 55,
     height: 30,
-    backgroundColor: COLORS.almostWhite,
+    backgroundColor: COLORS.redPrimary,
     borderRadius: 20,
     flexDirection: 'row',
     alignItems: 'center',
@@ -126,10 +126,10 @@ const styles = StyleSheet.create({
   },
   iconON: {
     fontSize: 15,
-    color: COLORS.redDark,
+    color: COLORS.redPrimary,
   },
   textOn: {
     fontSize: 12,
-    color: COLORS.redDark,
+    color: COLORS.white,
   },
 });

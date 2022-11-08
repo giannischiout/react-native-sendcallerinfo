@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
 import IconFont from 'react-native-vector-icons/FontAwesome5';
-
+import {COLORS} from '../../../Colors';
 export const ShowPass = ({bool, action}) => {
   return (
     <IconFont
@@ -21,6 +21,6 @@ const style = StyleSheet.create({
   eyeIconActive: {
     fontSize: 18,
     marginRight: 15,
-    color: 'white',
+    color: COLORS.redPrimaryDark,
   },
 });
