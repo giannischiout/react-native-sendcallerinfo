@@ -16,7 +16,7 @@
     "@react-navigation/native-stack": "^6.9.0",
     "react": "18.1.0",
     "react-icons": "^4.4.0",
-    "react-native": "0.70.2",
+    "react-native": "0.70.5",
     "react-native-call-detection": "github:priteshrnandgaonkar/react-native-call-detection#d6e90c32188341b36508853eb743b9a475acdd5a",
     "react-native-gesture-handler": "^2.8.0",
     "react-native-keychain": "^8.1.1",
