@@ -28,7 +28,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const storeURL = async url => {
   console.log('save async url:' + url);
-  await AsyncStorage.setItem('@URL', JSON.stringify(url));
+  if (url !== null || url.typeof !== 'undefined') {
+    await AsyncStorage.setItem('@URL', JSON.stringify(url));
+  }
 };
 
 //Build final Login Component:
@@ -51,10 +53,9 @@ export const Login = ({navigation}) => {
   //Login, OnSubmit Button
 
   const onPressActions = async () => {
-    console.log(true);
-    setLoading(true);
+    // setLoading(true);
     const response = await doUserLogIn(username, password, company);
-    storeURL(response.soneURL);
+    console.log(response);
     actionsAfterLogin(response, navigation);
   };
   //
@@ -65,9 +66,8 @@ export const Login = ({navigation}) => {
       res.errorcode === 200 &&
       res.success === true
     ) {
-      console.log('Succesfull Login');
       storeCred();
-      console.log(navigation);
+      storeURL(res.soneURL);
 
       // navigation.navigate('CallDetect', {company: company});
       navigation.navigate('Main');
