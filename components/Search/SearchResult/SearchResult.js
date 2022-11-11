@@ -1,9 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, ScrollView, StyleSheet, Linking} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Linking,
+  FlatList,
+} from 'react-native';
 import {generalStyles} from '../../generalStyles';
 import {COLORS} from '../../Colors';
 import {FONTS} from '../../../shared/Fonts/Fonts';
-import {DisplayItem} from '../../CallDetection/lastCaller/lastCaller';
 
 const Item = ({title, result, call}) => {
   const callNum = num => {
@@ -65,15 +71,19 @@ const Styles = StyleSheet.create({
     width: '97%',
   },
   textTitle: {
-    fontSize: 15,
+    fontSize: 16,
+    fontFamily: FONTS.NotoReg,
+    marginRight: 5,
   },
   text: {
-    fontSize: 18,
+    fontSize: 16,
     color: COLORS.black,
     fontFamily: FONTS.NotoBold,
   },
   itemRow: {
     marginTop: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   callDecoration: {
     textDecorationLine: 'underline',

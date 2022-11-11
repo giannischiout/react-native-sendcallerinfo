@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
 import {Input} from '../../LoginForm/LoginInput/LoginInput';
 import {LoginButton} from '../../LoginForm/LoginButtons/LoginButton';
 import {generalStyles} from '../../generalStyles';
 import {fetchData} from '../../Services/fetch';
 import {pop_Alert} from '../../Services/validateFIelds';
+
 const urlPost = 'https://ccmde1.cloudon.gr/softone/searchCustomer.php';
 
 export const SearchForm = ({navigation}) => {
@@ -23,22 +24,21 @@ export const SearchForm = ({navigation}) => {
   };
 
   const onPressActions = async () => {
-    console.log('Fetch Customer');
     if (name || number || address) {
       const payload = await fetchData(urlPost, postData);
       await navigation.push('SearchResult', payload);
     } else {
       pop_Alert('Please Fill at least one parameter');
     }
-
-    // console.log('send payload ' + payload.ADDRESS);
-    // console.log('await navigation: ' + navigation);
   };
 
   return (
     <>
       <View style={generalStyles.body}>
         <View style={generalStyles.containerMedWidthFlex}>
+          <Text style={[generalStyles.textMediumGrey, Styles.text]}>
+            Aναζήτηση Πελάτη στο Softone
+          </Text>
           <Input placeholder={'Όνομα'} text={name} handleType={handleName} />
           <Input
             placeholder={'Διεύθυνση'}
@@ -56,3 +56,9 @@ export const SearchForm = ({navigation}) => {
     </>
   );
 };
+
+const Styles = StyleSheet.create({
+  text: {
+    marginBottom: 2,
+  },
+});

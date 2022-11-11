@@ -30,29 +30,16 @@ export const generalStyles = StyleSheet.create({
   textGrey: {
     color: COLORS.lightGrey,
   },
-  textMedium: {
-    color: COLORS.white,
-    fontSize: 18,
-    letterSpacing: 1,
-  },
+
   textRed: {
     color: COLORS.redDark,
   },
 
-  text22: {
-    fontSize: 22,
-    letterSpacing: 1,
-  },
-  text18: {
-    color: COLORS.white,
-    fontSize: 18,
-    letterSpacing: 0.8,
-  },
   textMediumGrey: {
     color: COLORS.darkGrey,
     fontSize: 18,
     letterSpacing: 1,
-    fontFamily: FONTS.NotoLight,
+    fontFamily: FONTS.NotoMedium,
   },
   textBoldGrey: {
     color: COLORS.darkGrey,

@@ -136,15 +136,11 @@ const CallerInfo = ({data}) => {
   );
 };
 
-export const DisplayItem = ({attribute, text, margin, callNum, border}) => {
+export const DisplayItem = ({attribute, text, margin}) => {
   return (
-    <View style={[Styles.row, margin, border]}>
+    <View style={[Styles.row, margin]}>
       <Text style={[Styles.textHeader]}>{text}</Text>
-      <Text
-        onPress={callNum}
-        style={[Styles.text, callNum ? Styles.phone : null]}>
-        {attribute ? attribute : 'Not Found'}
-      </Text>
+      <Text style={Styles.text}>{attribute ? attribute : 'Not Found'}</Text>
     </View>
   );
 };
