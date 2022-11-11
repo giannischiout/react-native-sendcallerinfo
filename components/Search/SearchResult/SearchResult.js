@@ -1,99 +1,81 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, ScrollView, StyleSheet} from 'react-native';
+import {View, Text, ScrollView, StyleSheet, Linking} from 'react-native';
 import {generalStyles} from '../../generalStyles';
 import {COLORS} from '../../Colors';
+import {FONTS} from '../../../shared/Fonts/Fonts';
 import {DisplayItem} from '../../CallDetection/lastCaller/lastCaller';
-import {Linking} from 'react-native';
 
-export const SearchResult = ({route}) => {
-  console.log(route.params);
-  // const payload = route.params;
-  // const [data, setData] = useState(route.params);
-  const {NAME, ADDRESS, CODE, PHONE01, PHONE02, MOBILE} = route.params;
-  console.log(route.params.ADDRESS);
-  const text = [
-    'ΕΠΩΝΥΜΙΑ:',
-    'ΔΙΕΥΘΥΝΣΗ:',
-    'ΚΩΔΙΚΟΣ ΠΕΛΑΤΗ:',
-    'ΤΗΛΕΦΩΝΟ01:',
-    'ΤΗΛΕΦΩΝΟ02:',
-    'MOBILE: ',
-  ];
+const Item = ({title, result, call}) => {
   const callNum = num => {
     Linking.openURL(`tel:${num}`);
   };
   return (
+    <View style={Styles.itemRow}>
+      <Text style={Styles.textTitle}>{title}</Text>
+      <Text
+        onPress={call ? () => callNum(result) : null}
+        style={[Styles.text, call ? Styles.callDecoration : null]}>
+        {result}
+      </Text>
+    </View>
+  );
+};
+
+export const SearchResult = ({route}) => {
+  const data = route.params;
+
+  return (
     <>
       <View style={generalStyles.body}>
-        <View style={generalStyles.containerMedWidth}>
-          <ScrollView>
-            <View style={[Styles.container]}>
-              <DisplayItem attribute={NAME} text={text[0]} />
-              <DisplayItem
-                margin={generalStyles.marginTop10}
-                attribute={ADDRESS}
-                text={text[1]}
-                border={Styles.border}
-              />
-              <DisplayItem
-                margin={generalStyles.marginTop10}
-                attribute={CODE}
-                text={text[2]}
-                border={Styles.border}
-              />
-              <DisplayItem
-                margin={generalStyles.marginTop10}
-                attribute={PHONE01}
-                text={text[3]}
-                callNum={() => callNum(PHONE01)}
-                border={Styles.border}
-              />
-              <DisplayItem
-                margin={generalStyles.marginTop10}
-                attribute={PHONE02}
-                text={text[4]}
-                callNum={() => callNum(PHONE02)}
-                border={Styles.border}
-              />
-              <DisplayItem
-                margin={generalStyles.marginTop10}
-                attribute={MOBILE}
-                text={text[5]}
-                callNum={() => callNum(MOBILE)}
-                border={Styles.border}
-              />
-            </View>
-          </ScrollView>
-        </View>
+        <ScrollView style={Styles.container}>
+          {data.map((obj, index) => {
+            return (
+              <View key={index} style={Styles.row}>
+                {Object.keys(obj).map((item, index) => {
+                  let text = item + ':';
+                  if (item.includes('PHONE' || 'MOBILE')) {
+                    return (
+                      <Item
+                        key={index}
+                        call={true}
+                        title={item + ':'}
+                        result={obj[item]}
+                      />
+                    );
+                  }
+                  return <Item key={index} title={text} result={obj[item]} />;
+                })}
+              </View>
+            );
+          })}
+        </ScrollView>
       </View>
     </>
   );
 };
 
 const Styles = StyleSheet.create({
-  rowFlex: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingBottom: 4,
-  },
-  callerInfo: {
-    color: COLORS.lightGrey,
-  },
   row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#f2f2f1',
-    paddingBottom: 10,
-  },
-  border: {
-    borderTopWidth: 1,
-    borderTopColor: '#9c9a96',
-    paddingTop: 10,
+    backgroundColor: '#f5f5f5',
+    padding: 15,
     marginTop: 5,
-    borderStyle: 'dashed',
+    width: '100%',
   },
-  phone: {
+  container: {
+    width: '97%',
+  },
+  textTitle: {
+    fontSize: 15,
+  },
+  text: {
+    fontSize: 18,
+    color: COLORS.black,
+    fontFamily: FONTS.NotoBold,
+  },
+  itemRow: {
+    marginTop: 8,
+  },
+  callDecoration: {
     textDecorationLine: 'underline',
   },
 });

@@ -6,7 +6,6 @@ export const generalStyles = StyleSheet.create({
     backgroundColor: COLORS.bodyColor,
     alignItems: 'center',
     flex: 1,
-    color: 'white',
   },
   container: {
     flex: 1,
