@@ -9,7 +9,7 @@ export const FadeInView = ({children, style}) => {
     // Will change fadeAnim value to 1 in 5 seconds
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: 1800,
+      duration: 1300,
       useNativeDriver: true,
     }).start();
   };

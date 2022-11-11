@@ -61,12 +61,7 @@ export const generalStyles = StyleSheet.create({
     letterSpacing: 1,
     fontFamily: FONTS.NotoBold,
   },
-  textMediumGrey: {
-    color: COLORS.darkGrey,
-    fontSize: 14,
-    letterSpacing: 1,
-    fontFamily: FONTS.NotoMedium,
-  },
+
   textExSm: {
     fontSize: 13,
     fontFamily: FONTS.NotoLight,

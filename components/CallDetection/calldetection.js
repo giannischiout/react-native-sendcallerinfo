@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {generalStyles} from '../generalStyles';
-import {Text, View, PermissionsAndroid} from 'react-native';
+import {Text, View, PermissionsAndroid, Alert} from 'react-native';
 import CallDetectorManager from 'react-native-call-detection';
 import {CustomSwitch, SwitchDependant} from './CustomSwitch/CustomSwitch';
 import {settingsBar} from './SettingsBar/SettingsBar';
@@ -13,9 +13,8 @@ import {create_UUID} from '../Services/createUUID';
 import {logger} from '../Services/callDetecRequest';
 //CallDetection Component:
 
-export const CallDetection = ({route, navigation}) => {
+export const CallDetection = () => {
   //import company from Login:
-  console.log('route params ' + route.params);
   // const {company} = route.params;
   //Listening to calls:
   const [featureOn, setFeatureOn] = useState(false);
@@ -30,21 +29,21 @@ export const CallDetection = ({route, navigation}) => {
   const [incUUID, setIncUUID] = useState(create_UUID());
   const [outUUID, setOutUUID] = useState(create_UUID());
 
-  useEffect(() => {
-    //ask android permissions READ_CALL_LOG, READ_PHONE_STATE
-    askPermission();
-  });
+  // useEffect(() => {
+  //   //ask android permissions READ_CALL_LOG, READ_PHONE_STATE
+  //   askPermission();
+  // });
 
-  askPermission = async () => {
-    try {
-      const permissions = await PermissionsAndroid.requestMultiple([
-        PermissionsAndroid.PERMISSIONS.READ_CALL_LOG,
-        PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE,
-      ]);
-    } catch (err) {
-      console.warn(err);
-    }
-  };
+  // askPermission = async () => {
+  //   try {
+  //     const permissions = await PermissionsAndroid.requestMultiple([
+  //       PermissionsAndroid.PERMISSIONS.READ_CALL_LOG,
+  //       PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE,
+  //     ]);
+  //   } catch (err) {
+  //     console.warn(err);
+  //   }
+  // };
 
   const startListenerTapped = () => {
     setFeatureOn(true);

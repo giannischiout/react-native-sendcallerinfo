@@ -33,34 +33,34 @@ export const SearchResult = ({route}) => {
                 margin={generalStyles.marginTop10}
                 attribute={ADDRESS}
                 text={text[1]}
-                border={Styles.borderTop}
+                border={Styles.border}
               />
               <DisplayItem
                 margin={generalStyles.marginTop10}
                 attribute={CODE}
                 text={text[2]}
-                border={Styles.borderTop}
+                border={Styles.border}
               />
               <DisplayItem
                 margin={generalStyles.marginTop10}
                 attribute={PHONE01}
                 text={text[3]}
                 callNum={() => callNum(PHONE01)}
-                border={Styles.borderTop}
+                border={Styles.border}
               />
               <DisplayItem
                 margin={generalStyles.marginTop10}
                 attribute={PHONE02}
                 text={text[4]}
                 callNum={() => callNum(PHONE02)}
-                border={Styles.borderTop}
+                border={Styles.border}
               />
               <DisplayItem
                 margin={generalStyles.marginTop10}
                 attribute={MOBILE}
                 text={text[5]}
                 callNum={() => callNum(MOBILE)}
-                border={Styles.borderTop}
+                border={Styles.border}
               />
             </View>
           </ScrollView>
@@ -86,7 +86,7 @@ const Styles = StyleSheet.create({
     borderBottomColor: '#f2f2f1',
     paddingBottom: 10,
   },
-  borderTop: {
+  border: {
     borderTopWidth: 1,
     borderTopColor: '#9c9a96',
     paddingTop: 10,

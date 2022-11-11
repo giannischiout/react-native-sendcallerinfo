@@ -51,16 +51,3 @@ const Styles = StyleSheet.create({
     color: COLORS.redPrimary,
   },
 });
-
-// <Drawer.Screen
-// name="Search"
-// initialRouteName="SeachForm"
-// component={ResultStack}
-// // options={{
-// //   header: ({navigation}) => <NavDrawer navigation={navigation} />,
-// //   drawerIcon: () => (
-// //     <IconFontAw name="search" style={Styles.SideBarIcon} />
-// //   ),
-// // }}
-// options={{headerShown: false}}
-// />

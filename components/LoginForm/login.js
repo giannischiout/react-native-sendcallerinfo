@@ -1,7 +1,7 @@
 //React Native Imports:
 import React, {useState, useEffect} from 'react';
-import {COLORS} from '../Colors';
-import {View} from 'react-native';
+//Import Permissions:
+import {View, PermissionsAndroid} from 'react-native';
 import {
   LoginInputUser,
   LoginInputPass,
@@ -26,13 +26,6 @@ import * as Keychain from 'react-native-keychain';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-const storeURL = async url => {
-  console.log('save async url:' + url);
-  if (url !== null || url.typeof !== 'undefined') {
-    await AsyncStorage.setItem('@URL', JSON.stringify(url));
-  }
-};
-
 //Build final Login Component:
 export const Login = ({navigation}) => {
   const [username, setUsername] = useState('');
@@ -54,8 +47,9 @@ export const Login = ({navigation}) => {
 
   const onPressActions = async () => {
     // setLoading(true);
+    //post request
     const response = await doUserLogIn(username, password, company);
-    console.log(response);
+    // console.log(response);
     actionsAfterLogin(response, navigation);
   };
   //
@@ -68,19 +62,17 @@ export const Login = ({navigation}) => {
     ) {
       storeCred();
       storeURL(res.soneURL);
-
-      // navigation.navigate('CallDetect', {company: company});
       navigation.navigate('Main');
     }
     if (res.dberror === 1 && res.errorcode === 220) {
-      console.log('Company Not found in database');
+      // console.log('Company Not found in database');
       setCompany('');
       pop_Alert(res.result);
       navigation.navigate('Login');
     }
 
     if (res.errorcode == 250 && res.result == 'Wrong Username/Password') {
-      console.log('Wrong Username/Password');
+      // console.log('Wrong Username/Password');
       pop_Alert(res.result);
       navigation.navigate('Login');
     }
@@ -89,7 +81,7 @@ export const Login = ({navigation}) => {
       res.errorType == 'Login' &&
       res.success == false
     ) {
-      console.log('Please Fill Fields');
+      // console.log('Please Fill Fields');
       pop_Alert(res.result);
       navigation.navigate('Login');
     }
@@ -102,9 +94,9 @@ export const Login = ({navigation}) => {
         const credentials = await Keychain.getGenericPassword();
         const company = await AsyncStorage.getItem('@company');
         if (credentials) {
-          console.log(
-            `Credentials fully loaded for user ${credentials.username}`,
-          );
+          // console.log(
+          //   `Credentials fully loaded for user ${credentials.username}`,
+          // );
           setPassword(credentials.password);
           setUsername(credentials.username);
           if (company) {
@@ -112,12 +104,12 @@ export const Login = ({navigation}) => {
           }
           // setCompany(company);
         } else {
-          console.log('No credentials stored');
+          // console.log('No credentials stored');
         }
 
-        console.log(`AsyncCompany: ${company}`);
+        // console.log(`AsyncCompany: ${company}`);
       } catch (error) {
-        console.log("Keychain couldn't be accessed!", error);
+        // console.log("Keychain couldn't be accessed!", error);
       }
     })();
   }, []);
@@ -130,11 +122,13 @@ export const Login = ({navigation}) => {
       await AsyncStorage.setItem('@company', company);
     }
   };
-
+  const storeURL = async url => {
+    await AsyncStorage.setItem('@URL', JSON.stringify(url));
+  };
   //Handle Logout with KeyChain
   const handleLogout = async () => {
     const logout = await Keychain.resetGenericPassword();
-    console.log({logout});
+    // console.log({logout});
     if (logout && isChecked) {
       clearAllFields();
       resaveCheckBox();
@@ -195,11 +189,39 @@ export const Login = ({navigation}) => {
 };
 
 export const UserLogin = ({navigation}) => {
+  const requestPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.READ_CALL_LOG,
+        PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE,
+      ]);
+      if (
+        granted['android.permission.READ_CALL_LOG'] ===
+          PermissionsAndroid.RESULTS.GRANTED &&
+        granted['android.permission.READ_PHONE_STATE'] ===
+          PermissionsAndroid.RESULTS.GRANTED
+      ) {
+        console.log('granted');
+      } else {
+        console.log('not granted');
+        requestPermission();
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+  useEffect(() => {
+    requestPermission();
+  }, []);
+
   return (
-    <View style={generalStyles.body}>
-      <FadeInView
-        style={LoginStyles.container}
-        children={<Login navigation={navigation} />}></FadeInView>
-    </View>
+    <>
+      <View style={generalStyles.body}>
+        <FadeInView
+          style={LoginStyles.container}
+          children={<Login navigation={navigation} />}></FadeInView>
+      </View>
+    </>
   );
 };

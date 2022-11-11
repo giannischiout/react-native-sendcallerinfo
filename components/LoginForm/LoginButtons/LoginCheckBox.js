@@ -75,7 +75,6 @@ const Styles = StyleSheet.create({
     borderWidth: 1.5,
     borderRadius: 50,
     padding: 5,
-    marginLeft: 2,
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 5,
