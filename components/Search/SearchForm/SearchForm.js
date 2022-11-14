@@ -27,7 +27,7 @@ export const SearchForm = ({navigation}) => {
     if (name || number || address) {
       const payload = await fetchData(urlPost, postData);
       // await navigation.push('SearchResult', payload);
-      await navigation.push('SearchResult2', payload);
+      await navigation.push('SearchResult', payload);
     } else {
       pop_Alert('Please Fill at least one parameter');
     }

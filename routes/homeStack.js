@@ -21,8 +21,8 @@ export const HomeStack = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="SearchResult2"
-        component={SearchResult2}
+        name="SearchResult"
+        component={SearchResult}
         options={{
           header: ({navigation}) => (
             <NavStyle navigation={navigation} showback={true} />

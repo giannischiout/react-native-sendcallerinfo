@@ -42,16 +42,6 @@ export const MyDrawer = () => {
           ),
         }}
       />
-      <Drawer.Screen
-        name="List"
-        component={List}
-        options={{
-          header: ({navigation}) => <NavDrawer navigation={navigation} />,
-          drawerIcon: () => (
-            <FeatherIcon name="search" style={Styles.SideBarIcon} />
-          ),
-        }}
-      />
     </Drawer.Navigator>
   );
 };
