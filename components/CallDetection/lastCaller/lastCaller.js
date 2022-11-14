@@ -103,7 +103,7 @@ export const LastCaller = ({number}) => {
           </Text>
         </View>
         {/* <CallerInfo data={data}></CallerInfo> */}
-        {data !== 'not found' ? <CallerInfo data={data}></CallerInfo> : null}
+        {data !== 'not found' ? <CallerInfo data={data} /> : null}
       </View>
     </>
   );

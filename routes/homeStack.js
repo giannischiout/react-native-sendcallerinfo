@@ -4,7 +4,7 @@ import {NavStyle} from '../nav/Nav';
 import {MyDrawer} from './draw';
 
 import {SearchResult} from '../components/Search/SearchResult/SearchResult';
-
+import {SearchResult2} from '../components/Search/SearchResult/SearchResult2';
 export const Stack = createNativeStackNavigator();
 
 export const HomeStack = () => {
@@ -21,8 +21,8 @@ export const HomeStack = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="SearchResult"
-        component={SearchResult}
+        name="SearchResult2"
+        component={SearchResult2}
         options={{
           header: ({navigation}) => (
             <NavStyle navigation={navigation} showback={true} />

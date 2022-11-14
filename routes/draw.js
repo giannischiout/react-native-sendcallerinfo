@@ -7,6 +7,7 @@ import IconFontAw from '../node_modules/react-native-vector-icons/FontAwesome/';
 import {SearchForm} from '../components/Search/SearchForm/SearchForm';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {COLORS} from '../components/Colors';
+import {List} from '../components/ListView/List';
 
 const Drawer = createDrawerNavigator();
 
@@ -34,6 +35,16 @@ export const MyDrawer = () => {
       <Drawer.Screen
         name="Search"
         component={SearchForm}
+        options={{
+          header: ({navigation}) => <NavDrawer navigation={navigation} />,
+          drawerIcon: () => (
+            <FeatherIcon name="search" style={Styles.SideBarIcon} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="List"
+        component={List}
         options={{
           header: ({navigation}) => <NavDrawer navigation={navigation} />,
           drawerIcon: () => (
