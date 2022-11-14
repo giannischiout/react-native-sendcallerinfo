@@ -50,12 +50,6 @@ export const SearchResult2 = ({route}) => {
                   {console.log('index: ' + index)}
                   {key === 'NAME' ? null : (
                     <View style={styles.row}>
-                      <TouchableOpacity
-                        onPress={closeTabs}
-                        style={styles.closeTabs}>
-                        <Text>{isOpen ? 'Close Tabs' : 'Open Tabs'}</Text>
-                        <Icon name={isOpen ? 'up' : 'down'} />
-                      </TouchableOpacity>
                       <Text
                         onPress={openSingleTab(index)}
                         style={styles.itemHeader}>{`${key}:`}</Text>
