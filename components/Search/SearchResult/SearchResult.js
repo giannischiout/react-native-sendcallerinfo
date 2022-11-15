@@ -7,20 +7,21 @@ import {
   FlatList,
   SafeAreaView,
   TextInput,
+  TouchableOpacity,
 } from 'react-native';
+
+import {ListItem} from './ListItem';
 
 import {COLORS} from '../../Colors';
 import {FONTS} from '../../../shared/Fonts/Fonts';
 import {generalStyles} from '../../generalStyles';
-// import {TouchableOpacity} from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/AntDesign';
 
 export const SearchResult = ({route}) => {
   // console.log(route.params);
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterData, setMasterData] = useState();
-  const [isOpen, setIsOpen] = useState(true);
+  const [expand, setExpanded] = useState(false);
 
   const hadleData = () => {
     setFilteredDataSource(route.params);
@@ -56,66 +57,17 @@ export const SearchResult = ({route}) => {
     }
   };
 
-  const ItemView = ({item, index}) => {
-    console.log(item);
-    const callNum = num => {
-      Linking.openURL(`tel:${num}`);
-    };
-
-    return (
-      <>
-        <View style={styles.header}>
-          <Text style={styles.itemStyle}> {`${index + 1}: `}</Text>
-          <Text style={styles.itemStyle}>{item.NAME}</Text>
-        </View>
-        <View>
-          {Object.keys(item).map((key, index) => {
-            if (key !== 'NAME') {
-              if (key.includes('PHONE') || key.includes('MOBILE')) {
-                return (
-                  <View key={index} style={styles.row}>
-                    <Text style={styles.itemHeader}>{`${key}:`}</Text>
-                    <Text
-                      onPress={() => callNum(item[key])}
-                      style={[styles.item, styles.callDecoration]}>
-                      {item[key]}
-                    </Text>
-                  </View>
-                );
-              }
-
-              return (
-                <View key={index} style={styles.row}>
-                  <Text style={styles.itemHeader}>{`${key}:`}</Text>
-                  <Text style={styles.item}>{item[key]}</Text>
-                </View>
-              );
-            }
-          })}
-        </View>
-      </>
-    );
-  };
-
   const ItemSeparatorView = () => {
     return (
       // Flat List Item Separator
       <View
         style={{
-          height: 0.5,
+          height: 1,
           width: '100%',
           backgroundColor: '#C8C8C8',
         }}
       />
     );
-  };
-
-  const closeTabs = () => {
-    setIsOpen(prev => !prev);
-  };
-
-  const openSingleTab = index => {
-    console.log(index);
   };
 
   return (
@@ -138,7 +90,14 @@ export const SearchResult = ({route}) => {
           data={filteredDataSource}
           keyExtractor={(item, index) => index.toString()}
           ItemSeparatorComponent={ItemSeparatorView}
-          renderItem={ItemView}
+          renderItem={({item, index, separators}) => (
+            <ListItem
+              item={item}
+              index={index}
+              expand={expand}
+              setExpand={setExpanded}
+            />
+          )}
         />
       </View>
     </SafeAreaView>
