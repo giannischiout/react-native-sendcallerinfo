@@ -19,13 +19,7 @@ export const fetchData = async (urlPost, postData) => {
       return data;
     });
   try {
-    if (res.result !== null) {
-      console.log('res.result: ' + res.result);
-      return res.result;
-    }
-    if (res.result == null) {
-      return (res.result = 'not found');
-    }
+    return res.result;
   } catch (e) {
     console.log(e);
   }

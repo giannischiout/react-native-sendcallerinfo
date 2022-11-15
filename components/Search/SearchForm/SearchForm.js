@@ -27,7 +27,11 @@ export const SearchForm = ({navigation}) => {
     if (name || number || address) {
       const payload = await fetchData(urlPost, postData);
       // await navigation.push('SearchResult', payload);
-      await navigation.push('SearchResult', payload);
+      if (payload !== null) {
+        await navigation.push('SearchResult', payload);
+      } else if (payload == null) {
+        pop_Alert('Search did not find a match');
+      }
     } else {
       pop_Alert('Please Fill at least one parameter');
     }
