@@ -138,7 +138,7 @@ const CallerInfo = ({data}) => {
 
 export const DisplayItem = ({attribute, text, margin}) => {
   return (
-    <View style={[Styles.row, margin]}>
+    <View style={[margin]}>
       <Text style={[Styles.textHeader]}>{text}</Text>
       <Text style={Styles.text}>{attribute ? attribute : 'Not Found'}</Text>
     </View>
@@ -149,18 +149,17 @@ const Styles = StyleSheet.create({
   rowFlex: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom: 4,
   },
   callerInfo: {
     color: COLORS.darkGrey,
   },
   textHeader: {
     fontSize: 15,
-    fontFamily: FONTS.NotoReg,
+    fontFamily: FONTS.NotoLight,
   },
   text: {
-    fontSize: 19,
-    fontFamily: FONTS.NotoBold,
+    fontSize: 13,
+    fontFamily: FONTS.NotoReg,
     color: '#000',
   },
   phone: {

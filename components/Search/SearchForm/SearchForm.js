@@ -31,6 +31,7 @@ export const SearchForm = ({navigation}) => {
       if (payload !== null) {
         await navigation.push('SearchResult', payload);
         setLoading(prev => !prev);
+        setName('');
       } else if (payload == null) {
         pop_Alert('Search did not find a match');
         setLoading(prev => !prev);

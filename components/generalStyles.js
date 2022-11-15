@@ -24,17 +24,6 @@ export const generalStyles = StyleSheet.create({
   },
 
   //text styles
-  text: {
-    color: COLORS.white,
-  },
-  textGrey: {
-    color: COLORS.lightGrey,
-  },
-
-  textRed: {
-    color: COLORS.redDark,
-  },
-
   textMediumGrey: {
     color: COLORS.darkGrey,
     fontSize: 18,
@@ -55,6 +44,7 @@ export const generalStyles = StyleSheet.create({
   },
   textSm: {
     fontSize: 15,
+    fontFamily: FONTS.NotoLight,
   },
   textWhite: {
     color: COLORS.white,
@@ -65,29 +55,29 @@ export const generalStyles = StyleSheet.create({
     width: '100%',
   },
 
-  marginVerticalMed: {
-    marginVertical: 10,
-  },
-  marginLeft5: {
-    marginLeft: 5,
-  },
-  marginLeft10: {
-    marginLeft: 10,
-  },
-  marginTop5: {
-    marginTop: 5,
-  },
-  marginTop10: {
-    marginTop: 10,
-  },
+  // marginVerticalMed: {
+  //   marginVertical: 10,
+  // },
+  // marginLeft5: {
+  //   marginLeft: 5,
+  // },
+  // marginLeft10: {
+  //   marginLeft: 10,
+  // },
+  // marginTop5: {
+  //   marginTop: 5,
+  // },
+  // marginTop10: {
+  //   marginTop: 10,
+  // },
   backgroundDarkGrey: {
     backgroundColor: COLORS.darkGrey,
   },
 
-  padding15: {
-    padding: 15,
-  },
-  marginBottom30: {
-    marginBottom: 30,
-  },
+  // padding15: {
+  //   padding: 15,
+  // },
+  // marginBottom30: {
+  //   marginBottom: 30,
+  // },
 });

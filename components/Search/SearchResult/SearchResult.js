@@ -33,15 +33,18 @@ export const SearchResult = ({route}) => {
   const searchFilterFunction = text => {
     // Check if searched text is not blank
     if (text) {
-      // Inserted text is not blank
-      // Filter the masterDataSource
-      // Update FilteredDataSource
-
       const newData = masterData.filter(item => {
-        const itemData = item.NAME;
-        Object;
-        const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
+        const dataName = item.NAME ? item.NAME : '';
+        const dataAddress = item.ADDRESS ? item.ADDRESS : '';
+        const dataPhone01 = item.PHONE01 ? item.PHONE01 : '';
+        const mobile = item.MOBILE ? item.MOBILE : '';
+        const textData = text.toUpperCase().toString();
+        return (
+          dataName.indexOf(textData) > -1 ||
+          dataAddress.indexOf(textData) > -1 ||
+          dataPhone01.indexOf(textData) > -1 ||
+          mobile.indexOf(textData) > -1
+        );
       });
       setFilteredDataSource(newData);
       setSearch(text);
