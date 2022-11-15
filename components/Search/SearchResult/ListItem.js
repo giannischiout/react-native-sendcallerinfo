@@ -3,7 +3,7 @@ import {View, Text, Linking, TouchableOpacity, StyleSheet} from 'react-native';
 import {COLORS} from '../../Colors';
 import {FONTS} from '../../../shared/Fonts/Fonts';
 
-export const ListItem = ({item, index}) => {
+export const ListItem = ({item, index, expandAll}) => {
   const [exp, setExp] = useState(false);
   const callNum = num => {
     Linking.openURL(`tel:${num}`);
@@ -12,6 +12,37 @@ export const ListItem = ({item, index}) => {
   const closeSingle = () => {
     setExp(prev => !prev);
   };
+
+  const ExpandableItems = () => {
+    return (
+      <View>
+        {Object.keys(item).map((key, index) => {
+          if (key !== 'NAME') {
+            if (key.includes('PHONE') || key.includes('MOBILE')) {
+              return (
+                <View key={index} style={styles.row}>
+                  <Text style={styles.itemHeader}>{`${key}:`}</Text>
+                  <Text
+                    onPress={() => callNum(item[key])}
+                    style={[styles.item, styles.callDecoration]}>
+                    {item[key]}
+                  </Text>
+                </View>
+              );
+            }
+
+            return (
+              <View key={index} style={styles.row}>
+                <Text style={styles.itemHeader}>{`${key}:`}</Text>
+                <Text style={styles.item}>{item[key]}</Text>
+              </View>
+            );
+          }
+        })}
+      </View>
+    );
+  };
+
   return (
     <>
       <TouchableOpacity onPress={() => closeSingle()}>
@@ -21,33 +52,8 @@ export const ListItem = ({item, index}) => {
         </View>
       </TouchableOpacity>
 
-      {exp && (
-        <View>
-          {Object.keys(item).map((key, index) => {
-            if (key !== 'NAME') {
-              if (key.includes('PHONE') || key.includes('MOBILE')) {
-                return (
-                  <View key={index} style={styles.row}>
-                    <Text style={styles.itemHeader}>{`${key}:`}</Text>
-                    <Text
-                      onPress={() => callNum(item[key])}
-                      style={[styles.item, styles.callDecoration]}>
-                      {item[key]}
-                    </Text>
-                  </View>
-                );
-              }
-
-              return (
-                <View key={index} style={styles.row}>
-                  <Text style={styles.itemHeader}>{`${key}:`}</Text>
-                  <Text style={styles.item}>{item[key]}</Text>
-                </View>
-              );
-            }
-          })}
-        </View>
-      )}
+      {exp && <ExpandableItems />}
+      {expandAll && <ExpandableItems />}
     </>
   );
 };

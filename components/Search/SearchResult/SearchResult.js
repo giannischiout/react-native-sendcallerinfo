@@ -9,7 +9,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-
+import Icon from 'react-native-vector-icons/AntDesign';
 import {ListItem} from './ListItem';
 
 import {COLORS} from '../../Colors';
@@ -21,8 +21,9 @@ export const SearchResult = ({route}) => {
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterData, setMasterData] = useState();
-  const [expand, setExpanded] = useState(false);
+  const [expandAll, setExpandedAll] = useState(false);
 
+  console.log(expandAll);
   const hadleData = () => {
     setFilteredDataSource(route.params);
     setMasterData(route.params);
@@ -57,6 +58,10 @@ export const SearchResult = ({route}) => {
     }
   };
 
+  const expandAllItems = () => {
+    setExpandedAll(prev => !prev);
+  };
+
   const ItemSeparatorView = () => {
     return (
       // Flat List Item Separator
@@ -68,6 +73,9 @@ export const SearchResult = ({route}) => {
         }}
       />
     );
+  };
+  const RenderItem = ({item, index, expandAll}) => {
+    return <ListItem item={item} index={index} expandAll={expandAll} />;
   };
 
   return (
@@ -81,22 +89,17 @@ export const SearchResult = ({route}) => {
             underlineColorAndroid="transparent"
             placeholder="Search with a name"
           />
-          {/* <TouchableOpacity onPress={closeTabs} style={styles.closeTabs}>
-            <Text>{isOpen ? 'Close Tabs' : 'Open Tabs'}</Text>
-            <Icon name={isOpen ? 'up' : 'down'} />
-          </TouchableOpacity> */}
+          <TouchableOpacity onPress={expandAllItems} style={styles.closeTabs}>
+            <Text>{expandAll ? 'Close All' : 'Open All'}</Text>
+            <Icon name={expandAll ? 'up' : 'down'} />
+          </TouchableOpacity>
         </View>
         <FlatList
           data={filteredDataSource}
           keyExtractor={(item, index) => index.toString()}
           ItemSeparatorComponent={ItemSeparatorView}
-          renderItem={({item, index, separators}) => (
-            <ListItem
-              item={item}
-              index={index}
-              expand={expand}
-              setExpand={setExpanded}
-            />
+          renderItem={({item, index}) => (
+            <RenderItem item={item} index={index} expandAll={expandAll} />
           )}
         />
       </View>
