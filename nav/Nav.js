@@ -1,8 +1,27 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {COLORS} from '../components/Colors';
 import Icon from '../node_modules/react-native-vector-icons/Feather';
 import BackIcon from 'react-native-vector-icons/AntDesign';
+import {useRoute} from '@react-navigation/native';
+
+const LogoImage = ({navigation}) => {
+  const route = useRoute();
+  const iconPress = () => {
+    if (route.name !== 'Home') {
+      navigation.push('Main');
+    }
+  };
+
+  return (
+    <TouchableOpacity onPress={iconPress}>
+      <Image
+        style={[Styles.image]}
+        source={require('../assets/imgs/ccm2.png')}
+      />
+    </TouchableOpacity>
+  );
+};
 
 export const NavStyle = ({showback, navigation}) => {
   const goback = () => {
@@ -12,10 +31,7 @@ export const NavStyle = ({showback, navigation}) => {
   return (
     <View style={Styles.header}>
       <View style={[Styles.containerStart]}>
-        <Image
-          style={[Styles.image]}
-          source={require('../assets/imgs/ccm2.png')}
-        />
+        <LogoImage navigation={navigation} />
       </View>
       <View style={Styles.containerEnd}>
         {showback && (
@@ -37,10 +53,7 @@ export const NavDrawer = ({navigation}) => {
   return (
     <View style={Styles.header}>
       <View style={[Styles.containerStart]}>
-        <Image
-          style={[Styles.image, Styles.container]}
-          source={require('../assets/imgs/ccm2.png')}
-        />
+        <LogoImage navigation={navigation} />
       </View>
       <View style={Styles.containerEnd}>
         <Icon name="menu" style={Styles.burgerIcon} onPress={toggleMenu} />
