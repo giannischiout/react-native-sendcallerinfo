@@ -46,10 +46,9 @@ export const Login = ({navigation}) => {
   //Login, OnSubmit Button
 
   const onPressActions = async () => {
-    // setLoading(true);
+    setLoading(prev => !prev);
     //post request
     const response = await doUserLogIn(username, password, company);
-    // console.log(response);
     actionsAfterLogin(response, navigation);
   };
   //
@@ -63,6 +62,7 @@ export const Login = ({navigation}) => {
       storeCred();
       storeURL(res.soneURL);
       navigation.navigate('Main');
+      setLoading(prev => !prev);
     }
     if (res.dberror === 1 && res.errorcode === 220) {
       // console.log('Company Not found in database');

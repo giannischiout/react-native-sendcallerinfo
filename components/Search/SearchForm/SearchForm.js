@@ -12,7 +12,7 @@ export const SearchForm = ({navigation}) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const [address, setAddress] = useState('');
-
+  const [loading, setLoading] = useState(false);
   const handleName = text => setName(text);
   const handleNumber = text => setNumber(text);
   const handleAddress = text => setAddress(text);
@@ -24,16 +24,20 @@ export const SearchForm = ({navigation}) => {
   };
 
   const onPressActions = async () => {
+    setLoading(prev => !prev);
     if (name || number || address) {
       const payload = await fetchData(urlPost, postData);
       // await navigation.push('SearchResult', payload);
       if (payload !== null) {
         await navigation.push('SearchResult', payload);
+        setLoading(prev => !prev);
       } else if (payload == null) {
         pop_Alert('Search did not find a match');
+        setLoading(prev => !prev);
       }
     } else {
       pop_Alert('Please Fill at least one parameter');
+      setLoading(prev => !prev);
     }
   };
 
@@ -55,7 +59,11 @@ export const SearchForm = ({navigation}) => {
             text={number}
             handleType={handleNumber}
           />
-          <LoginButton onPressActions={onPressActions} text={'Search'} />
+          <LoginButton
+            onPressActions={onPressActions}
+            text={'Search'}
+            loading={loading}
+          />
         </View>
       </View>
     </>
