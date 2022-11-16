@@ -13,6 +13,7 @@ export const SearchForm = ({navigation}) => {
   const [number, setNumber] = useState('');
   const [address, setAddress] = useState('');
   const [loading, setLoading] = useState(false);
+
   const handleName = text => setName(text);
   const handleNumber = text => setNumber(text);
   const handleAddress = text => setAddress(text);
@@ -21,15 +22,18 @@ export const SearchForm = ({navigation}) => {
     NAME: name,
     ADDRESS: address,
     PHONE: number,
+    OFFSET: 0,
   };
 
   const onPressActions = async () => {
     setLoading(prev => !prev);
     if (name || number || address) {
       const payload = await fetchData(urlPost, postData);
-      // await navigation.push('SearchResult', payload);
       if (payload !== null) {
-        await navigation.push('SearchResult', payload);
+        await navigation.push('SearchResult', {
+          payload: payload,
+          postData: postData,
+        });
         setLoading(prev => !prev);
         setName('');
       } else if (payload == null) {

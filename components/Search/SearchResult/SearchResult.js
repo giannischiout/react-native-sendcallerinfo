@@ -8,28 +8,39 @@ import {
   SafeAreaView,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {ListItem} from './ListItem';
-
+import {fetchData} from '../../Services/fetch';
 import {COLORS} from '../../Colors';
 import {FONTS} from '../../../shared/Fonts/Fonts';
 import {generalStyles} from '../../generalStyles';
 
 export const SearchResult = ({route}) => {
-  // console.log(route.params);
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterData, setMasterData] = useState();
+  //For the button to expand/close all items
   const [expandAll, setExpandedAll] = useState(false);
+  const [sqlOffset, setSQLOffset] = useState(null);
 
-  console.log(expandAll);
-  const hadleData = () => {
-    setFilteredDataSource(route.params);
-    setMasterData(route.params);
+  const {payload, postData} = route.params;
+
+  console.log('--------------------- PAYLOAD:');
+  console.log(payload);
+
+  const hadleShownData = () => {
+    setMasterData(payload);
+    setFilteredDataSource(payload);
+    console.log(
+      '------------------------FILTERED DATA START: ------------------------------------',
+    );
+    console.log(filteredDataSource);
   };
+
   useEffect(() => {
-    hadleData();
+    hadleShownData();
   }, []);
 
   const searchFilterFunction = text => {
@@ -58,10 +69,35 @@ export const SearchResult = ({route}) => {
     }
   };
 
+  const fetchOffset = async () => {
+    const postData = route.params.postData;
+    postData.OFFSET = sqlOffset;
+    const res = await fetchData(
+      'https://ccmde1.cloudon.gr/softone/searchCustomer.php',
+      postData,
+    );
+    console.log(
+      '------------------------RES: ------------------------------------',
+    );
+
+    try {
+      if (res) {
+        setFilteredDataSource([...filteredDataSource, ...res]);
+        console.log(
+          '------------------------NEW FILTER DATA: ------------------------------------',
+        );
+      }
+    } catch (e) {
+      console.log('catch error ' + e);
+    }
+  };
+
   const expandAllItems = () => {
     setExpandedAll(prev => !prev);
   };
 
+  //Flatlist Items:
+  //Create the seperator:
   const ItemSeparatorView = () => {
     return (
       // Flat List Item Separator
@@ -74,9 +110,25 @@ export const SearchResult = ({route}) => {
       />
     );
   };
-  const RenderItem = ({item, index, expandAll}) => {
+  //Flatlist Item to be rendered:
+  const renderItem = ({item, index}) => {
     return <ListItem item={item} index={index} expandAll={expandAll} />;
   };
+
+  const keyExtractor = (item, index) => {
+    {
+      return index.toString();
+    }
+  };
+
+  const handleLoadMore = () => {
+    setSQLOffset(30749);
+  };
+
+  useEffect(() => {
+    fetchOffset();
+    return () => {};
+  }, [sqlOffset]);
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
@@ -96,11 +148,11 @@ export const SearchResult = ({route}) => {
         </View>
         <FlatList
           data={filteredDataSource}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={keyExtractor}
           ItemSeparatorComponent={ItemSeparatorView}
-          renderItem={({item, index}) => (
-            <RenderItem item={item} index={index} expandAll={expandAll} />
-          )}
+          renderItem={renderItem}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.5}
         />
       </View>
     </SafeAreaView>

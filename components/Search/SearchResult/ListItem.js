@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, Text, Linking, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  Linking,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 import {COLORS} from '../../Colors';
 import {FONTS} from '../../../shared/Fonts/Fonts';
 
@@ -17,6 +24,7 @@ export const ListItem = ({item, index, expandAll}) => {
     return (
       <View>
         {Object.keys(item).map((key, index) => {
+          //Exclude some keys:
           if (key !== 'NAME') {
             if (key.includes('PHONE') || key.includes('MOBILE')) {
               return (
@@ -44,7 +52,7 @@ export const ListItem = ({item, index, expandAll}) => {
   };
 
   return (
-    <>
+    <View key={index}>
       <TouchableOpacity onPress={() => closeSingle()}>
         <View style={styles.header}>
           <Text style={styles.itemStyle}> {`${index + 1}: `}</Text>
@@ -54,7 +62,7 @@ export const ListItem = ({item, index, expandAll}) => {
 
       {exp && <ExpandableItems />}
       {expandAll && <ExpandableItems />}
-    </>
+    </View>
   );
 };
 
