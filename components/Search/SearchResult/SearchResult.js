@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -10,87 +10,86 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
+import { sortArray } from '../../Services/largestTRDT';
 import Icon from 'react-native-vector-icons/AntDesign';
-import {ListItem} from './ListItem';
-import {fetchData} from '../../Services/fetch';
-import {COLORS} from '../../Colors';
-import {FONTS} from '../../../shared/Fonts/Fonts';
-import {generalStyles} from '../../generalStyles';
+import { ListItem } from './ListItem';
+import { fetchData } from '../../Services/fetch';
+import { COLORS } from '../../Colors';
+import { FONTS } from '../../../shared/Fonts/Fonts';
+import { generalStyles } from '../../generalStyles';
+import { set } from 'react-native-reanimated';
 
-export const SearchResult = ({route}) => {
+export const SearchResult = ({ route }) => {
   const [search, setSearch] = useState('');
-  const [filteredDataSource, setFilteredDataSource] = useState([]);
-  const [masterData, setMasterData] = useState();
+  const [data, setData] = useState();
+  const [newData, setNewData] = useState(null)
+
   //For the button to expand/close all items
   const [expandAll, setExpandedAll] = useState(false);
   const [sqlOffset, setSQLOffset] = useState(null);
+  const [page, setPage] = useState(1)
+  const { payload, postData } = route.params;
+  console.log('new Data')
+  console.log(newData)
 
-  const {payload, postData} = route.params;
-
-  console.log('--------------------- PAYLOAD:');
-  console.log(payload);
 
   const hadleShownData = () => {
-    setMasterData(payload);
-    setFilteredDataSource(payload);
-    console.log(
-      '------------------------FILTERED DATA START: ------------------------------------',
-    );
-    console.log(filteredDataSource);
-  };
+    console.log('1')
+    let sorted = sortArray(payload)
+    setSQLOffset(sorted[0].TRDR)
+    setData(sorted);
+    console.log('------------------------03 FILTER DATA: ------------------------------------');
+    console.log(data)
+  }
+
 
   useEffect(() => {
+    alert('useEffect')
     hadleShownData();
   }, []);
 
-  const searchFilterFunction = text => {
-    // Check if searched text is not blank
-    if (text) {
-      const newData = masterData.filter(item => {
-        const dataName = item.NAME ? item.NAME : '';
-        const dataAddress = item.ADDRESS ? item.ADDRESS : '';
-        const dataPhone01 = item.PHONE01 ? item.PHONE01 : '';
-        const mobile = item.MOBILE ? item.MOBILE : '';
-        const textData = text.toUpperCase().toString();
-        return (
-          dataName.indexOf(textData) > -1 ||
-          dataAddress.indexOf(textData) > -1 ||
-          dataPhone01.indexOf(textData) > -1 ||
-          mobile.indexOf(textData) > -1
-        );
-      });
-      setFilteredDataSource(newData);
-      setSearch(text);
-    } else {
-      // Inserted text is blank
-      // Update FilteredDataSource with masterDataSource
-      setFilteredDataSource(masterData);
-      setSearch('');
-    }
-  };
+
 
   const fetchOffset = async () => {
-    const postData = route.params.postData;
-    postData.OFFSET = sqlOffset;
-    const res = await fetchData(
-      'https://ccmde1.cloudon.gr/softone/searchCustomer.php',
-      postData,
-    );
-    console.log(
-      '------------------------RES: ------------------------------------',
-    );
 
-    try {
+    console.log('001')
+    console.log(sqlOffset)
+
+    if (sqlOffset !== null) {
+      postData.OFFSET = sqlOffset.toString();
+      console.log(postData)
+      const res = await fetchData(
+        'https://ccmde1.cloudon.gr/softone/searchCustomer.php',
+        postData,
+      );
+      console.log('06')
+      console.log(res)
+
       if (res) {
-        setFilteredDataSource([...filteredDataSource, ...res]);
-        console.log(
-          '------------------------NEW FILTER DATA: ------------------------------------',
-        );
+        console.log('07')
+        setNewData(res);
+        console.log('----------New data')
+        console.log(res)
+
+        // let sort = sortArray(res);
+        // setSQLOffset(sort[0].TRDR)
+        // console.log('08')
+        // console.log(sort[0].TRDR)
+
+
       }
-    } catch (e) {
-      console.log('catch error ' + e);
+
     }
+
+
+
+
   };
+
+
+  // useEffect(() => {
+  //   fetchOffset();
+  // }, [page])
 
   const expandAllItems = () => {
     setExpandedAll(prev => !prev);
@@ -100,38 +99,31 @@ export const SearchResult = ({route}) => {
   //Create the seperator:
   const ItemSeparatorView = () => {
     return (
-      // Flat List Item Separator
-      <View
-        style={{
-          height: 1,
-          width: '100%',
-          backgroundColor: '#C8C8C8',
-        }}
-      />
+      <View style={{ height: 1, width: '100%', backgroundColor: '#C8C8C8', }} />
     );
   };
   //Flatlist Item to be rendered:
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     return <ListItem item={item} index={index} expandAll={expandAll} />;
   };
 
   const keyExtractor = (item, index) => {
-    {
-      return index.toString();
-    }
+    { return index.toString() }
   };
 
-  const handleLoadMore = () => {
-    setSQLOffset(30749);
+  const handleLoadMore = async () => {
+    alert('onEndReach')
+
+    fetchOffset()
+    // setData([...data, ...newData])
+
+
   };
 
-  useEffect(() => {
-    fetchOffset();
-    return () => {};
-  }, [sqlOffset]);
+
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
       <View style={styles.container}>
         <View>
           <TextInput
@@ -147,7 +139,7 @@ export const SearchResult = ({route}) => {
           </TouchableOpacity>
         </View>
         <FlatList
-          data={filteredDataSource}
+          data={data}
           keyExtractor={keyExtractor}
           ItemSeparatorComponent={ItemSeparatorView}
           renderItem={renderItem}
