@@ -22,26 +22,17 @@ import { generalStyles } from '../../generalStyles';
 export const SearchResult = ({ route }) => {
   const [search, setSearch] = useState('');
   const [data, setData] = useState();
-
-
-
-  //For the button to expand/close all items
   const [expandAll, setExpandedAll] = useState(false);
   const [sqlOffset, setSQLOffset] = useState(null);
-  const [page, setPage] = useState(1)
+  const [loader, setLoader] = useState(false)
   const { payload, postData } = route.params;
-  console.log('------------------------MASTER DATA: ------------------------------------');
-  console.log(data)
 
-  if (data) {
-    const toFindDuplicates = data => data.filter((item, index) => data.indexOf(item) !== index)
-    const duplicateElements = toFindDuplicates(data);
-    console.log('duplicates')
-    console.log(duplicateElements);
-  }
+
+
+  // console.log('------------------------MASTER DATA: ------------------------------------');
+  // console.log(data)
 
   const hadleShownData = () => {
-    console.log('1')
     let sorted = sortArray(payload)
     setSQLOffset(sorted[0].TRDR)
     setData(sorted);
@@ -49,48 +40,28 @@ export const SearchResult = ({ route }) => {
     // console.log(data)
   }
 
-
   useEffect(() => {
     alert('useEffect')
     hadleShownData();
   }, []);
 
-
-
   const fetchOffset = async () => {
-
     if (sqlOffset !== null) {
       postData.OFFSET = sqlOffset.toString();
       const res = await fetchData(
         'https://ccmde1.cloudon.gr/softone/searchCustomer.php',
         postData,
       );
-
       if (res) {
-        // console.log('----------New data RESPONSE')
-        // console.log(res)
-
 
         let sort = sortArray(res)
-        alert(sort[0].TRDR)
-        console.log(`---------------------------- TRDR ${sort[0].TRDR}`)
         setSQLOffset(sort[0].TRDR)
         setData([...data, ...sort]);
-
         // console.log('08')
         // console.log(sort[0].TRDR)
-
-
       }
-
     }
-
-
-
-
   };
-
-
 
   const expandAllItems = () => {
     setExpandedAll(prev => !prev);
@@ -109,16 +80,21 @@ export const SearchResult = ({ route }) => {
       <ListItem item={item} index={index} expandAll={expandAll} />)
   };
 
+  const footer = () => {
+    return <View style={{ height: 40 }}>
+      <ActivityIndicator />
+    </View>
+  }
 
   const keyExtractor = (item, index) => {
     { return index.toString() }
   };
 
   const handleLoadMore = async () => {
-    alert('onEndReach')
-
+    setLoader(true);
     fetchOffset()
     console.log('fetch')
+    setLoader(false);
   };
 
 
@@ -139,16 +115,24 @@ export const SearchResult = ({ route }) => {
             <Icon name={expandAll ? 'up' : 'down'} />
           </TouchableOpacity>
         </View>
+
         <FlatList
+          style={{ flexGrow: 0, maxHeight: 600 }}
           data={data}
+          bounces={false}
           keyExtractor={keyExtractor}
           ItemSeparatorComponent={ItemSeparatorView}
           renderItem={RenderItem}
           onEndReached={handleLoadMore}
           onEndReachedThreshold={0.5}
-          initialNumToRender={12}
+          ListFooterComponent={footer}
         />
+        <View>
+          <ActivityIndicator />
+        </View>
+
       </View>
+
     </View >
   );
 };
