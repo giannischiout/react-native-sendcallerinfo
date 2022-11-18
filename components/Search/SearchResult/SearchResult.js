@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import {
   View,
   Text,
@@ -13,33 +13,40 @@ import {
 import { sortArray } from '../../Services/largestTRDT';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { ListItem } from './ListItem';
+import { MemoizedItem } from './ListItem';
 import { fetchData } from '../../Services/fetch';
 import { COLORS } from '../../Colors';
 import { FONTS } from '../../../shared/Fonts/Fonts';
 import { generalStyles } from '../../generalStyles';
-import { set } from 'react-native-reanimated';
 
 export const SearchResult = ({ route }) => {
   const [search, setSearch] = useState('');
   const [data, setData] = useState();
-  const [newData, setNewData] = useState(null)
+
+
 
   //For the button to expand/close all items
   const [expandAll, setExpandedAll] = useState(false);
   const [sqlOffset, setSQLOffset] = useState(null);
   const [page, setPage] = useState(1)
   const { payload, postData } = route.params;
-  console.log('new Data')
-  console.log(newData)
+  console.log('------------------------MASTER DATA: ------------------------------------');
+  console.log(data)
 
+  if (data) {
+    const toFindDuplicates = data => data.filter((item, index) => data.indexOf(item) !== index)
+    const duplicateElements = toFindDuplicates(data);
+    console.log('duplicates')
+    console.log(duplicateElements);
+  }
 
   const hadleShownData = () => {
     console.log('1')
     let sorted = sortArray(payload)
     setSQLOffset(sorted[0].TRDR)
     setData(sorted);
-    console.log('------------------------03 FILTER DATA: ------------------------------------');
-    console.log(data)
+    // console.log('------------------------03 FILTER DATA: ------------------------------------');
+    // console.log(data)
   }
 
 
@@ -52,27 +59,24 @@ export const SearchResult = ({ route }) => {
 
   const fetchOffset = async () => {
 
-    console.log('001')
-    console.log(sqlOffset)
-
     if (sqlOffset !== null) {
       postData.OFFSET = sqlOffset.toString();
-      console.log(postData)
       const res = await fetchData(
         'https://ccmde1.cloudon.gr/softone/searchCustomer.php',
         postData,
       );
-      console.log('06')
-      console.log(res)
 
       if (res) {
-        console.log('07')
-        setNewData(res);
-        console.log('----------New data')
-        console.log(res)
+        // console.log('----------New data RESPONSE')
+        // console.log(res)
 
-        // let sort = sortArray(res);
-        // setSQLOffset(sort[0].TRDR)
+
+        let sort = sortArray(res)
+        alert(sort[0].TRDR)
+        console.log(`---------------------------- TRDR ${sort[0].TRDR}`)
+        setSQLOffset(sort[0].TRDR)
+        setData([...data, ...sort]);
+
         // console.log('08')
         // console.log(sort[0].TRDR)
 
@@ -87,9 +91,6 @@ export const SearchResult = ({ route }) => {
   };
 
 
-  // useEffect(() => {
-  //   fetchOffset();
-  // }, [page])
 
   const expandAllItems = () => {
     setExpandedAll(prev => !prev);
@@ -104,8 +105,12 @@ export const SearchResult = ({ route }) => {
   };
   //Flatlist Item to be rendered:
   const renderItem = ({ item, index }) => {
-    return <ListItem item={item} index={index} expandAll={expandAll} />;
+
+    return (
+      <ListItem item={item} index={index} expandAll={expandAll} />)
+
   };
+
 
   const keyExtractor = (item, index) => {
     { return index.toString() }
@@ -115,7 +120,8 @@ export const SearchResult = ({ route }) => {
     alert('onEndReach')
 
     fetchOffset()
-    // setData([...data, ...newData])
+    console.log('fetch')
+
 
 
   };
@@ -145,6 +151,7 @@ export const SearchResult = ({ route }) => {
           renderItem={renderItem}
           onEndReached={handleLoadMore}
           onEndReachedThreshold={0.5}
+          initialNumToRender={12}
         />
       </View>
     </SafeAreaView>

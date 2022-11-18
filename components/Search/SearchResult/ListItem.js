@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, memo } from 'react';
 import {
   View,
   Text,
@@ -7,10 +7,10 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
-import {COLORS} from '../../Colors';
-import {FONTS} from '../../../shared/Fonts/Fonts';
+import { COLORS } from '../../Colors';
+import { FONTS } from '../../../shared/Fonts/Fonts';
 
-export const ListItem = ({item, index, expandAll}) => {
+export const ListItem = ({ item, index, expandAll }) => {
   const [exp, setExp] = useState(false);
   const callNum = num => {
     Linking.openURL(`tel:${num}`);
@@ -22,37 +22,44 @@ export const ListItem = ({item, index, expandAll}) => {
 
   const ExpandableItems = () => {
     return (
-      <View>
-        {Object.keys(item).map((key, index) => {
-          //Exclude some keys:
-          if (key !== 'NAME') {
-            if (key.includes('PHONE') || key.includes('MOBILE')) {
-              return (
-                <View key={index} style={styles.row}>
-                  <Text style={styles.itemHeader}>{`${key}:`}</Text>
-                  <Text
-                    onPress={() => callNum(item[key])}
-                    style={[styles.item, styles.callDecoration]}>
-                    {item[key]}
-                  </Text>
-                </View>
-              );
-            }
-
-            return (
-              <View key={index} style={styles.row}>
-                <Text style={styles.itemHeader}>{`${key}:`}</Text>
-                <Text style={styles.item}>{item[key]}</Text>
-              </View>
-            );
-          }
-        })}
+      <View key={index}>
+        <View style={styles.row}>
+          <Text style={styles.itemHeader}>CODE:</Text>
+          <Text style={styles.item}>{item['CODE']}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.itemHeader}>ADDRESS:</Text>
+          <Text style={styles.item}>{item['ADDRESS']}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.itemHeader}>PHONE:</Text>
+          <Text onPress={() => callNum(item.PHONE01)} style={[styles.item, styles.callDecoration]}>
+            {item['PHONE01']}
+          </Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.itemHeader}>PHONE:</Text>
+          <Text onPress={() => callNum(item['PHONE02'])} style={[styles.item, styles.callDecoration]}>
+            {item['PHONE02']}
+          </Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.itemHeader}>MOBILE:</Text>
+          <Text onPress={() => callNum(item['MOBILE'])} style={[styles.item, styles.callDecoration]}>
+            {item['MOBILE']}
+          </Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.itemHeader}>FAX:</Text>
+          <Text style={styles.item}>{item['FAX']}</Text>
+        </View>
       </View>
     );
   };
 
   return (
     <View key={index}>
+      {console.log('Sigle ITEM' + index)}
       <TouchableOpacity onPress={() => closeSingle()}>
         <View style={styles.header}>
           <Text style={styles.itemStyle}> {`${index + 1}: `}</Text>
@@ -65,6 +72,7 @@ export const ListItem = ({item, index, expandAll}) => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   header: {
