@@ -84,20 +84,14 @@ export const SearchResult = ({ route }) => {
       <ListItem item={item} index={index} expandAll={expandAll} loader={loader} />)
   };
 
-  const footer = () => {
-    return <View style={{ height: 40 }}>
-      <ActivityIndicator />
-    </View>
-  }
-
   const keyExtractor = (item, index) => {
     { return index.toString() }
   };
 
   const handleLoadMore = async () => {
     setLoader(true);
-    fetchOffset()
-    setLoader(false);
+    await fetchOffset()
+    setLoader(false)
   };
 
 
@@ -105,7 +99,7 @@ export const SearchResult = ({ route }) => {
   return (
     <View style={generalStyles.body} >
       <View style={styles.container}>
-        <View>
+        <View style={{ height: 80 }}>
           <TextInput
             style={styles.textInputStyle}
             onChangeText={text => searchFilterFunction(text)}
@@ -118,22 +112,20 @@ export const SearchResult = ({ route }) => {
             <Icon name={expandAll ? 'up' : 'down'} />
           </TouchableOpacity>
         </View>
+        <View style={{ height: '80%' }}>
+          <FlatList
+            data={data}
+            bounces={false}
+            keyExtractor={keyExtractor}
+            ItemSeparatorComponent={ItemSeparatorView}
+            renderItem={RenderItem}
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.5}
+          />
+        </View>
 
-
-        <FlatList
-
-          data={data}
-          bounces={false}
-          keyExtractor={keyExtractor}
-          ItemSeparatorComponent={ItemSeparatorView}
-          renderItem={RenderItem}
-          onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.5}
-          ListFooterComponent={footer}
-        />
-
-        <View style={{ flexGrow: 0, height: '15%' }}>
-          <ActivityIndicator />
+        <View style={{ height: 50, padding: 20 }}>
+          {loader && <ActivityIndicator />}
         </View>
 
       </View>
@@ -146,6 +138,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.white,
     width: '96%',
+    // flex: 1,
+    height: '100%'
   },
   textInputStyle: {
     height: 40,

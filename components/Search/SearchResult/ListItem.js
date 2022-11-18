@@ -10,8 +10,9 @@ import {
 import { COLORS } from '../../Colors';
 import { FONTS } from '../../../shared/Fonts/Fonts';
 
-export const ListItem = React.memo(({ item, index, expandAll, }) => {
+export const ListItem = React.memo(({ item, index, expandAll }) => {
   const [exp, setExp] = useState(false);
+  const [loader, setLoader] = useState(false)
   const callNum = num => {
     Linking.openURL(`tel:${num}`);
   };
@@ -57,17 +58,19 @@ export const ListItem = React.memo(({ item, index, expandAll, }) => {
   };
 
   return (
-
-    <View style={styles.itemContainer} key={index}>
-      <TouchableOpacity onPress={() => closeSingle()}>
-        <View style={styles.header}>
-          <Text style={styles.itemStyle}> {`${index + 1}: `}</Text>
-          <Text style={styles.headerName}>{item.NAME}</Text>
+    <View>
+      {loader ? <ActivityIndicator /> : (
+        <View style={styles.itemContainer} key={index}>
+          <TouchableOpacity onPress={() => closeSingle()}>
+            <View style={styles.header}>
+              <Text style={styles.itemStyle}> {`${index + 1}: `}</Text>
+              <Text style={styles.headerName}>{item.NAME}</Text>
+            </View>
+          </TouchableOpacity>
+          {exp && <ExpandableItems />}
+          {expandAll && <ExpandableItems />}
         </View>
-      </TouchableOpacity>
-
-      {exp && <ExpandableItems />}
-      {expandAll && <ExpandableItems />}
+      )}
     </View>
   );
 });
