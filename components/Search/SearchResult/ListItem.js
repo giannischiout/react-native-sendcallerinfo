@@ -10,7 +10,7 @@ import {
 import { COLORS } from '../../Colors';
 import { FONTS } from '../../../shared/Fonts/Fonts';
 
-export const ListItem = ({ item, index, expandAll }) => {
+export const ListItem = React.memo(({ item, index, expandAll }) => {
   const [exp, setExp] = useState(false);
   const callNum = num => {
     Linking.openURL(`tel:${num}`);
@@ -71,7 +71,7 @@ export const ListItem = ({ item, index, expandAll }) => {
       {expandAll && <ExpandableItems />}
     </View>
   );
-};
+});
 
 
 const styles = StyleSheet.create({

@@ -104,7 +104,7 @@ export const SearchResult = ({ route }) => {
     );
   };
   //Flatlist Item to be rendered:
-  const renderItem = ({ item, index }) => {
+  const RenderItem = ({ item, index }) => {
 
     return (
       <ListItem item={item} index={index} expandAll={expandAll} />)
@@ -148,7 +148,7 @@ export const SearchResult = ({ route }) => {
           data={data}
           keyExtractor={keyExtractor}
           ItemSeparatorComponent={ItemSeparatorView}
-          renderItem={renderItem}
+          renderItem={RenderItem}
           onEndReached={handleLoadMore}
           onEndReachedThreshold={0.5}
           initialNumToRender={12}
