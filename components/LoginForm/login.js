@@ -1,25 +1,25 @@
 //React Native Imports:
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 //Import Permissions:
-import {View, PermissionsAndroid} from 'react-native';
+import { View, PermissionsAndroid } from 'react-native';
 import {
   LoginInputUser,
   LoginInputPass,
   LoginInputCompany,
 } from './LoginInput/LoginInput';
 //Imports from different directories:
-import {Logo} from './logo/Logo';
-import {LoginButton} from './LoginButtons/LoginButton';
+import { Logo } from './logo/Logo';
+import { LoginButton } from './LoginButtons/LoginButton';
 // import {ClearButton} from '../LoginClearButton';
-import {ClearButton} from './LoginClearButton/LoginClearButton';
-import {CheckBox} from './LoginButtons/LoginCheckBox';
-import {pop_Alert} from '../Services/validateFIelds';
-import {FadeInView} from '../../shared/AnimatedView/AnimatedView';
+import { ClearButton } from './LoginClearButton/LoginClearButton';
+import { CheckBox } from './LoginButtons/LoginCheckBox';
+import { pop_Alert } from '../Services/validateFIelds';
+import { FadeInView } from '../../shared/AnimatedView/AnimatedView';
 //Import CSS Styles:
-import {LoginStyles} from './loginStyles';
-import {generalStyles} from '../generalStyles';
+import { LoginStyles } from './loginStyles';
+import { generalStyles } from '../generalStyles';
 //Import Fetch Request:
-import {doUserLogIn} from './loginServices/fetchUser';
+import { doUserLogIn } from './loginServices/fetchUser';
 //Import to store users credential:
 import * as Keychain from 'react-native-keychain';
 //Import Async Storage:
@@ -27,7 +27,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 //Build final Login Component:
-export const Login = ({navigation}) => {
+export const Login = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [company, setCompany] = useState(null);
@@ -61,7 +61,12 @@ export const Login = ({navigation}) => {
     ) {
       storeCred();
       storeURL(res.soneURL);
-      navigation.navigate('Main');
+      navigation.navigate('Main', {
+        screen: 'Home',
+        params: {
+          username: username,
+        }
+      });
       setLoading(prev => !prev);
     }
     if (res.dberror === 1 && res.errorcode === 220) {
@@ -188,7 +193,7 @@ export const Login = ({navigation}) => {
   );
 };
 
-export const UserLogin = ({navigation}) => {
+export const UserLogin = ({ navigation }) => {
   const requestPermission = async () => {
     try {
       const granted = await PermissionsAndroid.requestMultiple([
@@ -197,9 +202,9 @@ export const UserLogin = ({navigation}) => {
       ]);
       if (
         granted['android.permission.READ_CALL_LOG'] ===
-          PermissionsAndroid.RESULTS.GRANTED &&
+        PermissionsAndroid.RESULTS.GRANTED &&
         granted['android.permission.READ_PHONE_STATE'] ===
-          PermissionsAndroid.RESULTS.GRANTED
+        PermissionsAndroid.RESULTS.GRANTED
       ) {
         console.log('granted');
       } else {

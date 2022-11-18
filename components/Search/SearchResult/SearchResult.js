@@ -25,20 +25,24 @@ export const SearchResult = ({ route }) => {
   const [expandAll, setExpandedAll] = useState(false);
   const [sqlOffset, setSQLOffset] = useState(null);
   const [loader, setLoader] = useState(false)
-  const { payload, postData } = route.params;
+  const { postData } = route.params;
 
 
 
   // console.log('------------------------MASTER DATA: ------------------------------------');
   // console.log(data)
 
-  const hadleShownData = () => {
+  const hadleShownData = async () => {
+    const payload = await fetchData('https://ccmde1.cloudon.gr/softone/searchCustomer.php', postData);
+    console.log('PAYLOAD')
+    console.log(payload)
     let sorted = sortArray(payload)
     setSQLOffset(sorted[0].TRDR)
     setData(sorted);
     // console.log('------------------------03 FILTER DATA: ------------------------------------');
     // console.log(data)
   }
+
 
   useEffect(() => {
     alert('useEffect')
@@ -77,7 +81,7 @@ export const SearchResult = ({ route }) => {
   //Flatlist Item to be rendered:
   const RenderItem = ({ item, index }) => {
     return (
-      <ListItem item={item} index={index} expandAll={expandAll} />)
+      <ListItem item={item} index={index} expandAll={expandAll} loader={loader} />)
   };
 
   const footer = () => {
@@ -93,7 +97,6 @@ export const SearchResult = ({ route }) => {
   const handleLoadMore = async () => {
     setLoader(true);
     fetchOffset()
-    console.log('fetch')
     setLoader(false);
   };
 
@@ -116,8 +119,9 @@ export const SearchResult = ({ route }) => {
           </TouchableOpacity>
         </View>
 
+
         <FlatList
-          style={{ flexGrow: 0, maxHeight: 600 }}
+
           data={data}
           bounces={false}
           keyExtractor={keyExtractor}
@@ -127,7 +131,8 @@ export const SearchResult = ({ route }) => {
           onEndReachedThreshold={0.5}
           ListFooterComponent={footer}
         />
-        <View>
+
+        <View style={{ flexGrow: 0, height: '15%' }}>
           <ActivityIndicator />
         </View>
 

@@ -1,19 +1,21 @@
-import React, {useState, useEffect} from 'react';
-import {generalStyles} from '../generalStyles';
-import {Text, View, PermissionsAndroid, Alert} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { generalStyles } from '../generalStyles';
+import { Text, View, PermissionsAndroid, Alert } from 'react-native';
 import CallDetectorManager from 'react-native-call-detection';
-import {CustomSwitch, SwitchDependant} from './CustomSwitch/CustomSwitch';
-import {settingsBar} from './SettingsBar/SettingsBar';
+import { CustomSwitch, SwitchDependant } from './CustomSwitch/CustomSwitch';
+import { settingsBar } from './SettingsBar/SettingsBar';
 //import components:
-import {Welcome} from './WelcomeMessage/welcomeMessage';
-import {LastCaller} from './lastCaller/lastCaller';
-import {HeaderComp} from './header/header';
+import { Welcome } from './WelcomeMessage/welcomeMessage';
+import { LastCaller } from './lastCaller/lastCaller';
+import { HeaderComp } from './header/header';
 //Import Services:
-import {create_UUID} from '../Services/createUUID';
-import {logger} from '../Services/callDetecRequest';
+import { create_UUID } from '../Services/createUUID';
+import { logger } from '../Services/callDetecRequest';
 //CallDetection Component:
 
-export const CallDetection = () => {
+export const CallDetection = ({ route }) => {
+  const { username } = route.params;
+
   //import company from Login:
   // const {company} = route.params;
   //Listening to calls:
@@ -29,21 +31,7 @@ export const CallDetection = () => {
   const [incUUID, setIncUUID] = useState(create_UUID());
   const [outUUID, setOutUUID] = useState(create_UUID());
 
-  // useEffect(() => {
-  //   //ask android permissions READ_CALL_LOG, READ_PHONE_STATE
-  //   askPermission();
-  // });
 
-  // askPermission = async () => {
-  //   try {
-  //     const permissions = await PermissionsAndroid.requestMultiple([
-  //       PermissionsAndroid.PERMISSIONS.READ_CALL_LOG,
-  //       PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE,
-  //     ]);
-  //   } catch (err) {
-  //     console.warn(err);
-  //   }
-  // };
 
   const startListenerTapped = () => {
     setFeatureOn(true);
@@ -67,7 +55,7 @@ export const CallDetection = () => {
         }
       },
       true, // if you want to read the phone number of the incoming call [ANDROID], otherwise false
-      () => {}, // callback if your permission got denied [ANDROID] [only if you want to read incoming number] default: console.error
+      () => { }, // callback if your permission got denied [ANDROID] [only if you want to read incoming number] default: console.error
       {
         title: 'Phone State Permission',
         message:
@@ -79,12 +67,12 @@ export const CallDetection = () => {
   //INCOMING RINGING
   useEffect(() => {
     if (incoming && !offhook && !disconnected && !missed) {
-      logger('INCOMING', 'RINGING', incUUID, number);
+      logger('INCOMING', 'RINGING', incUUID, number, username);
     }
 
     if (incoming && offhook && !disconnected) {
       console.log('answered');
-      logger('INCOMING', 'ANSWERED', incUUID, number);
+      logger('INCOMING', 'ANSWERED', incUUID, number, username);
     }
 
     if (incoming && offhook && disconnected) {
@@ -92,7 +80,7 @@ export const CallDetection = () => {
       setOffhook(prevState => !prevState);
       setDisconnected(prevState => !prevState);
       //Call is completed, so we can restart the 'enter' variable. Call can now enter the INCOMING, ANSWERED state
-      logger('INCOMING', 'DISCONNECTED', incUUID, number);
+      logger('INCOMING', 'DISCONNECTED', incUUID, number, username);
       setIncUUID(create_UUID());
     }
 
@@ -100,11 +88,11 @@ export const CallDetection = () => {
       //reset variables
       setIncoming(prevState => !prevState);
       setMissed(prevState => !prevState);
-      logger('INCOMING', 'MISSED', incUUID, number);
+      logger('INCOMING', 'MISSED', incUUID, number, username);
     }
     //OUTGOING, RINGING:
     if (!incoming && offhook && !disconnected) {
-      logger('OUTGOING', 'OFFHOOK', outUUID, number);
+      logger('OUTGOING', 'OFFHOOK', outUUID, number, username);
     }
 
     //OUTGOING, Disconnected:
@@ -112,7 +100,7 @@ export const CallDetection = () => {
       setOffhook(prevState => !prevState);
       setDisconnected(prevState => !prevState);
       setOutUUID(create_UUID());
-      logger('OUTGOING', 'DISCONNECTED', outUUID, number);
+      logger('OUTGOING', 'DISCONNECTED', outUUID, number, username);
     }
   }, [incoming, offhook, missed, disconnected, incUUID, outUUID]);
 

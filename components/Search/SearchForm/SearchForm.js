@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {Input} from '../../LoginForm/LoginInput/LoginInput';
-import {LoginButton} from '../../LoginForm/LoginButtons/LoginButton';
-import {generalStyles} from '../../generalStyles';
-import {fetchData} from '../../Services/fetch';
-import {pop_Alert} from '../../Services/validateFIelds';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { Input } from '../../LoginForm/LoginInput/LoginInput';
+import { LoginButton } from '../../LoginForm/LoginButtons/LoginButton';
+import { generalStyles } from '../../generalStyles';
+import { fetchData } from '../../Services/fetch';
+import { pop_Alert } from '../../Services/validateFIelds';
 
 const urlPost = 'https://ccmde1.cloudon.gr/softone/searchCustomer.php';
 
-export const SearchForm = ({navigation}) => {
+export const SearchForm = ({ navigation }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const [address, setAddress] = useState('');
@@ -31,7 +31,6 @@ export const SearchForm = ({navigation}) => {
       const payload = await fetchData(urlPost, postData);
       if (payload !== null) {
         await navigation.push('SearchResult', {
-          payload: payload,
           postData: postData,
         });
         setLoading(prev => !prev);
