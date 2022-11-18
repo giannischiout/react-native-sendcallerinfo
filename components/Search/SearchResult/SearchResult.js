@@ -100,15 +100,13 @@ export const SearchResult = ({ route }) => {
   //Create the seperator:
   const ItemSeparatorView = () => {
     return (
-      <View style={{ height: 1, width: '100%', backgroundColor: '#C8C8C8', }} />
+      <View style={{ width: '100%', margin: 3 }} />
     );
   };
   //Flatlist Item to be rendered:
   const RenderItem = ({ item, index }) => {
-
     return (
       <ListItem item={item} index={index} expandAll={expandAll} />)
-
   };
 
 
@@ -121,15 +119,12 @@ export const SearchResult = ({ route }) => {
 
     fetchOffset()
     console.log('fetch')
-
-
-
   };
 
 
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+    <View style={generalStyles.body} >
       <View style={styles.container}>
         <View>
           <TextInput
@@ -154,15 +149,15 @@ export const SearchResult = ({ route }) => {
           initialNumToRender={12}
         />
       </View>
-    </SafeAreaView>
+    </View >
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: COLORS.white,
+    width: '96%',
   },
-  itemStyle: {},
   textInputStyle: {
     height: 40,
     borderWidth: 1,
@@ -172,17 +167,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
 
-  header: {
-    flexDirection: 'row',
-    backgroundColor: COLORS.thinGrey,
-    marginBottom: 2,
-    padding: 10,
-  },
-  row: {
-    flexDirection: 'row',
-    padding: 5,
-    flexWrap: 'wrap',
-  },
+
+
   closeTabs: {
     flexDirection: 'row',
     padding: 5,
@@ -190,17 +176,5 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     flexWrap: 'wrap',
     alignItems: 'center',
-  },
-
-  itemHeader: {
-    fontFamily: FONTS.NotoMedium,
-    color: COLORS.black,
-  },
-  item: {
-    fontFamily: FONTS.NotoReg,
-    marginLeft: 5,
-  },
-  callDecoration: {
-    textDecorationLine: 'underline',
   },
 });

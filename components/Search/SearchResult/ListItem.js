@@ -19,10 +19,9 @@ export const ListItem = React.memo(({ item, index, expandAll }) => {
   const closeSingle = () => {
     setExp(prev => !prev);
   };
-
   const ExpandableItems = () => {
     return (
-      <View key={index}>
+      <View style={{ flex: 1 }} key={index}>
         <View style={styles.row}>
           <Text style={styles.itemHeader}>CODE:</Text>
           <Text style={styles.item}>{item['CODE']}</Text>
@@ -58,12 +57,12 @@ export const ListItem = React.memo(({ item, index, expandAll }) => {
   };
 
   return (
-    <View key={index}>
+    <View style={styles.itemContainer} key={index}>
       {console.log('Sigle ITEM' + index)}
       <TouchableOpacity onPress={() => closeSingle()}>
         <View style={styles.header}>
           <Text style={styles.itemStyle}> {`${index + 1}: `}</Text>
-          <Text style={styles.itemStyle}>{item.NAME}</Text>
+          <Text style={styles.headerName}>{item.NAME}</Text>
         </View>
       </TouchableOpacity>
 
@@ -75,27 +74,43 @@ export const ListItem = React.memo(({ item, index, expandAll }) => {
 
 
 const styles = StyleSheet.create({
+  itemContainer: {
+    flex: 1,
+    backgroundColor: '#f2f1f1',
+    borderRadius: 5,
+    elevation: 1,
+  },
   header: {
     flexDirection: 'row',
-    backgroundColor: COLORS.thinGrey,
-    marginBottom: 2,
-    padding: 10,
+    padding: 2,
+    height: 70,
+    alignItems: 'center',
+
   },
-  row: {
-    flexDirection: 'row',
-    padding: 5,
-    flexWrap: 'wrap',
+  headerName: {
+    flex: 1,
+    flexWrap: 'wrap'
   },
+
 
   itemHeader: {
     fontFamily: FONTS.NotoMedium,
     color: COLORS.black,
   },
+  row: {
+    flexDirection: 'row',
+    padding: 5,
+    flexWrap: 'wrap',
+    backgroundColor: 'white',
+  },
   item: {
     fontFamily: FONTS.NotoReg,
     marginLeft: 5,
+
+
   },
   callDecoration: {
     textDecorationLine: 'underline',
   },
+
 });
