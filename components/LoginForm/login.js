@@ -46,13 +46,14 @@ export const Login = ({ navigation }) => {
   //Login, OnSubmit Button
 
   const onPressActions = async () => {
-    setLoading(prev => !prev);
+    setLoading(true);
     //post request
     const response = await doUserLogIn(username, password, company);
     actionsAfterLogin(response, navigation);
   };
   //
   const actionsAfterLogin = (res, navigation) => {
+    setLoading(prev => !prev);
     if (
       res.result === 'OK' &&
       res.error === 'No Errors' &&
@@ -67,19 +68,21 @@ export const Login = ({ navigation }) => {
           username: username,
         }
       });
-      setLoading(prev => !prev);
+      setLoading(false);
     }
     if (res.dberror === 1 && res.errorcode === 220) {
       // console.log('Company Not found in database');
       setCompany('');
       pop_Alert(res.result);
       navigation.navigate('Login');
+      setLoading(false);
     }
 
     if (res.errorcode == 250 && res.result == 'Wrong Username/Password') {
       // console.log('Wrong Username/Password');
       pop_Alert(res.result);
       navigation.navigate('Login');
+      setLoading(false);
     }
     if (
       res.errorcode == 230 &&
@@ -107,7 +110,6 @@ export const Login = ({ navigation }) => {
           if (company) {
             setCompany(company);
           }
-          // setCompany(company);
         } else {
           // console.log('No credentials stored');
         }
@@ -138,6 +140,7 @@ export const Login = ({ navigation }) => {
       clearAllFields();
       resaveCheckBox();
       setIsChecked(false);
+      setLoading(prev => !prev);
     }
   };
   //Clear Other fields : Company -> On logout

@@ -24,7 +24,7 @@ import { generalStyles } from '../../generalStyles';
 
 const ListFooter = ({ resultsEnd }) => {
   return (
-    !resultsEnd ? (<ActivityIndicator size={'large'} color={COLORS.redPrimary} style={styles.loader} />) : <Text>No more results</Text>
+    !resultsEnd ? (<ActivityIndicator size={'large'} color={COLORS.redPrimary} style={styles.loader} />) : <Text style={styles.footer}>No more results</Text>
   )
 }
 
@@ -71,8 +71,7 @@ export const SearchResult = ({ route }) => {
         setData([...data, ...sort]);
       }
       if (res == null) {
-        setCanFetch(false)
-        setLoader(false)
+        console.log('res null')
         setResultsEnd(true);
       }
     }
@@ -125,7 +124,6 @@ export const SearchResult = ({ route }) => {
             underlineColorAndroid="transparent"
             placeholder="Search with a name"
           />
-         
         </View> */}
         <View style={styles.flatlistView}>
           <FlatList
@@ -167,8 +165,8 @@ const styles = StyleSheet.create({
 
   flatlistView: {
     flex: 1,
-    padding: 5,
-    marginBottom: 10,
+    // padding: 5,
+    marginVertical: 10
   },
 
   closeTabs: {

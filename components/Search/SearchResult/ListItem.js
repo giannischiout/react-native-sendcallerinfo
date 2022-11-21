@@ -4,6 +4,7 @@ import {
   Text,
   Linking,
   TouchableOpacity,
+  TouchableHighlight,
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
@@ -22,14 +23,17 @@ export const ListItem = React.memo(({ item, index }) => {
 
   return (
     <View style={styles.itemContainer} key={index}>
-      <TouchableOpacity onPress={() => closeSingle()}>
-        <View style={styles.header}>
-          <Text style={styles.itemStyle}> {`${index + 1}: `}</Text>
-          <Text style={styles.headerName}>{item.NAME}</Text>
+      {console.log(index)}
+      {console.log('renderItem')}
+
+      <TouchableHighlight underlayColor={false} onPress={() => closeSingle()}>
+        <View style={!exp ? styles.header : styles.headerOpen}>
+          <Text style={!exp ? styles.headerNumber : styles.headerNumberOpen} > {`${index + 1}: `}</Text>
+          <Text style={!exp ? styles.headerName : styles.headerNameOpen}>{item.NAME}</Text>
         </View>
-      </TouchableOpacity>
+      </TouchableHighlight >
       {exp && <ExpandableItems item={item} index={index} callNum={callNum} />}
-    </View>
+    </View >
   );
 });
 
@@ -76,23 +80,53 @@ const ExpandableItems = ({ item, index, callNum }) => {
 const styles = StyleSheet.create({
   itemContainer: {
     flex: 1,
-    backgroundColor: '#f2f1f1',
     borderRadius: 5,
     elevation: 1,
     borderWidth: 2,
     borderColor: '#f2f1f1',
+    backgroundColor: '#f2f1f1',
   },
+
+
+  //Number and Name of customer:
   header: {
     flexDirection: 'row',
     padding: 2,
     height: 70,
     alignItems: 'center',
+    backgroundColor: '#f2f1f1',
+    borderRadius: 5
 
+  },
+  headerOpen: {
+    flexDirection: 'row',
+    padding: 2,
+    height: 70,
+    alignItems: 'center',
+    backgroundColor: COLORS.redPrimary,
+    borderRadius: 5
+  },
+
+  headerNumber: {
+    color: 'black',
+
+  },
+  headerNumberOpen: {
+    color: 'white'
   },
   headerName: {
     flex: 1,
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    color: COLORS.mediumGrey,
+    marginLeft: 5
   },
+  headerNameOpen: {
+    flex: 1,
+    flexWrap: 'wrap',
+    color: 'white',
+  },
+
+  //
   expandables: {
     height: 200,
     backgroundColor: 'red'
