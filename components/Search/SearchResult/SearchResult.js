@@ -19,33 +19,39 @@ import { COLORS } from '../../Colors';
 import { FONTS } from '../../../shared/Fonts/Fonts';
 import { generalStyles } from '../../generalStyles';
 
+
+
+
+const ListFooter = () => {
+  return (
+    <ActivityIndicator size={'large'} color={COLORS.redPrimary} style={styles.loader} />
+  )
+}
+
+
+
 export const SearchResult = ({ route }) => {
   const [search, setSearch] = useState('');
   const [data, setData] = useState();
-  const [expandAll, setExpandedAll] = useState(false);
+  // const [expandAll, setExpandedAll] = useState(false);
   const [sqlOffset, setSQLOffset] = useState(null);
   const [loader, setLoader] = useState(false)
+  const [canFetch, setCanFetch] = useState()
+
   const { postData } = route.params;
 
 
-
-  // console.log('------------------------MASTER DATA: ------------------------------------');
-  // console.log(data)
-
   const hadleShownData = async () => {
     const payload = await fetchData('https://ccmde1.cloudon.gr/softone/searchCustomer.php', postData);
-    console.log('PAYLOAD')
-    console.log(payload)
+
     let sorted = sortArray(payload)
     setSQLOffset(sorted[0].TRDR)
     setData(sorted);
-    // console.log('------------------------03 FILTER DATA: ------------------------------------');
-    // console.log(data)
+
   }
 
 
   useEffect(() => {
-    alert('useEffect')
     hadleShownData();
   }, []);
 
@@ -56,13 +62,11 @@ export const SearchResult = ({ route }) => {
         'https://ccmde1.cloudon.gr/softone/searchCustomer.php',
         postData,
       );
-      if (res) {
-
+      if (res !== null) {
         let sort = sortArray(res)
         setSQLOffset(sort[0].TRDR)
         setData([...data, ...sort]);
-        // console.log('08')
-        // console.log(sort[0].TRDR)
+
       }
     }
   };
@@ -81,7 +85,7 @@ export const SearchResult = ({ route }) => {
   //Flatlist Item to be rendered:
   const RenderItem = ({ item, index }) => {
     return (
-      <ListItem item={item} index={index} expandAll={expandAll} loader={loader} />)
+      <ListItem item={item} index={index} loader={loader} />)
   };
 
   const keyExtractor = (item, index) => {
@@ -90,16 +94,23 @@ export const SearchResult = ({ route }) => {
 
   const handleLoadMore = async () => {
     setLoader(true);
-    await fetchOffset()
+    if (canFetch) {
+      await fetchOffset()
+      setCanFetch(false)
+    }
     setLoader(false)
+
   };
 
+  const canFetching = () => {
+    setCanFetch(true)
+  }
 
 
   return (
     <View style={generalStyles.body} >
       <View style={styles.container}>
-        <View style={{ height: 80 }}>
+        {/* <View style={{ height: 80 }}>
           <TextInput
             style={styles.textInputStyle}
             onChangeText={text => searchFilterFunction(text)}
@@ -107,26 +118,22 @@ export const SearchResult = ({ route }) => {
             underlineColorAndroid="transparent"
             placeholder="Search with a name"
           />
-          <TouchableOpacity onPress={expandAllItems} style={styles.closeTabs}>
-            <Text>{expandAll ? 'Close All' : 'Open All'}</Text>
-            <Icon name={expandAll ? 'up' : 'down'} />
-          </TouchableOpacity>
-        </View>
-        <View style={{ height: '80%' }}>
+         
+        </View> */}
+        <View style={styles.flatlistView}>
           <FlatList
             data={data}
-            bounces={false}
             keyExtractor={keyExtractor}
             ItemSeparatorComponent={ItemSeparatorView}
             renderItem={RenderItem}
             onEndReached={handleLoadMore}
             onEndReachedThreshold={0.5}
+            showsVerticalScrollIndicator={false}
+            ListFooterComponent={() => loader && <ListFooter />}
+            onScrollBeginDrag={canFetching}
           />
         </View>
 
-        <View style={{ height: 50, padding: 20 }}>
-          {loader && <ActivityIndicator />}
-        </View>
 
       </View>
 
@@ -150,7 +157,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
 
-
+  flatlistView: {
+    flex: 1,
+    padding: 5
+  },
 
   closeTabs: {
     flexDirection: 'row',
@@ -160,4 +170,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     alignItems: 'center',
   },
+  loader: {
+    padding: 10
+  }
 });
