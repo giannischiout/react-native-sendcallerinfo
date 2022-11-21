@@ -22,9 +22,9 @@ import { generalStyles } from '../../generalStyles';
 
 
 
-const ListFooter = () => {
+const ListFooter = ({ resultsEnd }) => {
   return (
-    <ActivityIndicator size={'large'} color={COLORS.redPrimary} style={styles.loader} />
+    !resultsEnd ? (<ActivityIndicator size={'large'} color={COLORS.redPrimary} style={styles.loader} />) : <Text>No more results</Text>
   )
 }
 
@@ -35,19 +35,22 @@ export const SearchResult = ({ route }) => {
   const [data, setData] = useState();
   // const [expandAll, setExpandedAll] = useState(false);
   const [sqlOffset, setSQLOffset] = useState(null);
-  const [loader, setLoader] = useState(false)
-  const [canFetch, setCanFetch] = useState()
+  const [loader, setLoader] = useState(false);
+  const [resultsEnd, setResultsEnd] = useState(false)
+  const [canFetch, setCanFetch] = useState();
 
   const { postData } = route.params;
 
 
   const hadleShownData = async () => {
+    setLoader(true)
     const payload = await fetchData('https://ccmde1.cloudon.gr/softone/searchCustomer.php', postData);
-
-    let sorted = sortArray(payload)
-    setSQLOffset(sorted[0].TRDR)
-    setData(sorted);
-
+    if (payload) {
+      let sorted = sortArray(payload)
+      setSQLOffset(sorted[0].TRDR)
+      setData(sorted);
+      setLoader(false)
+    }
   }
 
 
@@ -66,7 +69,11 @@ export const SearchResult = ({ route }) => {
         let sort = sortArray(res)
         setSQLOffset(sort[0].TRDR)
         setData([...data, ...sort]);
-
+      }
+      if (res == null) {
+        setCanFetch(false)
+        setLoader(false)
+        setResultsEnd(true);
       }
     }
   };
@@ -129,8 +136,9 @@ export const SearchResult = ({ route }) => {
             onEndReached={handleLoadMore}
             onEndReachedThreshold={0.5}
             showsVerticalScrollIndicator={false}
-            ListFooterComponent={() => loader && <ListFooter />}
+            ListFooterComponent={() => loader && <ListFooter resultsEnd={resultsEnd} />}
             onScrollBeginDrag={canFetching}
+            initialNumToRender={9}
           />
         </View>
 
@@ -159,7 +167,8 @@ const styles = StyleSheet.create({
 
   flatlistView: {
     flex: 1,
-    padding: 5
+    padding: 5,
+    marginBottom: 10,
   },
 
   closeTabs: {
@@ -172,5 +181,10 @@ const styles = StyleSheet.create({
   },
   loader: {
     padding: 10
+  },
+
+  footer: {
+    height: 50,
+    backgroundColor: 'red'
   }
 });

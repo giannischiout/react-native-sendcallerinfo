@@ -12,7 +12,6 @@ import { FONTS } from '../../../shared/Fonts/Fonts';
 
 export const ListItem = React.memo(({ item, index }) => {
   const [exp, setExp] = useState(false);
-  const [loader, setLoader] = useState(false)
   const callNum = num => {
     Linking.openURL(`tel:${num}`);
   };
@@ -22,27 +21,23 @@ export const ListItem = React.memo(({ item, index }) => {
   };
 
   return (
-    <View>
-      {loader ? <ActivityIndicator /> : (
-        <View style={styles.itemContainer} key={index}>
-          <TouchableOpacity onPress={() => closeSingle()}>
-            <View style={styles.header}>
-              <Text style={styles.itemStyle}> {`${index + 1}: `}</Text>
-              <Text style={styles.headerName}>{item.NAME}</Text>
-            </View>
-          </TouchableOpacity>
-          {exp && <ExpandableItems item={item} index={index} />}
+    <View style={styles.itemContainer} key={index}>
+      <TouchableOpacity onPress={() => closeSingle()}>
+        <View style={styles.header}>
+          <Text style={styles.itemStyle}> {`${index + 1}: `}</Text>
+          <Text style={styles.headerName}>{item.NAME}</Text>
         </View>
-      )}
+      </TouchableOpacity>
+      {exp && <ExpandableItems item={item} index={index} callNum={callNum} />}
     </View>
   );
 });
 
 
 
-const ExpandableItems = React.memo(({ item, index }) => {
+const ExpandableItems = ({ item, index, callNum }) => {
   return (
-    <View style={{ flex: 1 }} key={index}>
+    <View style={{ backgroundColor: 'white' }} key={index}>
       <View style={styles.row}>
         <Text style={styles.itemHeader}>CODE:</Text>
         <Text style={styles.item}>{item['CODE']}</Text>
@@ -69,13 +64,13 @@ const ExpandableItems = React.memo(({ item, index }) => {
           {item['MOBILE']}
         </Text>
       </View>
-      <View style={styles.row}>
+      <View style={styles.rowLast}>
         <Text style={styles.itemHeader}>FAX:</Text>
         <Text style={styles.item}>{item['FAX']}</Text>
       </View>
     </View>
   );
-});
+};
 
 
 const styles = StyleSheet.create({
@@ -84,6 +79,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#f2f1f1',
     borderRadius: 5,
     elevation: 1,
+    borderWidth: 2,
+    borderColor: '#f2f1f1',
   },
   header: {
     flexDirection: 'row',
@@ -96,7 +93,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexWrap: 'wrap'
   },
-
+  expandables: {
+    height: 200,
+    backgroundColor: 'red'
+  },
 
   itemHeader: {
     fontFamily: FONTS.NotoMedium,
@@ -106,16 +106,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 5,
     flexWrap: 'wrap',
-    backgroundColor: 'white',
+    borderBottomWidth: 2,
+    borderBottomColor: '#f2f1f1',
+  },
+  rowLast: {
+    flexDirection: 'row',
+    padding: 5,
+    flexWrap: 'wrap',
   },
   item: {
     fontFamily: FONTS.NotoReg,
     marginLeft: 5,
-
-
   },
   callDecoration: {
     textDecorationLine: 'underline',
   },
+
 
 });
