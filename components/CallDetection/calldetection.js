@@ -14,9 +14,8 @@ import { UserContext } from '../../useContext/context';
 export const CallDetection = ({ route }) => {
   // const { username } = route.params;
   const dataUser = route.params;
-
-  const { test } = useContext(UserContext);
-  console.log('test: ' + test)
+  console.log('dataUser')
+  console.log(dataUser)
   //import company from Login:
   // const {company} = route.params;
   //Listening to calls:
@@ -40,7 +39,6 @@ export const CallDetection = ({ route }) => {
     let callDetector = new CallDetectorManager(
       (event, number) => {
         setNumber(number);
-
         if (event === 'Disconnected') {
           setDisconnected(true);
           // console.log('inside disconnected');
@@ -114,9 +112,6 @@ export const CallDetection = ({ route }) => {
   return (
     <View style={generalStyles.body}>
       <View style={generalStyles.containerMedWidth}>
-        {/* <HeaderComp /> */}
-        {/* <Welcome /> */}
-
         <View style={settingsBar.container}>
           <Text style={generalStyles.textMediumGrey}>
             Call Detection State:
@@ -125,7 +120,6 @@ export const CallDetection = ({ route }) => {
             startListenerTapped={startListenerTapped}
             stopListenerTapped={stopListenerTapped}></CustomSwitch>
         </View>
-
         <LastCaller number={number}></LastCaller>
       </View>
     </View>

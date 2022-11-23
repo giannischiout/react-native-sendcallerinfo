@@ -29,11 +29,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserContext } from '../../useContext/context';
 //Build final Login Component:
 export const Login = ({ navigation }) => {
-
   const {
     username, setUsername,
     password, setPassword,
-    company, setCompany } = useContext(UserContext);
+    company, setCompany,
+    setUserCTI,
+    setPassCTI,
+    soneURL, setSoneURL,
+  } = useContext(UserContext);
 
   const [showPass, setShowPass] = useState(true);
   //Store Password Checkbox -> File: LoginButtons/LoginCheckbox
@@ -45,25 +48,22 @@ export const Login = ({ navigation }) => {
   const handleUser = text => setUsername(text);
   const handleCompany = text => setCompany(text);
 
-  //Log message Receive from fetch response
-  console.log(`company inside LOGIN Actions: ${company}`);
-  //Login, OnSubmit Button
 
   const onPressActions = async () => {
     setLoading(true);
-    //post request
+    //Post Request:
     const response = await doUserLogIn(username, password, company);
+    if (response) {
+      setUserCTI(response.userName);
+      setPassCTI(response.passWord)
+    }
+
     actionsAfterLogin(response, navigation);
   };
   //
   const actionsAfterLogin = (res, navigation) => {
     setLoading(prev => !prev);
-    if (
-      res.result === 'OK' &&
-      res.error === 'No Errors' &&
-      res.errorcode === 200 &&
-      res.success === true
-    ) {
+    if (res.result === 'OK' && res.error === 'No Errors' && res.errorcode === 200 && res.success === true) {
       storeCred();
       storeURL(res.soneURL);
       navigation.navigate('Main', {
@@ -108,9 +108,6 @@ export const Login = ({ navigation }) => {
         const credentials = await Keychain.getGenericPassword();
         const company = await AsyncStorage.getItem('@company');
         if (credentials) {
-          // console.log(
-          //   `Credentials fully loaded for user ${credentials.username}`,
-          // );
           setPassword(credentials.password);
           setUsername(credentials.username);
           if (company) {
