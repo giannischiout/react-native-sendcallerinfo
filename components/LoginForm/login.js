@@ -66,6 +66,8 @@ export const Login = ({ navigation }) => {
         screen: 'Home',
         params: {
           username: username,
+          userCTI: res.userName,
+          passCTI: res.passWord
         }
       });
       setLoading(false);

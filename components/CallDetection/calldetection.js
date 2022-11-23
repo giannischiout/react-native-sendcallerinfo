@@ -14,7 +14,8 @@ import { logger } from '../Services/callDetecRequest';
 //CallDetection Component:
 
 export const CallDetection = ({ route }) => {
-  const { username } = route.params;
+  // const { username } = route.params;
+  const dataUser = route.params;
 
   //import company from Login:
   // const {company} = route.params;
@@ -67,12 +68,12 @@ export const CallDetection = ({ route }) => {
   //INCOMING RINGING
   useEffect(() => {
     if (incoming && !offhook && !disconnected && !missed) {
-      logger('INCOMING', 'RINGING', incUUID, number, username);
+      logger('INCOMING', 'RINGING', incUUID, number, dataUser);
     }
 
     if (incoming && offhook && !disconnected) {
       console.log('answered');
-      logger('INCOMING', 'ANSWERED', incUUID, number, username);
+      logger('INCOMING', 'ANSWERED', incUUID, number, dataUser);
     }
 
     if (incoming && offhook && disconnected) {
@@ -80,7 +81,7 @@ export const CallDetection = ({ route }) => {
       setOffhook(prevState => !prevState);
       setDisconnected(prevState => !prevState);
       //Call is completed, so we can restart the 'enter' variable. Call can now enter the INCOMING, ANSWERED state
-      logger('INCOMING', 'DISCONNECTED', incUUID, number, username);
+      logger('INCOMING', 'DISCONNECTED', incUUID, number, dataUser);
       setIncUUID(create_UUID());
     }
 
@@ -88,11 +89,11 @@ export const CallDetection = ({ route }) => {
       //reset variables
       setIncoming(prevState => !prevState);
       setMissed(prevState => !prevState);
-      logger('INCOMING', 'MISSED', incUUID, number, username);
+      logger('INCOMING', 'MISSED', incUUID, number, dataUser);
     }
     //OUTGOING, RINGING:
     if (!incoming && offhook && !disconnected) {
-      logger('OUTGOING', 'OFFHOOK', outUUID, number, username);
+      logger('OUTGOING', 'OFFHOOK', outUUID, number, dataUser);
     }
 
     //OUTGOING, Disconnected:
@@ -100,7 +101,7 @@ export const CallDetection = ({ route }) => {
       setOffhook(prevState => !prevState);
       setDisconnected(prevState => !prevState);
       setOutUUID(create_UUID());
-      logger('OUTGOING', 'DISCONNECTED', outUUID, number, username);
+      logger('OUTGOING', 'DISCONNECTED', outUUID, number, dataUser);
     }
   }, [incoming, offhook, missed, disconnected, incUUID, outUUID]);
 
