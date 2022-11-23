@@ -1,5 +1,5 @@
 //React Native Imports:
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 //Import Permissions:
 import { View, PermissionsAndroid } from 'react-native';
 import {
@@ -25,12 +25,16 @@ import * as Keychain from 'react-native-keychain';
 //Import Async Storage:
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+//Import useContext:
+import { UserContext } from '../../useContext/context';
 //Build final Login Component:
 export const Login = ({ navigation }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [company, setCompany] = useState(null);
+
+  const {
+    username, setUsername,
+    password, setPassword,
+    company, setCompany } = useContext(UserContext);
+
   const [showPass, setShowPass] = useState(true);
   //Store Password Checkbox -> File: LoginButtons/LoginCheckbox
   const [isChecked, setIsChecked] = useState(false);
@@ -151,6 +155,7 @@ export const Login = ({ navigation }) => {
     setCompany('');
     setUsername('');
     setPassword('');
+    setLoading(prev => !prev);
   };
 
   //Used after LOGIN OUT -> resets and resaves the original value of the checkbox
@@ -169,20 +174,15 @@ export const Login = ({ navigation }) => {
     <>
       <Logo />
       <LoginInputCompany
-        company={company}
         handleCompany={handleCompany}></LoginInputCompany>
       <LoginInputUser
-        username={username}
-        handleUser={handleUser}></LoginInputUser>
+        handleUser={handleUser} />
       <LoginInputPass
-        password={password}
         handlePass={handlePass}
         handleShowText={handleShowText}
-        showPass={showPass}></LoginInputPass>
+        showPass={showPass}
+      />
       <CheckBox
-        password={password}
-        username={username}
-        company={company}
         isChecked={isChecked}
         setIsChecked={setIsChecked}></CheckBox>
       <LoginButton

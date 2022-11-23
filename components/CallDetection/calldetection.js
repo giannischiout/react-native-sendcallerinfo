@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { generalStyles } from '../generalStyles';
-import { Text, View, PermissionsAndroid, Alert } from 'react-native';
+import { Text, View } from 'react-native';
 import CallDetectorManager from 'react-native-call-detection';
-import { CustomSwitch, SwitchDependant } from './CustomSwitch/CustomSwitch';
+import { CustomSwitch } from './CustomSwitch/CustomSwitch';
 import { settingsBar } from './SettingsBar/SettingsBar';
 //import components:
-import { Welcome } from './WelcomeMessage/welcomeMessage';
 import { LastCaller } from './lastCaller/lastCaller';
-import { HeaderComp } from './header/header';
 //Import Services:
 import { create_UUID } from '../Services/createUUID';
 import { logger } from '../Services/callDetecRequest';
 //CallDetection Component:
-
+import { UserContext } from '../../useContext/context';
 export const CallDetection = ({ route }) => {
   // const { username } = route.params;
   const dataUser = route.params;
 
+  const { test } = useContext(UserContext);
+  console.log('test: ' + test)
   //import company from Login:
   // const {company} = route.params;
   //Listening to calls:

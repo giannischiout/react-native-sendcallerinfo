@@ -1,12 +1,15 @@
-import React, {useState} from 'react';
-import {TextInput, View, Text, Alert} from 'react-native';
-import {LoginStyles} from '../loginStyles';
+import React, { useContext } from 'react';
+import { TextInput, View } from 'react-native';
+import { LoginStyles } from '../loginStyles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import {ShowPass} from './ShowPassword/showPassword';
-import {COLORS} from '../../Colors';
+import { ShowPass } from './ShowPassword/showPassword';
+import { UserContext } from '../../../useContext/context';
 
-export const LoginInputUser = ({username, handleUser}) => {
+
+export const LoginInputUser = ({ handleUser }) => {
+  const { username } = useContext(UserContext);
+
   return (
     <>
       <View style={LoginStyles.inputWrapper}>
@@ -21,7 +24,9 @@ export const LoginInputUser = ({username, handleUser}) => {
     </>
   );
 };
-export const LoginInputCompany = ({company, handleCompany}) => {
+export const LoginInputCompany = ({ handleCompany }) => {
+  const { company } = useContext(UserContext);
+
   return (
     <>
       <View style={LoginStyles.inputWrapper}>
@@ -38,11 +43,11 @@ export const LoginInputCompany = ({company, handleCompany}) => {
 };
 
 export const LoginInputPass = ({
-  password,
   handlePass,
   handleShowText,
-  showPass,
+  showPass
 }) => {
+  const { password } = useContext(UserContext);
   return (
     <>
       <View style={LoginStyles.inputWrapper}>
@@ -61,7 +66,7 @@ export const LoginInputPass = ({
 };
 
 //Generic Input
-export const Input = ({placeholder, text, handleType}) => {
+export const Input = ({ placeholder, text, handleType }) => {
   return (
     <>
       <View style={LoginStyles.inputWrapper}>

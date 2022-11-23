@@ -1,20 +1,16 @@
 import React from 'react';
-import {
-  TouchableOpacity,
-  View,
-  Text,
-  ActivityIndicator,
-  StyleSheet,
-} from 'react-native';
-import {LoginStyles} from '../loginStyles';
-export const LoginButton = props => {
-  console.log('props ' + props.onPressActions);
+import { TouchableOpacity, View, Text, ActivityIndicator, StyleSheet, } from 'react-native';
 
+
+
+import { LoginStyles } from '../loginStyles';
+
+
+export const LoginButton = props => {
   const Spinner = () => {
     return (
       <View style={Styles.container}>
-        <ActivityIndicator style={Styles.spinner} size="small" color="#fff" />
-        <Text style={LoginStyles.buttonText}>Loading</Text>
+        <ActivityIndicator style={Styles.spinner} size="large" color="#fff" />
       </View>
     );
   };
