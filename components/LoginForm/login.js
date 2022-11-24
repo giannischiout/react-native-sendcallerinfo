@@ -1,5 +1,5 @@
 //React Native Imports:
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 //Import Permissions:
 import { View, PermissionsAndroid } from 'react-native';
 import {
@@ -25,12 +25,19 @@ import * as Keychain from 'react-native-keychain';
 //Import Async Storage:
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+//Import useContext:
+import { UserContext } from '../../useContext/context';
 //Build final Login Component:
 export const Login = ({ navigation }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [company, setCompany] = useState(null);
+  const {
+    username, setUsername,
+    password, setPassword,
+    company, setCompany,
+    setUserCTI,
+    setPassCTI,
+    soneURL, setSoneURL,
+  } = useContext(UserContext);
+
   const [showPass, setShowPass] = useState(true);
   //Store Password Checkbox -> File: LoginButtons/LoginCheckbox
   const [isChecked, setIsChecked] = useState(false);
@@ -41,25 +48,22 @@ export const Login = ({ navigation }) => {
   const handleUser = text => setUsername(text);
   const handleCompany = text => setCompany(text);
 
-  //Log message Receive from fetch response
-  console.log(`company inside LOGIN Actions: ${company}`);
-  //Login, OnSubmit Button
 
   const onPressActions = async () => {
     setLoading(true);
-    //post request
+    //Post Request:
     const response = await doUserLogIn(username, password, company);
+    if (response) {
+      setUserCTI(response.userName);
+      setPassCTI(response.passWord)
+    }
+
     actionsAfterLogin(response, navigation);
   };
   //
   const actionsAfterLogin = (res, navigation) => {
     setLoading(prev => !prev);
-    if (
-      res.result === 'OK' &&
-      res.error === 'No Errors' &&
-      res.errorcode === 200 &&
-      res.success === true
-    ) {
+    if (res.result === 'OK' && res.error === 'No Errors' && res.errorcode === 200 && res.success === true) {
       storeCred();
       storeURL(res.soneURL);
       navigation.navigate('Main', {
@@ -104,9 +108,6 @@ export const Login = ({ navigation }) => {
         const credentials = await Keychain.getGenericPassword();
         const company = await AsyncStorage.getItem('@company');
         if (credentials) {
-          // console.log(
-          //   `Credentials fully loaded for user ${credentials.username}`,
-          // );
           setPassword(credentials.password);
           setUsername(credentials.username);
           if (company) {
@@ -151,6 +152,7 @@ export const Login = ({ navigation }) => {
     setCompany('');
     setUsername('');
     setPassword('');
+    setLoading(prev => !prev);
   };
 
   //Used after LOGIN OUT -> resets and resaves the original value of the checkbox
@@ -169,20 +171,15 @@ export const Login = ({ navigation }) => {
     <>
       <Logo />
       <LoginInputCompany
-        company={company}
         handleCompany={handleCompany}></LoginInputCompany>
       <LoginInputUser
-        username={username}
-        handleUser={handleUser}></LoginInputUser>
+        handleUser={handleUser} />
       <LoginInputPass
-        password={password}
         handlePass={handlePass}
         handleShowText={handleShowText}
-        showPass={showPass}></LoginInputPass>
+        showPass={showPass}
+      />
       <CheckBox
-        password={password}
-        username={username}
-        company={company}
         isChecked={isChecked}
         setIsChecked={setIsChecked}></CheckBox>
       <LoginButton

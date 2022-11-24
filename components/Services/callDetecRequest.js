@@ -1,6 +1,11 @@
 let myHeaders = new Headers();
 
+
+
 export const logger = (calltype, state, uuid, number, dataUser) => {
+
+
+
   let fixedNum = number.replace('+30', '');
   function randNum() {
     return Math.floor(Math.random() * (99999 - 1000) + 1000);

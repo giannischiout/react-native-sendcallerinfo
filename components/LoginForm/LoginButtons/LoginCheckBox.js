@@ -1,20 +1,16 @@
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, TouchableOpacity, View, Text} from 'react-native';
+import React, { useEffect, useContext } from 'react';
+import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 
 //Imports From other Files:
-import {COLORS} from '../../Colors';
-import {FONTS} from '../../../shared/Fonts/Fonts';
+import { COLORS } from '../../Colors';
+import { FONTS } from '../../../shared/Fonts/Fonts';
 import FontAws from '../../../node_modules/react-native-vector-icons/FontAwesome5';
 //Import Async Storage:
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { UserContext } from '../../../useContext/context';
 
-export const CheckBox = ({
-  isChecked,
-  setIsChecked,
-  password,
-  company,
-  username,
-}) => {
+export const CheckBox = ({ isChecked, setIsChecked }) => {
+  const { username, password, company } = useContext(UserContext);
   const handleCheck = async () => {
     /* On clicking the button we will change the state. Before setting setIsChecked-> i change the value manually, and store it in a variable, then i alter the state*/
     try {
