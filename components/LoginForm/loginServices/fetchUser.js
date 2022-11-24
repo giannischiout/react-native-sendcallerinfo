@@ -18,6 +18,7 @@ export const doUserLogIn = async (username, password, company) => {
       return data;
     });
   try {
+
     console.log(res)
     return res;
   } catch (e) {
