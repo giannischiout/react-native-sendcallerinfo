@@ -1,65 +1,23 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Text, View, StyleSheet, Linking } from 'react-native';
+import { Text, View, StyleSheet, Linking, ActivityIndicator } from 'react-native';
 import { generalStyles } from '../../generalStyles';
 import { settingsBarNoFlex } from '../SettingsBar/SettingsBar';
 import { COLORS } from '../../Colors';
 import { FONTS } from '../../../shared/Fonts/Fonts';
 import { UserContext } from '../../../useContext/context';
+import { useFetch } from '../../Services/useFetch';
 
-const fetchCallerInfo = async (number, soneURL) => {
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      callingParty: number,
-      url: soneURL,
-    }),
-  };
-  console.log('----------------------------------------------------')
-  console.log(requestOptions.body)
-
-
-
-  const res = await fetch(
-    'https://ccmde1.cloudon.gr/softone/soneCustomer.php',
-    requestOptions,
-  )
-    .then(response => response.json())
-    .then(data => {
-      return data;
-    });
-  try {
-    if (res.result !== null) {
-      return res.result;
-    }
-    if (res.result == null) {
-      return (res.result = 'not found');
-    }
-  } catch (e) {
-    console.log(e);
-  }
-};
 
 export const LastCaller = () => {
-  // const [num, setNum] = useState(null);
-  const [data, setData] = useState('');
   const { soneURL, number } = useContext(UserContext);
+  const { data, loading } = useFetch('https://ccmde1.cloudon.gr/softone/soneCustomer.php', {
+    callingParty: number,
+    url: soneURL,
+  }, number);
 
 
-
-  const handleData = async () => {
-    let res = await fetchCallerInfo(number, soneURL);
-    if (res == 'not found') {
-      setData(() => res);
-    } else {
-      setData(() => res[0]);
-    }
-  };
-
-
-  useEffect(() => {
-    handleData();
-  }, [number]);
+  console.log('dataaaaaaaa')
+  console.log(data)
 
   const callNum = () => { Linking.openURL(`tel:${number}`) };
   return (
@@ -77,14 +35,18 @@ export const LastCaller = () => {
             {number}
           </Text>
         </View>
-        {data !== 'not found' ? <CallerInfo data={data} /> : null}
+
+        <View>
+          {data?.result ? <CallerInfo data={data} /> : <Text>User Not Found</Text>}
+        </View>
+
       </View>
     </>
   );
 };
 
 const CallerInfo = ({ data }) => {
-  const { NAME, ADDRESS, CODE, PHONE01 } = data;
+  const { NAME, ADDRESS, CODE, PHONE01 } = data.result[0];
   return (
     <>
       <View style={[Styles.container, Styles.borderTop]}>
