@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Text, View, StyleSheet, Linking } from 'react-native';
 import { generalStyles } from '../../generalStyles';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { settingsBarNoFlex } from '../SettingsBar/SettingsBar';
 import { COLORS } from '../../Colors';
 import { FONTS } from '../../../shared/Fonts/Fonts';
@@ -57,37 +56,12 @@ export const LastCaller = () => {
     }
   };
 
-  // const saveToAsync = async () => {
-  //   if (number) {
-  //     await AsyncStorage.setItem('@number', JSON.stringify(number));
-  //   }
-  // };
-  // saveToAsync();
-
-  // handleNumber = async () => {
-  //   try {
-  //     const jsonString = await AsyncStorage.getItem('@number');
-  //     const value = await JSON.parse(jsonString);
-  //     console.log(`handlenumber value: ${value}`);
-  //     if (value !== null) {
-  //       setNum(value);
-  //     }
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   handleNumber();
-  // }, [number, num]);
 
   useEffect(() => {
     handleData();
   }, [number]);
 
-  const callNum = () => {
-    number ? Linking.openURL(`tel:${number}`) : Linking.openURL(`tel:${number}`);
-  };
+  const callNum = () => { Linking.openURL(`tel:${number}`) };
   return (
     <>
       <View style={settingsBarNoFlex.container}>
@@ -103,7 +77,6 @@ export const LastCaller = () => {
             {number}
           </Text>
         </View>
-        {/* <CallerInfo data={data}></CallerInfo> */}
         {data !== 'not found' ? <CallerInfo data={data} /> : null}
       </View>
     </>
@@ -112,25 +85,24 @@ export const LastCaller = () => {
 
 const CallerInfo = ({ data }) => {
   const { NAME, ADDRESS, CODE, PHONE01 } = data;
-  const text = ['Επωνυμία:', 'Διεύθυνση:', 'Κωδικός Πελάτη:', 'Τηλέφωνο01:'];
   return (
     <>
       <View style={[Styles.container, Styles.borderTop]}>
-        <DisplayItem attribute={NAME} text={text[0]} />
+        <DisplayItem attribute={NAME} text={'Επωνυμία:'} />
         <DisplayItem
           margin={generalStyles.marginTop10}
           attribute={ADDRESS}
-          text={text[1]}
+          text={'Διεύθυνση:'}
         />
         <DisplayItem
           margin={generalStyles.marginTop10}
           attribute={PHONE01}
-          text={text[3]}
+          text={'Κωδικός Πελάτη:'}
         />
         <DisplayItem
           margin={generalStyles.marginTop10}
           attribute={CODE}
-          text={text[2]}
+          text={'Τηλέφωνο:'}
         />
       </View>
     </>
