@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { Text, View, StyleSheet, Linking, ActivityIndicator } from 'react-native';
+import React, { useContext } from 'react';
+import { Text, View, StyleSheet, Linking, ActivityIndicator, FlatList } from 'react-native';
 import { generalStyles } from '../../generalStyles';
 import { settingsBarNoFlex } from '../SettingsBar/SettingsBar';
 import { COLORS } from '../../Colors';
 import { FONTS } from '../../../shared/Fonts/Fonts';
 import { UserContext } from '../../../useContext/context';
 import { useFetch } from '../../Services/useFetch';
-
+import { ListItem } from '../../../shared/FLatlistItem/FlatItem';
 
 export const LastCaller = () => {
   const { soneURL, number } = useContext(UserContext);
@@ -46,30 +46,63 @@ export const LastCaller = () => {
 };
 
 const CallerInfo = ({ data }) => {
-  const { NAME, ADDRESS, CODE, PHONE01 } = data.result[0];
   return (
     <>
-      <View style={[Styles.container, Styles.borderTop]}>
-        <DisplayItem attribute={NAME} text={'Επωνυμία:'} />
-        <DisplayItem
-          margin={generalStyles.marginTop10}
-          attribute={ADDRESS}
-          text={'Διεύθυνση:'}
-        />
-        <DisplayItem
-          margin={generalStyles.marginTop10}
-          attribute={PHONE01}
-          text={'Κωδικός Πελάτη:'}
-        />
-        <DisplayItem
-          margin={generalStyles.marginTop10}
-          attribute={CODE}
-          text={'Τηλέφωνο:'}
-        />
-      </View>
+      <FlatList
+        data={data.result}
+        keyExtractor={keyExtractor}
+        ItemSeparatorComponent={ItemSeparatorView}
+        renderItem={RenderItem}
+        showsVerticalScrollIndicator={false}
+        initialNumToRender={9}
+      />
     </>
   );
 };
+
+const ItemSeparatorView = () => {
+  return (
+    <View style={{ width: '100%', margin: 3 }} />
+  );
+};
+//Flatlist Item to be rendered:
+const RenderItem = ({ item, index }) => {
+  return (
+    <ListItem item={item} index={index} />)
+};
+
+const keyExtractor = (item, index) => {
+  { return index.toString() }
+};
+// const CallerInfo = ({ data }) => {
+//   const { NAME, ADDRESS, CODE, PHONE01 } = data.result[0];
+//   return (
+//     <>
+//       <View style={[Styles.container, Styles.borderTop]}>
+//         <View style={[margin]}>
+//           <Text style={[Styles.textHeader]}>{text}</Text>
+//           <Text style={Styles.text}>{attribute ? attribute : 'Not Found'}</Text>
+//         </View>
+//         <DisplayItem attribute={NAME} text={'Επωνυμία:'} />
+//         <DisplayItem
+//           margin={generalStyles.marginTop10}
+//           attribute={ADDRESS}
+//           text={'Διεύθυνση:'}
+//         />
+//         <DisplayItem
+//           margin={generalStyles.marginTop10}
+//           attribute={PHONE01}
+//           text={'Κωδικός Πελάτη:'}
+//         />
+//         <DisplayItem
+//           margin={generalStyles.marginTop10}
+//           attribute={CODE}
+//           text={'Τηλέφωνο:'}
+//         />
+//       </View>
+//     </>
+//   );
+// };
 
 export const DisplayItem = ({ attribute, text, margin }) => {
   return (

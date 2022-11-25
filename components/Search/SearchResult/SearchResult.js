@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, ActivityIndicator, } from 'react-native';
 import { sortArray } from '../../Services/largestTRDT';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { ListItem } from './ListItem';
 import { MemoizedItem } from './ListItem';
 import { fetchData } from '../../Services/fetch';
 import { COLORS } from '../../Colors';
 import { FONTS } from '../../../shared/Fonts/Fonts';
 import { generalStyles } from '../../generalStyles';
-
+import { ListItem } from '../../../shared/FLatlistItem/FlatItem';
 
 
 const ListFooter = ({ resultsEnd }) => {

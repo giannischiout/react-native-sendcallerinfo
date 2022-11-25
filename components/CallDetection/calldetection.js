@@ -22,8 +22,6 @@ export const CallDetection = ({ route }) => {
   const [offhook, setOffhook] = useState(false);
   const [disconnected, setDisconnected] = useState(false);
   const [missed, setMissed] = useState(false);
-  //set the Number:
-  //Create the Unique ids that will be sent with the POST request:
   const [incUUID, setIncUUID] = useState(create_UUID());
   const [outUUID, setOutUUID] = useState(create_UUID());
 
@@ -31,8 +29,10 @@ export const CallDetection = ({ route }) => {
 
   const startListenerTapped = () => {
     let callDetector = new CallDetectorManager(
-      (event, number) => {
-        setNumber(number);
+      (event, num) => {
+        if (number !== num) {
+          setNumber(() => num.replace('+30', ''))
+        }
         if (event === 'Disconnected') {
           setDisconnected(true);
           // console.log('inside disconnected');

@@ -28,7 +28,7 @@ export const useFetch = (postURL, raw, reTrigger) => {
     }
     fetchData();
 
-  }, [postURL,]);
+  }, [postURL, reTrigger]);
 
   return { data, loading }
 }

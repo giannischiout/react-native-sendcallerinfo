@@ -14,8 +14,8 @@ export const Layout = ({ children }) => {
 
   const saveToAsync = async () => {
     if (number) {
-      let num = number.replace('+30', '')
-      await AsyncStorage.setItem('@number', JSON.stringify(num));
+
+      await AsyncStorage.setItem('@number', JSON.stringify(number));
     }
   };
 
