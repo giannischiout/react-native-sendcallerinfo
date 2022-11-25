@@ -1,20 +1,22 @@
-import React, {useEffect, useState} from 'react';
-import {Text, View, StyleSheet, Linking} from 'react-native';
-import {generalStyles} from '../../generalStyles';
+import React, { useEffect, useState, useContext } from 'react';
+import { Text, View, StyleSheet, Linking } from 'react-native';
+import { generalStyles } from '../../generalStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {settingsBarNoFlex} from '../SettingsBar/SettingsBar';
-import {COLORS} from '../../Colors';
-import {FONTS} from '../../../shared/Fonts/Fonts';
+import { settingsBarNoFlex } from '../SettingsBar/SettingsBar';
+import { COLORS } from '../../Colors';
+import { FONTS } from '../../../shared/Fonts/Fonts';
+import { UserContext } from '../../../useContext/context';
 
-const fetchCallerInfo = async number => {
-  console.log(`fetch  number ${number}`);
-  const url = await AsyncStorage.getItem('@URL');
+const fetchCallerInfo = async (number, soneURL) => {
+  // const url = await AsyncStorage.getItem('@URL');
+
+
   const requestOptions = {
     method: 'POST',
-    headers: {'Content-Type': 'application/json'},
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       callingParty: number,
-      url: url,
+      url: soneURL,
     }),
   };
 
@@ -39,11 +41,14 @@ const fetchCallerInfo = async number => {
   }
 };
 
-export const LastCaller = ({number}) => {
+export const LastCaller = ({ number }) => {
   const [num, setNum] = useState(null);
   const [data, setData] = useState('');
+  const { soneURL } = useContext(UserContext);
+  console.log('do we have soneULR');
+  console.log(soneURL);
   const handleData = async () => {
-    let res = await fetchCallerInfo(num);
+    let res = await fetchCallerInfo(num, soneURL);
     console.log('res zero ' + res[0]);
 
     if (res == 'not found') {
@@ -109,8 +114,8 @@ export const LastCaller = ({number}) => {
   );
 };
 
-const CallerInfo = ({data}) => {
-  const {NAME, ADDRESS, CODE, PHONE01} = data;
+const CallerInfo = ({ data }) => {
+  const { NAME, ADDRESS, CODE, PHONE01 } = data;
   const text = ['Επωνυμία:', 'Διεύθυνση:', 'Κωδικός Πελάτη:', 'Τηλέφωνο01:'];
   return (
     <>
@@ -136,7 +141,7 @@ const CallerInfo = ({data}) => {
   );
 };
 
-export const DisplayItem = ({attribute, text, margin}) => {
+export const DisplayItem = ({ attribute, text, margin }) => {
   return (
     <View style={[margin]}>
       <Text style={[Styles.textHeader]}>{text}</Text>

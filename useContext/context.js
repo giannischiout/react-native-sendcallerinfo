@@ -9,13 +9,11 @@ export const Layout = ({ children }) => {
   const [userCTI, setUserCTI] = useState('');
   const [passCTI, setPassCTI] = useState('');
   const [soneURL, setSoneURL] = useState('');
-
+  const [number, setNumber] = useState('')
+  const [storeNum, setStoreNum] = useState(null)
 
   return (
-    // <UserContext.Provider value={{ test, setTest }}>
-    //   {children}
-    // </UserContext.Provider>
-    <UserContext.Provider value={{ username, setUsername, password, setPassword, company, setCompany, userCTI, setUserCTI, passCTI, setPassCTI, soneURL, setSoneURL }}>
+    <UserContext.Provider value={{ username, setUsername, password, setPassword, company, setCompany, userCTI, setUserCTI, passCTI, setPassCTI, soneURL, setSoneURL, number, setNumber }}>
       {children}
     </UserContext.Provider>
 

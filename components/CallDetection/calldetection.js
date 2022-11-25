@@ -11,22 +11,18 @@ import { create_UUID } from '../Services/createUUID';
 import { logger } from '../Services/callDetecRequest';
 //CallDetection Component:
 import { UserContext } from '../../useContext/context';
+
+
+
 export const CallDetection = ({ route }) => {
   // const { username } = route.params;
   const dataUser = route.params;
-  console.log('dataUser')
-  console.log(dataUser)
-  //import company from Login:
-  // const {company} = route.params;
-  //Listening to calls:
-  const [featureOn, setFeatureOn] = useState(false);
-  //Set States of StarListener, set the events:
+  const { number, setNumber } = useContext(UserContext);
   const [incoming, setIncoming] = useState(false);
   const [offhook, setOffhook] = useState(false);
   const [disconnected, setDisconnected] = useState(false);
   const [missed, setMissed] = useState(false);
   //set the Number:
-  const [number, setNumber] = useState('');
   //Create the Unique ids that will be sent with the POST request:
   const [incUUID, setIncUUID] = useState(create_UUID());
   const [outUUID, setOutUUID] = useState(create_UUID());
@@ -34,8 +30,6 @@ export const CallDetection = ({ route }) => {
 
 
   const startListenerTapped = () => {
-    setFeatureOn(true);
-    console.log(`just STARTED listening calls\n\t feature is ${featureOn}`);
     let callDetector = new CallDetectorManager(
       (event, number) => {
         setNumber(number);
@@ -104,7 +98,6 @@ export const CallDetection = ({ route }) => {
   }, [incoming, offhook, missed, disconnected, incUUID, outUUID]);
 
   const stopListenerTapped = () => {
-    console.log(`just STOPED listening calls\n\t feature is ${featureOn}`);
     let callDetector = new CallDetectorManager();
     callDetector && callDetector.dispose();
   };
