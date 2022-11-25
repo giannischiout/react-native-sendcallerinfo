@@ -35,7 +35,7 @@ export const Login = ({ navigation }) => {
     company, setCompany,
     setUserCTI,
     setPassCTI,
-    soneURL, setSoneURL,
+    setSoneURL,
   } = useContext(UserContext);
 
   const [showPass, setShowPass] = useState(true);
@@ -55,7 +55,8 @@ export const Login = ({ navigation }) => {
     const response = await doUserLogIn(username, password, company);
     if (response) {
       setUserCTI(response.userName);
-      setPassCTI(response.passWord)
+      setPassCTI(response.passWord);
+      setSoneURL(response.soneURL);
     }
 
     actionsAfterLogin(response, navigation);
