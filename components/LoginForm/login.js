@@ -35,7 +35,7 @@ export const Login = ({ navigation }) => {
     company, setCompany,
     setUserCTI,
     setPassCTI,
-    soneURL, setSoneURL,
+    setSoneURL,
   } = useContext(UserContext);
 
   const [showPass, setShowPass] = useState(true);

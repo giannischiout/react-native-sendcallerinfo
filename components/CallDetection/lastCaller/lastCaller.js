@@ -8,9 +8,6 @@ import { FONTS } from '../../../shared/Fonts/Fonts';
 import { UserContext } from '../../../useContext/context';
 
 const fetchCallerInfo = async (number, soneURL) => {
-  // const url = await AsyncStorage.getItem('@URL');
-
-
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -19,6 +16,10 @@ const fetchCallerInfo = async (number, soneURL) => {
       url: soneURL,
     }),
   };
+  console.log('----------------------------------------------------')
+  console.log(requestOptions.body)
+
+
 
   const res = await fetch(
     'https://ccmde1.cloudon.gr/softone/soneCustomer.php',
@@ -26,7 +27,6 @@ const fetchCallerInfo = async (number, soneURL) => {
   )
     .then(response => response.json())
     .then(data => {
-      console.log(data);
       return data;
     });
   try {
@@ -41,16 +41,15 @@ const fetchCallerInfo = async (number, soneURL) => {
   }
 };
 
-export const LastCaller = ({ number }) => {
-  const [num, setNum] = useState(null);
+export const LastCaller = () => {
+  // const [num, setNum] = useState(null);
   const [data, setData] = useState('');
-  const { soneURL } = useContext(UserContext);
-  console.log('do we have soneULR');
-  console.log(soneURL);
-  const handleData = async () => {
-    let res = await fetchCallerInfo(num, soneURL);
-    console.log('res zero ' + res[0]);
+  const { soneURL, number } = useContext(UserContext);
 
+
+
+  const handleData = async () => {
+    let res = await fetchCallerInfo(number, soneURL);
     if (res == 'not found') {
       setData(() => res);
     } else {
@@ -58,39 +57,36 @@ export const LastCaller = ({ number }) => {
     }
   };
 
-  const saveToAsync = async () => {
-    if (number) {
-      await AsyncStorage.setItem(
-        '@number',
-        JSON.stringify(number.replace('+30', '')),
-      );
-    }
-  };
-  saveToAsync();
+  // const saveToAsync = async () => {
+  //   if (number) {
+  //     await AsyncStorage.setItem('@number', JSON.stringify(number));
+  //   }
+  // };
+  // saveToAsync();
 
-  handleNumber = async () => {
-    try {
-      const jsonString = await AsyncStorage.getItem('@number');
-      const value = await JSON.parse(jsonString);
-      console.log(`handlenumber value: ${value}`);
-      if (value !== null) {
-        setNum(value);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // handleNumber = async () => {
+  //   try {
+  //     const jsonString = await AsyncStorage.getItem('@number');
+  //     const value = await JSON.parse(jsonString);
+  //     console.log(`handlenumber value: ${value}`);
+  //     if (value !== null) {
+  //       setNum(value);
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
-  useEffect(() => {
-    handleNumber();
-  }, [number, num]);
+  // useEffect(() => {
+  //   handleNumber();
+  // }, [number, num]);
 
   useEffect(() => {
     handleData();
-  }, [num]);
+  }, [number]);
 
   const callNum = () => {
-    num ? Linking.openURL(`tel:${num}`) : Linking.openURL(`tel:${number}`);
+    number ? Linking.openURL(`tel:${number}`) : Linking.openURL(`tel:${number}`);
   };
   return (
     <>
@@ -104,7 +100,7 @@ export const LastCaller = ({ number }) => {
               generalStyles.marginLeft5,
               Styles.phone,
             ]}>
-            {num ? num : number}
+            {number}
           </Text>
         </View>
         {/* <CallerInfo data={data}></CallerInfo> */}
