@@ -14,7 +14,6 @@ export const Layout = ({ children }) => {
 
   const saveToAsync = async () => {
     if (number) {
-
       await AsyncStorage.setItem('@number', JSON.stringify(number));
     }
   };

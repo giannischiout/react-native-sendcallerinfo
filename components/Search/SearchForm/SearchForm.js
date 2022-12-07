@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Input } from '../../LoginForm/LoginInput/LoginInput';
 import { LoginButton } from '../../LoginForm/LoginButtons/LoginButton';
 import { generalStyles } from '../../generalStyles';
 import { fetchData } from '../../Services/fetch';
 import { pop_Alert } from '../../Services/validateFIelds';
-
+import { UserContext } from '../../../useContext/context';
 const urlPost = 'https://ccmde1.cloudon.gr/softone/searchCustomer.php';
 
 export const SearchForm = ({ navigation }) => {
@@ -13,7 +13,8 @@ export const SearchForm = ({ navigation }) => {
   const [number, setNumber] = useState('');
   const [address, setAddress] = useState('');
   const [loading, setLoading] = useState(false);
-
+  const { soneURL } = useContext(UserContext)
+  console.log(soneURL)
   const handleName = text => setName(text);
   const handleNumber = text => setNumber(text);
   const handleAddress = text => setAddress(text);
@@ -28,7 +29,7 @@ export const SearchForm = ({ navigation }) => {
   const onPressActions = async () => {
     setLoading(prev => !prev);
     if (name || number || address) {
-      const payload = await fetchData(urlPost, postData);
+      const payload = await fetchData(urlPost, postData, soneURL);
       if (payload !== null) {
         await navigation.push('SearchResult', {
           postData: postData,

@@ -1,17 +1,19 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const fetchData = async (urlPost, postData) => {
+export const fetchData = async (urlPost, postData, soneURL) => {
   // const url = await AsyncStorage.getItem('@URL');
   const url = await AsyncStorage.getItem('@URL');
-
+  console.log('SoneURL')
+  console.log(soneURL)
   const requestOptions = {
     method: 'POST',
-    headers: {'Content-Type': 'application/json'},
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       dataArray: postData,
       url: url,
     }),
   };
+  console.log(requestOptions.body)
 
   const res = await fetch(urlPost, requestOptions)
     .then(response => response.json())
