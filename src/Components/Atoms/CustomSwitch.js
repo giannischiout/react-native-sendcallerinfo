@@ -1,11 +1,10 @@
-import React, {useState, useEffect} from 'react';
-import {COLORS} from '../../Colors';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
-import FontIcon from '../../../node_modules/react-native-vector-icons/FontAwesome';
+import React, { useState, useEffect } from 'react';
+import { COLORS } from '../../styles/colors';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import FontIcon from 'react-native-vector-icons/FontAwesome';
 //Async Storage:
-import {saveToAsync} from '../../Services/AnyscStoreBool';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import useBooleanAsyncStorage from '../../utils/asyncStorageBool';
 const saveToAsyncBool = async (itemName, value) => {
   try {
     let val = JSON.stringify(value);
@@ -16,72 +15,44 @@ const saveToAsyncBool = async (itemName, value) => {
   }
 };
 
-export const CustomSwitch = ({startListenerTapped, stopListenerTapped}) => {
-  const [isOn, setIsOn] = useState(false);
+export const CustomSwitch = ({ startListenerTapped, stopListenerTapped }) => {
+  // const [isOn, setIsOn] = useState(false);
+  const [value, setBoolean] = useBooleanAsyncStorage('@toggleCallDetection');
 
   const toggleSwitch = () => {
+
+    setBoolean(prev => !prev)
     startListener();
-    let value = JSON.stringify(!isOn);
-    console.log(typeof value);
-    saveToAsyncBool('@toggleCallDetection', value);
-    setIsOn(previousState => !previousState);
   };
 
   const startListener = () => {
-    isOn ? stopListenerTapped() : startListenerTapped();
+    value ? stopListenerTapped() : startListenerTapped();
   };
 
-  const getFromAsync = async () => {
-    const val = await AsyncStorage.getItem('@toggleCallDetection');
-    const value = JSON.parse(val);
-    console.log('valueGetData ' + value);
-    if (value == 'false') {
-      setIsOn(false);
-    }
-    if (value == 'true') {
-      setIsOn(true);
-    }
-
-    if (value == null) {
-      setIsOn(false);
-    }
-  };
 
   useEffect(() => {
-    getFromAsync();
     startListener();
   }, []);
 
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={isOn ? styles.switchOn : styles.switchOff}
+        style={value ? styles.switchOn : styles.switchOff}
         activeOpacity={1}
         onPress={toggleSwitch}>
-        <Text style={styles.textOn}>{isOn ? 'ON' : null}</Text>
+        <Text style={styles.textOn}>{value ? 'ON' : null}</Text>
 
         <View style={styles.inner}>
           <FontIcon
-            style={isOn ? styles.iconON : styles.iconOFF}
-            name={isOn ? 'check' : 'power-off'}></FontIcon>
+            style={value ? styles.iconON : styles.iconOFF}
+            name={value ? 'check' : 'power-off'}></FontIcon>
         </View>
       </TouchableOpacity>
     </View>
   );
 };
 
-export const SwitchDependant = ({startListenerTapped, stopListenerTapped}) => {
-  const [isOnDep, setIsOnDep] = useState(false);
-  return (
-    <>
-      <CustomSwitch
-        startListenerTapped={startListenerTapped}
-        stopListenerTapped={stopListenerTapped}
-        isOnDep={isOnDep}
-      />
-    </>
-  );
-};
+
 
 const styles = StyleSheet.create({
   container: {
@@ -114,7 +85,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginHorizontal: 3,
     elevation: 10,
-    shadowOffset: {width: -3, height: -3},
+    shadowOffset: { width: -3, height: -3 },
     shadowRadius: 10,
     shadowColor: 'black',
     alignItems: 'center',

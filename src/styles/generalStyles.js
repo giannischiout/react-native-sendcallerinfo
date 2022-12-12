@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { FONTS } from '../shared/Fonts/Fonts';
-import { COLORS } from './Colors';
+import { FONTS } from './Fonts';
+import { COLORS } from './colors';
 export const generalStyles = StyleSheet.create({
   body: {
     backgroundColor: COLORS.bodyColor,

@@ -23,9 +23,6 @@ export const ListItem = React.memo(({ item, index }) => {
 
   return (
     <View style={styles.itemContainer} key={index}>
-      {console.log(index)}
-      {console.log('renderItem')}
-
       <TouchableHighlight underlayColor={false} onPress={() => closeSingle()}>
         <View style={!exp ? styles.header : styles.headerOpen}>
           <Text style={!exp ? styles.headerNumber : styles.headerNumberOpen} > {`${index + 1}: `}</Text>

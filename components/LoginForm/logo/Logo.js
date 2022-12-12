@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Image, StyleSheet, Text} from 'react-native';
-import {COLORS} from '../../Colors';
+import { View, Image, StyleSheet, Text } from 'react-native';
+import { COLORS } from '../../Colors';
 
 export const Logo = () => {
   return (
@@ -23,8 +23,8 @@ const Styles = StyleSheet.create({
   },
 
   logo: {
-    width: 100,
-    height: 30,
+    width: 70,
+    height: 20,
     marginBottom: 30,
   },
   introText: {

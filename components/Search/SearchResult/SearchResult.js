@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, ActivityIndicator, } from 'react-native';
 import { sortArray } from '../../Services/largestTRDT';
-import Icon from 'react-native-vector-icons/AntDesign';
-import { MemoizedItem } from './ListItem';
 import { fetchData } from '../../Services/fetch';
 import { COLORS } from '../../Colors';
-import { FONTS } from '../../../shared/Fonts/Fonts';
 import { generalStyles } from '../../generalStyles';
 import { ListItem } from '../../../shared/FLatlistItem/FlatItem';
 
@@ -104,15 +101,6 @@ export const SearchResult = ({ route }) => {
   return (
     <View style={generalStyles.body} >
       <View style={styles.container}>
-        {/* <View style={{ height: 80 }}>
-          <TextInput
-            style={styles.textInputStyle}
-            onChangeText={text => searchFilterFunction(text)}
-            value={search}
-            underlineColorAndroid="transparent"
-            placeholder="Search with a name"
-          />
-        </View> */}
         <View style={styles.flatlistView}>
           <FlatList
             data={data}

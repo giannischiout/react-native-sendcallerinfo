@@ -1,21 +1,23 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { generalStyles } from '../generalStyles';
-import { Text, View, ScrollView } from 'react-native';
+import { Text, View, ScrollView, StyleSheet } from 'react-native';
 import CallDetectorManager from 'react-native-call-detection';
-// import { CustomSwitch } from './CustomSwitch/CustomSwitch';
 import { CustomSwitch } from '../../src/Components/Atoms/CustomSwitch';
-import { settingsBar } from './SettingsBar/SettingsBar';
 //import components:
 import { LastCaller } from './lastCaller/lastCaller';
 //Import Services:
-import { create_UUID } from '../Services/createUUID';
-import { logger } from '../Services/callDetecRequest';
+// import { create_UUID } from '../Services/createUUID';
+import { create_UUID } from '../utils/uuid';
+// import { logger } from '../Services/callDetecRequest';
+import callDetectRequest from '../api/callDetectRequest';
 //CallDetection Component:
 import { UserContext } from '../../useContext/context';
+import ViewBody from '../Components/Atoms/Views/ViewBody';
+import ViewRow from '../Components/Atoms/Views/ViewRow';
+import TextBold from '../Components/Atoms/Texts/TextBold';
+import Information from '../Components/Molecules/Instruction';
 
-
-
-export const CallDetection = ({ route }) => {
+const CallDetect = ({ route }) => {
   // const { username } = route.params;
   const dataUser = route.params;
   const { number, setNumber } = useContext(UserContext);
@@ -61,12 +63,12 @@ export const CallDetection = ({ route }) => {
   //INCOMING RINGING
   useEffect(() => {
     if (incoming && !offhook && !disconnected && !missed) {
-      logger('INCOMING', 'RINGING', incUUID, number, dataUser);
+      callDetectRequest('INCOMING', 'RINGING', incUUID, number, dataUser);
     }
 
     if (incoming && offhook && !disconnected) {
       console.log('answered');
-      logger('INCOMING', 'ANSWERED', incUUID, number, dataUser);
+      callDetectRequest('INCOMING', 'ANSWERED', incUUID, number, dataUser);
     }
 
     if (incoming && offhook && disconnected) {
@@ -74,7 +76,7 @@ export const CallDetection = ({ route }) => {
       setOffhook(prevState => !prevState);
       setDisconnected(prevState => !prevState);
       //Call is completed, so we can restart the 'enter' variable. Call can now enter the INCOMING, ANSWERED state
-      logger('INCOMING', 'DISCONNECTED', incUUID, number, dataUser);
+      callDetectRequest('INCOMING', 'DISCONNECTED', incUUID, number, dataUser);
       setIncUUID(create_UUID());
     }
 
@@ -82,11 +84,11 @@ export const CallDetection = ({ route }) => {
       //reset variables
       setIncoming(prevState => !prevState);
       setMissed(prevState => !prevState);
-      logger('INCOMING', 'MISSED', incUUID, number, dataUser);
+      callDetectRequest('INCOMING', 'MISSED', incUUID, number, dataUser);
     }
     //OUTGOING, RINGING:
     if (!incoming && offhook && !disconnected) {
-      logger('OUTGOING', 'OFFHOOK', outUUID, number, dataUser);
+      callDetectRequest('OUTGOING', 'OFFHOOK', outUUID, number, dataUser);
     }
 
     //OUTGOING, Disconnected:
@@ -94,7 +96,7 @@ export const CallDetection = ({ route }) => {
       setOffhook(prevState => !prevState);
       setDisconnected(prevState => !prevState);
       setOutUUID(create_UUID());
-      logger('OUTGOING', 'DISCONNECTED', outUUID, number, dataUser);
+      callDetectRequest('OUTGOING', 'DISCONNECTED', outUUID, number, dataUser);
     }
   }, [incoming, offhook, missed, disconnected, incUUID, outUUID]);
 
@@ -104,21 +106,50 @@ export const CallDetection = ({ route }) => {
   };
 
   return (
-    <View style={generalStyles.body}>
-      <View style={generalStyles.containerMedWidth}>
-        <View style={settingsBar.container}>
-          <Text style={generalStyles.textMediumGrey}>
-            Call Detection State:
-          </Text>
-          <CustomSwitch
-            startListenerTapped={startListenerTapped}
-            stopListenerTapped={stopListenerTapped}></CustomSwitch>
-        </View>
-        {/* <ScrollView> */}
+    // <View style={generalStyles.body}>
+    //   <View style={generalStyles.containerMedWidth}>
+    //     <View style={settingsBar.container}>
+    //       <Text style={generalStyles.textMediumGrey}>
+    //         Call Detection State:
+    //       </Text>
+    //       <CustomSwitch
+    //         startListenerTapped={startListenerTapped}
+    //         stopListenerTapped={stopListenerTapped}></CustomSwitch>
+    //     </View>
+    //     {/* <ScrollView> */}
 
-        {/* </ScrollView> */}
-      </View>
-      <LastCaller number={number}></LastCaller>
-    </View >
+    //     {/* </ScrollView> */}
+    //   </View>
+    //   <LastCaller number={number}></LastCaller>
+    // </View >
+    <>
+      <ViewBody>
+        <View style={styles.dividerRow}>
+          <ViewRow style={styles.row} spaceBetween={true}>
+            <TextBold style={styles.textHeader}>Call Detection State:</TextBold>
+            <CustomSwitch
+              startListenerTapped={startListenerTapped}
+              stopListenerTapped={stopListenerTapped} />
+          </ViewRow>
+          <Information />
+        </View>
+
+      </ViewBody>
+    </>
   );
 };
+
+const styles = StyleSheet.create({
+  row: {
+    minheight: 80,
+  },
+  textHeader: {
+    fontSize: 17
+  },
+  dividerRow: {
+    borderBottomWidth: 0.5,
+    borderBottomColor: 'grey',
+    padding: 10,
+  }
+});
+export default CallDetect;
